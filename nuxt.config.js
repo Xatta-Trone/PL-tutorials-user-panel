@@ -18,7 +18,23 @@ export default {
       { hid: "description", name: "description", content: "" },
       { name: "format-detection", content: "telephone=no" },
     ],
-    link: [{ rel: "icon", type: "image/x-icon", href: "/favicon.ico" }],
+    link: [
+      { rel: "icon", type: "image/x-icon", href: "/favicon.ico" },
+      {
+        rel: "stylesheet",
+        href: "https://fonts.googleapis.com/css?family=Roboto:400,700",
+      },
+
+      // {
+      //   rel: "stylesheet",
+      //   href: "https://pl-tutorials.com/user/css/style.min.css",
+      // },
+
+      // {
+      //   rel: "stylesheet",
+      //   href: "https://pl-tutorials.com/user/css/responsive.css",
+      // },
+    ],
   },
 
   // Global CSS: https://go.nuxtjs.dev/config-css
@@ -29,6 +45,27 @@ export default {
     // {
     //   src: "~/plugins/bootstrap.js",
     // },
+    {
+      src: "~/plugins/toastnotification.js",
+    },
+    {
+      src: "~/plugins/vuelidate.js",
+    },
+    {
+      src: "~/plugins/can.js",
+    },
+    {
+      src: "~/plugins/vue-tables-2.js",
+    },
+    {
+      src: "~/plugins/fontawesome.js",
+    },
+    {
+      src: "~/plugins/mixin.js",
+    },
+    {
+      src: "~/plugins/fingerprint.js",
+    },
   ],
 
   // specify module rules for css and scss
@@ -60,14 +97,55 @@ export default {
     // https://go.nuxtjs.dev/axios
     "@nuxtjs/axios",
     "@nuxtjs/dotenv",
+    "@nuxtjs/auth-next",
   ],
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
   axios: {
     // Workaround to avoid enforcing hard-coded localhost:3000: https://github.com/nuxt-community/axios-module/issues/308
     baseURL: process.env.SERVER_URL,
+    credentials: true,
+  },
+
+  auth: {
+    strategies: {
+      laravelSanctum: {
+        provider: "laravel/sanctum",
+        url: process.env.LOGIN_URL,
+
+        endpoints: {
+          login: { url: "/login", method: "post" },
+          logout: { url: "/logout", method: "get" },
+          user: { url: "/me", method: "get" },
+        },
+        user: {
+          // property: 'user',
+          autoFetch: true,
+        },
+        token: {
+          property: "access_token",
+          global: true,
+          required: true,
+          type: "Bearer",
+        },
+      },
+    },
+    redirect: {
+      login: "/login",
+      logout: "/login",
+      callback: "/login",
+      home: "/",
+    },
+    // localStorage: false,
+    // resetOnError: true,
+    // rewriteRedirects: true,
+    watchLoggedIn: true,
   },
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
-  build: {},
+
+  build: {
+    // use vue mixins
+    transpile: ["mixins"],
+  },
 };
