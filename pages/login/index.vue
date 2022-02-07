@@ -52,7 +52,7 @@
               ></b-col>
               <b-col md="6" class="text-right">
                 <nuxt-link
-                  to="/reset-password"
+                  to="/request-password"
                   class="ml-auto d-inline-block text-danger text-left"
                   >forgot your password ?</nuxt-link
                 >
@@ -69,6 +69,7 @@
 import FingerprintJS from "@fingerprintjs/fingerprintjs";
 export default {
   layout: "auth",
+  middleware: "guest",
   data() {
     return {
       form: {

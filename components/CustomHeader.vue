@@ -61,7 +61,7 @@ export default {
   display: inline-block;
   height: 5px;
   width: 45%;
-  background: #61d2b4;
+  background: #17a2b8;
   margin: 0 0 10px;
   border-radius: 3px;
 }

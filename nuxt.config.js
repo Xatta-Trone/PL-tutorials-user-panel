@@ -134,12 +134,13 @@ export default {
       login: "/login",
       logout: "/login",
       callback: "/login",
-      home: "/",
+      home: "/profile",
+      user: "/profile",
     },
     // localStorage: false,
-    // resetOnError: true,
-    // rewriteRedirects: true,
-    watchLoggedIn: true,
+    resetOnError: true,
+    rewriteRedirects: true,
+    // watchLoggedIn: true,
   },
 
   // Build Configuration: https://go.nuxtjs.dev/config-build

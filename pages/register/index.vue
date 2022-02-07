@@ -202,6 +202,7 @@ import { ImageBarcodeReader } from "vue-barcode-reader";
 export default {
   layout: "content",
   components: { CustomError, ImageBarcodeReader },
+  middleware: "guest",
 
   data() {
     return {

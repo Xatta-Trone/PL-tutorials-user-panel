@@ -21,8 +21,14 @@
             <b-nav-item to="#">Softwares</b-nav-item>
 
             <b-nav-item to="#">Contact</b-nav-item>
-            <b-nav-item to="/login">Login</b-nav-item>
-            <b-nav-item to="/register">Register</b-nav-item>
+            <b-nav-item v-if="!$auth.loggedIn" to="/login">Login</b-nav-item>
+            <b-nav-item v-if="!$auth.loggedIn" to="/register"
+              >Register</b-nav-item
+            >
+            <b-nav-item v-if="$auth.loggedIn" to="/profile">Profile</b-nav-item>
+            <b-nav-item v-if="$auth.loggedIn" @click="logout"
+              >Logout</b-nav-item
+            >
 
             <b-nav-item-dropdown text="FAQ" right>
               <b-dropdown-item to="#">EN</b-dropdown-item>
@@ -78,6 +84,14 @@ export default {
           alert(err.response.status);
         });
     },
+    async logout() {
+      try {
+        let response = await this.$auth.logout("laravelSanctum");
+        console.log(response);
+      } catch (err) {
+        console.log("err", err);
+      }
+    },
   },
 };
 </script>
@@ -93,7 +107,7 @@ export default {
 }
 .isSticky {
   position: fixed;
-  background: #61d2b4;
+  background: #17a2b8;
 }
 
 .pl-nav a,
