@@ -42,7 +42,15 @@
 
           <b-form-group class="mt-5">
             <b-row>
-              <b-col md="6">
+              <b-col sm="4">
+                <nuxt-link
+                  to="/"
+                  class="ml-auto d-inline-block text-dark text-left"
+                  >Home</nuxt-link
+                >
+                <b-link href="/register"></b-link
+              ></b-col>
+              <b-col sm="4">
                 <nuxt-link
                   to="/register"
                   class="ml-auto d-inline-block text-dark text-left"
@@ -50,7 +58,8 @@
                 >
                 <b-link href="/register"></b-link
               ></b-col>
-              <b-col md="6" class="text-right">
+
+              <b-col sm="4" class="text-right">
                 <nuxt-link
                   to="/request-password"
                   class="ml-auto d-inline-block text-danger text-left"
@@ -69,7 +78,7 @@
 import FingerprintJS from "@fingerprintjs/fingerprintjs";
 export default {
   layout: "auth",
-  middleware: "guest",
+  // middleware: "guest",
   data() {
     return {
       form: {

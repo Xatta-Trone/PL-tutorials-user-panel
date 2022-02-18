@@ -202,7 +202,7 @@ import { ImageBarcodeReader } from "vue-barcode-reader";
 export default {
   layout: "content",
   components: { CustomError, ImageBarcodeReader },
-  middleware: "guest",
+  // middleware: ["guest"],
 
   data() {
     return {
@@ -252,7 +252,7 @@ export default {
 
       if (this.$v.$invalid) {
         this.loading = false;
-        return this.$toast.error("Filup the required fields!!");
+        return this.$toast.error("Fill-up the required fields!!");
       }
       let vm = this;
       this.$axios

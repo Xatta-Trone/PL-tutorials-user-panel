@@ -11,16 +11,16 @@
           <b-navbar-nav class="ml-auto">
             <b-nav-item-dropdown text="Departments" right to="#">
               <div v-for="department in departments" :key="department.slug">
-                <b-dropdown-item to="#">{{
+                <b-dropdown-item :to="'/departments/' + department.slug">{{
                   department.slug.toUpperCase()
                 }}</b-dropdown-item>
               </div>
             </b-nav-item-dropdown>
 
-            <b-nav-item to="#">Books</b-nav-item>
-            <b-nav-item to="#">Softwares</b-nav-item>
+            <b-nav-item to="/books">Books</b-nav-item>
+            <b-nav-item to="/softwares">Softwares</b-nav-item>
 
-            <b-nav-item to="#">Contact</b-nav-item>
+            <b-nav-item to="/contact">Contact</b-nav-item>
             <b-nav-item v-if="!$auth.loggedIn" to="/login">Login</b-nav-item>
             <b-nav-item v-if="!$auth.loggedIn" to="/register"
               >Register</b-nav-item

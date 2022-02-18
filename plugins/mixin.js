@@ -81,6 +81,21 @@ var mixin = {
     //     .catch((err) => console.log(err));
     // },
 
+    saveActivity({
+      activity = "downloaded",
+      model_type = "book",
+      model_id = 0,
+      causer_id = 0,
+      label = "",
+    }) {
+      let data = { activity, model_id, model_type, causer_id, label };
+      // console.log(data);
+      this.$axios
+        .post("/submit-activity", data)
+        .then((res) => console.log(res.data))
+        .catch((err) => console.log(err));
+    },
+
     showmessage(msg = "") {
       this.$toast.success(msg);
     },
