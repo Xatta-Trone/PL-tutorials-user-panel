@@ -302,6 +302,7 @@ export default {
         l_t: "",
         course_id: "",
         page: 1,
+        content_type:''
       }),
         (this.results = []);
       this.infiniteId += 1;
@@ -343,6 +344,11 @@ export default {
     },
 
     search() {
+      // this.clear();
+
+      this.form.page = 1;
+      this.results = [];
+      // this.$refs.infiniteLoading.attemptLoad();
       this.infiniteId += 1;
       this.$nextTick(() => {
         this.$refs.infiniteLoading.attemptLoad();
@@ -373,6 +379,10 @@ export default {
           let selectedLevelTerm = this.all_levelterms.filter(
             (lt) => lt.slug == after
           )[0].id;
+
+
+
+
           let filterCourseByLevelTerm = this.all_courses.filter(
             (c) => c.level_term_id == selectedLevelTerm
           );
@@ -383,26 +393,26 @@ export default {
       deep: true,
     },
 
-    "form.department": {
-      handler: function (after, before) {
-        // Changes detected. Do work...
-        console.log(after, before);
+    // "form.department": {
+    //   handler: function (after, before) {
+    //     // Changes detected. Do work...
+    //     console.log(after, before);
 
-        if (after === "" || after == null) {
-          this.levelterms = this.all_levelterms;
-        } else {
-          let selectedDept = this.departments.filter(
-            (dept) => dept.slug == after
-          )[0].id;
-          let filterLevelTerm = this.all_levelterms.filter(
-            (c) => c.department_id == selectedDept
-          );
-          this.levelterms = filterLevelTerm;
-          console.log(filterLevelTerm);
-        }
-      },
-      deep: true,
-    },
+    //     if (after === "" || after == null) {
+    //       this.levelterms = this.all_levelterms;
+    //     } else {
+    //       let selectedDept = this.departments.filter(
+    //         (dept) => dept.slug == after
+    //       )[0].id;
+    //       let filterLevelTerm = this.all_levelterms.filter(
+    //         (c) => c.department_id == selectedDept
+    //       );
+    //       this.levelterms = filterLevelTerm;
+    //       console.log(filterLevelTerm);
+    //     }
+    //   },
+    //   deep: true,
+    // },
   },
 };
 </script>
