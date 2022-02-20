@@ -16,7 +16,7 @@
                 >
                   <b-form-input
                     id="input-1"
-                    v-model="form.query"
+                    v-model="form.q"
                     type="text"
                     placeholder="Enter your search query"
                   ></b-form-input>
@@ -29,7 +29,7 @@
                   label-for="input-4"
                 >
                   <b-form-select
-                    v-model="form.department"
+                    v-model="form.dept"
                     :options="departments"
                     value-field="slug"
                     text-field="name"
@@ -229,8 +229,8 @@ export default {
   data() {
     return {
       form: {
-        department: "",
-        query: "",
+        dept: "",
+        q: "",
         l_t: "",
         course_id: "",
         page: 1,
@@ -297,8 +297,8 @@ export default {
 
     clear() {
       (this.form = {
-        department: "",
-        query: "",
+        dept: "",
+        q: "",
         l_t: "",
         course_id: "",
         page: 1,
@@ -402,7 +402,7 @@ export default {
       deep: true,
     },
 
-    "form.department": {
+    "form.dept": {
       handler: function (after, before) {
         // Changes detected. Do work...
         console.log(after, before);

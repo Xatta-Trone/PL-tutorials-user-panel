@@ -40,7 +40,10 @@
                   >
                   <b-col sm="6">
                     <div class="text-center my-3">
-                      <p>Scan to install or click the link below to install our Android app.</p>
+                      <p>
+                        Scan to install or click the link below to install our
+                        Android app.
+                      </p>
                       <qrcode-vue :value="appUrl" size="150" level="H" />
                       <a :href="appUrl" target="_blank"
                         ><img src="~/assets/img/googleplay.png" height="110"
@@ -53,8 +56,27 @@
                 <change-password />
               </b-tab>
               <b-tab title="Activity"
-                ><p>I'm the tab with the very, very long title</p></b-tab
-              >
+                ><p>I'm the tab with the very, very long title</p>
+
+                <v-server-table
+                  url="user-activity"
+                  :columns="columns"
+                  :options="options"
+                >
+                  <div
+                    slot="created_at"
+                    slot-scope="{ row }"
+                    class="d-flex justify-content-around"
+                  >
+                    {{ new Date(row.created_at).toDateString() }}
+                  </div>
+
+                  <div slot="label" slot-scope="{ row }">
+                    <div v-if="row.activity == 'searched'">{{ getSearchString(row.label) }}</div>
+                    <div v-if="row.activity != 'searched'">{{ row.label }}</div>
+                  </div>
+                </v-server-table>
+              </b-tab>
               <b-tab title="Android app">
                 <div class="text-center my-3">
                   <p>Scan to install or click the link below.</p>
@@ -82,7 +104,67 @@ export default {
     return {
       appUrl:
         "https://play.google.com/store/apps/details?id=com.studytheatre.app",
+      columns: ["id", "activity", "label", "created_at"],
+      options: {
+        perPage: 10,
+        perPageValues: [5, 10, 15, 25, 50, 100],
+        pagination: { chunk: 5 },
+        orderBy: { ascending: false },
+        headings: {
+          id: "Sl. No.",
+          created_at:'Date',
+          activity:'Activity type',
+          label:'Activity'
+        },
+        requestFunction(data) {
+          let vm = this;
+          return this.$axios
+            .get(this.url, {
+              params: data,
+            })
+            .catch(function (e) {
+              // this.dispatch('error', e)
+              console.log("Err in datatble", e);
+              vm.getmessage("Err in datatble");
+            });
+        },
+      },
     };
+  },
+  methods: {
+    getSearchString(search) {
+      console.log(search);
+
+      let words = search.split(",").filter(Boolean).map(e => e.trim())
+
+
+      let q = words.find((e) => e.includes("q")).split("=")[1];
+
+      let d = words.find((e) => e.includes("dept")).split("=")[1];
+      let l = words.find((e) => e.includes("l_t")).split("=")[1];
+      let c = words.find((e) => e.includes("content_type")).split("=")[1];
+      // console.log(words,q,d,l);
+
+      let finalString = "Searched";
+
+      if (q !== '') {
+        finalString +=  ' for '+ q;
+      }
+
+      if (d) {
+        finalString += ` in ${d} department`;
+      }
+
+      if (l) {
+        finalString += ` ${l}`;
+      }
+
+      if (c) {
+        finalString += ` under ${c}.`;
+      }
+
+      return finalString;
+    },
   },
 };
 </script>

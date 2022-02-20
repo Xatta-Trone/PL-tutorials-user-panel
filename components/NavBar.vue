@@ -30,7 +30,9 @@
               >Logout</b-nav-item
             >
 
-            <b-nav-item-dropdown text="FAQ" right>
+            <b-nav-item  to="/faq">FAQ</b-nav-item>
+
+            <b-nav-item-dropdown text="More" right>
               <b-dropdown-item to="#">EN</b-dropdown-item>
               <b-dropdown-item to="#">ES</b-dropdown-item>
               <b-dropdown-item to="#">RU</b-dropdown-item>
