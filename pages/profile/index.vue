@@ -11,29 +11,43 @@
           <div class="my-3">
             <b-tabs content-class="mt-3" justified pills>
               <b-tab title="Info" active>
-                <b-list-group>
-                  <b-list-group-item
-                    ><b>Name:</b> {{ $auth.user.name }}</b-list-group-item
+                <b-row>
+                  <b-col sm="6">
+                    <b-list-group>
+                      <b-list-group-item
+                        ><b>Name:</b> {{ $auth.user.name }}</b-list-group-item
+                      >
+                      <b-list-group-item
+                        ><b>Student ID:</b> #{{
+                          $auth.user.student_id
+                        }}</b-list-group-item
+                      >
+                      <b-list-group-item
+                        ><b>E-mail:</b>
+                        {{ $auth.user.email }}</b-list-group-item
+                      >
+                      <b-list-group-item
+                        ><b>User Letter:</b>
+                        {{ $auth.user.user_letter }}</b-list-group-item
+                      >
+                      <b-list-group-item
+                        ><b>Joined on:</b>
+                        {{
+                          new Date($auth.user.created_at).toDateString()
+                        }}</b-list-group-item
+                      >
+                    </b-list-group></b-col
                   >
-                  <b-list-group-item
-                    ><b>Student ID:</b> #{{
-                      $auth.user.student_id
-                    }}</b-list-group-item
-                  >
-                  <b-list-group-item
-                    ><b>E-mail:</b> {{ $auth.user.email }}</b-list-group-item
-                  >
-                  <b-list-group-item
-                    ><b>User Letter:</b>
-                    {{ $auth.user.user_letter }}</b-list-group-item
-                  >
-                  <b-list-group-item
-                    ><b>Joined on:</b>
-                    {{
-                      new Date($auth.user.created_at).toDateString()
-                    }}</b-list-group-item
-                  >
-                </b-list-group>
+                  <b-col sm="6">
+                    <div class="text-center my-3">
+                      <p>Scan to install or click the link below to install our Android app.</p>
+                      <qrcode-vue :value="appUrl" size="150" level="H" />
+                      <a :href="appUrl" target="_blank"
+                        ><img src="~/assets/img/googleplay.png" height="110"
+                      /></a>
+                    </div>
+                  </b-col>
+                </b-row>
               </b-tab>
               <b-tab title="Change password">
                 <change-password />
@@ -43,9 +57,8 @@
               >
               <b-tab title="Android app">
                 <div class="text-center my-3">
-
                   <p>Scan to install or click the link below.</p>
-                   <qrcode-vue :value="appUrl" size="150" level="H" />
+                  <qrcode-vue :value="appUrl" size="150" level="H" />
                   <a :href="appUrl" target="_blank"
                     ><img src="~/assets/img/googleplay.png" height="110"
                   /></a>

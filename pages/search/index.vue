@@ -235,7 +235,7 @@ export default {
         course_id: "",
         page: 1,
         per_page: 30,
-        content_type:''
+        content_type: "",
       },
       btntxt: "Search",
       loading: false,
@@ -302,7 +302,7 @@ export default {
         l_t: "",
         course_id: "",
         page: 1,
-        content_type:''
+        content_type: "",
       }),
         (this.results = []);
       this.infiniteId += 1;
@@ -345,6 +345,18 @@ export default {
 
     search() {
       // this.clear();
+      let label = "";
+      Object.entries(this.form).forEach(([key, value]) => {
+        label += `${key}=${value},`;
+      });
+
+      this.saveActivity({
+        activity: "searched",
+        model_type: "",
+        model_id: 0,
+        causer_id: this.$auth.loggedIn ? this.$auth.user.id : 0,
+        label: label,
+      });
 
       this.form.page = 1;
       this.results = [];
@@ -380,9 +392,6 @@ export default {
             (lt) => lt.slug == after
           )[0].id;
 
-
-
-
           let filterCourseByLevelTerm = this.all_courses.filter(
             (c) => c.level_term_id == selectedLevelTerm
           );
@@ -393,26 +402,26 @@ export default {
       deep: true,
     },
 
-    // "form.department": {
-    //   handler: function (after, before) {
-    //     // Changes detected. Do work...
-    //     console.log(after, before);
+    "form.department": {
+      handler: function (after, before) {
+        // Changes detected. Do work...
+        console.log(after, before);
 
-    //     if (after === "" || after == null) {
-    //       this.levelterms = this.all_levelterms;
-    //     } else {
-    //       let selectedDept = this.departments.filter(
-    //         (dept) => dept.slug == after
-    //       )[0].id;
-    //       let filterLevelTerm = this.all_levelterms.filter(
-    //         (c) => c.department_id == selectedDept
-    //       );
-    //       this.levelterms = filterLevelTerm;
-    //       console.log(filterLevelTerm);
-    //     }
-    //   },
-    //   deep: true,
-    // },
+        if (after === "" || after == null) {
+          this.levelterms = this.all_levelterms;
+        } else {
+          let selectedDept = this.departments.filter(
+            (dept) => dept.slug == after
+          )[0].id;
+          let filterLevelTerm = this.all_levelterms.filter(
+            (c) => c.department_id == selectedDept
+          );
+          this.levelterms = filterLevelTerm;
+          console.log(filterLevelTerm);
+        }
+      },
+      deep: true,
+    },
   },
 };
 </script>
