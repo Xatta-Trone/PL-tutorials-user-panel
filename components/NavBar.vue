@@ -20,7 +20,6 @@
             <b-nav-item to="/books">Books</b-nav-item>
             <b-nav-item to="/softwares">Softwares</b-nav-item>
 
-
             <b-nav-item v-if="!$auth.loggedIn" to="/login">Login</b-nav-item>
             <b-nav-item v-if="!$auth.loggedIn" to="/register"
               >Register</b-nav-item
@@ -31,8 +30,8 @@
             >
 
             <b-nav-item to="/faq">FAQ</b-nav-item>
-             <b-nav-item to="/search">Search</b-nav-item>
-             <b-nav-item to="/contact">Contact</b-nav-item>
+            <b-nav-item to="/search">Search</b-nav-item>
+            <b-nav-item to="/contact">Contact</b-nav-item>
 
             <b-nav-item-dropdown text="More" right>
               <div v-for="page in pages" :key="page.id">
@@ -47,8 +46,6 @@
                 }}</b-dropdown-item>
               </div>
             </b-nav-item-dropdown>
-
-
           </b-navbar-nav>
         </b-collapse>
       </b-navbar>
@@ -107,11 +104,13 @@ export default {
         });
     },
     async logout() {
-      try {
-        let response = await this.$auth.logout("laravelSanctum");
-        console.log(response);
-      } catch (err) {
-        console.log("err", err);
+      if (confirm("Are you sure to log out?")) {
+        try {
+          let response = await this.$auth.logout("laravelSanctum");
+          console.log(response);
+        } catch (err) {
+          console.log("err", err);
+        }
       }
     },
   },
