@@ -41,7 +41,7 @@
                   <b-col sm="6">
                     <div class="text-center my-3">
                       <p>
-                        Scan to install or click the link below to install our
+                        Scan or click the link below to install our
                         Android app.
                       </p>
                       <qrcode-vue :value="appUrl" size="150" level="H" />
@@ -77,7 +77,7 @@
                   </div>
                 </v-server-table>
               </b-tab>
-              <b-tab title="Android app">
+              <b-tab title="Devices">
                 <div class="text-center my-3">
                   <p>Scan to install or click the link below.</p>
                   <qrcode-vue :value="appUrl" size="150" level="H" />
@@ -103,7 +103,7 @@ export default {
   data() {
     return {
       appUrl:
-        "https://play.google.com/store/apps/details?id=com.studytheatre.app",
+        "https://play.google.com/store/apps/details?id=com.pltutorials.app",
       columns: ["id", "activity", "label", "created_at"],
       options: {
         perPage: 10,

@@ -20,7 +20,7 @@
             <b-nav-item to="/books">Books</b-nav-item>
             <b-nav-item to="/softwares">Softwares</b-nav-item>
 
-            <b-nav-item to="/contact">Contact</b-nav-item>
+
             <b-nav-item v-if="!$auth.loggedIn" to="/login">Login</b-nav-item>
             <b-nav-item v-if="!$auth.loggedIn" to="/register"
               >Register</b-nav-item
@@ -30,16 +30,25 @@
               >Logout</b-nav-item
             >
 
-            <b-nav-item  to="/faq">FAQ</b-nav-item>
+            <b-nav-item to="/faq">FAQ</b-nav-item>
+             <b-nav-item to="/search">Search</b-nav-item>
+             <b-nav-item to="/contact">Contact</b-nav-item>
 
             <b-nav-item-dropdown text="More" right>
-              <b-dropdown-item to="#">EN</b-dropdown-item>
-              <b-dropdown-item to="#">ES</b-dropdown-item>
-              <b-dropdown-item to="#">RU</b-dropdown-item>
-              <b-dropdown-item to="#">FA</b-dropdown-item>
+              <div v-for="page in pages" :key="page.id">
+                <b-dropdown-item :to="'/page/' + page.slug">{{
+                  page.title
+                    .split(" ")
+                    .map(
+                      (word) =>
+                        word[0].toUpperCase() + word.slice(1).toLowerCase()
+                    )
+                    .join(" ")
+                }}</b-dropdown-item>
+              </div>
             </b-nav-item-dropdown>
 
-            <b-nav-item to="/search">Search</b-nav-item>
+
           </b-navbar-nav>
         </b-collapse>
       </b-navbar>
@@ -60,12 +69,14 @@ export default {
     return {
       departments: [],
       isSticky: false,
+      pages: [],
     };
   },
 
   mounted() {
     console.log(process.env.SERVER_URL);
     this.getDepatments();
+    this.getPages();
 
     window.document.onscroll = () => {
       let navbar = document.getElementById("pl_nav");
@@ -81,6 +92,15 @@ export default {
       this.$axios
         .get("departments")
         .then((res) => (this.departments = res.data.data))
+        .catch(function (err) {
+          console.log(err);
+          alert(err.response.status);
+        });
+    },
+    getPages() {
+      this.$axios
+        .get("pages")
+        .then((res) => (this.pages = res.data.data))
         .catch(function (err) {
           console.log(err);
           alert(err.response.status);
