@@ -37,7 +37,7 @@
               <b-dropdown-item to="#">FA</b-dropdown-item>
             </b-nav-item-dropdown>
 
-            <b-nav-item to="#">Search</b-nav-item>
+            <b-nav-item to="/search">Search</b-nav-item>
           </b-navbar-nav>
         </b-collapse>
       </b-navbar>

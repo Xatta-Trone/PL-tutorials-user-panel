@@ -112,7 +112,7 @@
                       <b-form-select v-model="form.hall_name" :options="halls">
                         <template #first>
                           <b-form-select-option
-                            :value="null"
+                            value=""
                             disabled
                             selected="true"
                             >-- Please select an option --</b-form-select-option
