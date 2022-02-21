@@ -125,6 +125,7 @@ export default {
   z-index: 9999;
   color: #fff;
   transition: 0.3s;
+  background: #17a2b8;
 }
 .isSticky {
   position: fixed;

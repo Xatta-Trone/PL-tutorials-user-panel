@@ -6,15 +6,22 @@
     />
     <b-container>
       <b-row v-if="course" class="mt-5">
-        <b-col cols="3" v-for="post in course.active_posts" :key="post.id">
-          <b-card :title="post.name" class="mb-2">
+        <b-col
+          cols="3"
+          v-for="post in course.active_posts"
+          :key="post.id"
+          class="mb-3"
+        >
+          <b-card :title="post.name" class="mb-2 h-100">
             <b-card-text>
               {{ post.name }}
             </b-card-text>
 
-            <b-button target="_blank" :href="post.link" variant="primary"
-              >Click here</b-button
-            >
+            <template #footer>
+              <b-button target="_blank" :href="post.link" variant="primary"
+                >Click here</b-button
+              >
+            </template>
           </b-card>
         </b-col>
       </b-row>

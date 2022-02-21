@@ -29,7 +29,7 @@
 <script>
 export default {
   layout: "content",
-  middleware: "auth",
+  // middleware: "auth",
 
   data() {
     return {
