@@ -2,21 +2,21 @@
   <div>
     <CustomHeader :title="department ? department.name : 'Department'" />
     <b-container>
-      <b-row v-if="department" class="mt-5">
+      <b-row v-if="department" class="my-4">
         <b-col
           cols="3"
           v-for="levelterm in department.levelterms"
           :key="levelterm.id"
         >
-          <b-card :title="levelterm.name" class="mb-2">
+          <b-card :title="levelterm.slug" class="my-2">
             <b-card-text>
-              {{ levelterm.slug }}
+              {{ levelterm.name }}
             </b-card-text>
 
             <b-button
               :to="$nuxt.$route.params.dept + '/' + levelterm.slug"
               variant="primary"
-              >Click here</b-button
+              >Browse</b-button
             >
           </b-card>
         </b-col>

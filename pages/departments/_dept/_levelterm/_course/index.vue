@@ -5,23 +5,21 @@
       :subtitle="course ? course.course_name : 'Course'"
     />
     <b-container>
-      <b-row v-if="course" class="mt-5">
+      <b-row v-if="course" class="my-4">
         <b-col
           cols="3"
           v-for="post in course.active_posts"
           :key="post.id"
-          class="mb-3"
+          class="my-2"
         >
           <b-card :title="post.name" class="mb-2 h-100">
             <b-card-text>
               {{ post.name }}
             </b-card-text>
 
-            <template #footer>
-              <b-button target="_blank" :href="post.link" variant="primary"
-                >Click here</b-button
-              >
-            </template>
+            <b-button target="_blank" :href="post.link" variant="primary"
+              >Click here</b-button
+            >
           </b-card>
         </b-col>
       </b-row>
@@ -68,3 +66,11 @@ export default {
   },
 };
 </script>
+
+<style lang="css">
+.card-title{
+   text-overflow: ellipsis !important;
+   overflow: hidden;
+}
+
+</style>

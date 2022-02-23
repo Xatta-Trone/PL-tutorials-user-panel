@@ -154,7 +154,7 @@ export default {
   background-attachment: fixed;
   background-size: cover;
 }
-.row {
+/* .row {
   background-color: #f6f7fc;
-}
+} */
 </style>

@@ -1,6 +1,7 @@
 <template>
   <div class="testimonial-area my-5 py-2">
     <b-container>
+      <h4 class="text-center mb-5">Testimonials</h4>
       <b-row>
         <carousel
           :perPageCustom="[

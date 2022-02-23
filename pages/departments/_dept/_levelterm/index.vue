@@ -5,11 +5,11 @@
       :subtitle="levelterms ? levelterms.name : 'Level Term'"
     />
     <b-container>
-      <b-row v-if="levelterms" class="mt-5">
-        <b-col cols="3" v-for="course in levelterms.course" :key="course.id">
-          <b-card :title="course.course_name" class="mb-2">
+      <b-row v-if="levelterms" class="my-4">
+        <b-col cols="3" v-for="course in levelterms.course" :key="course.id" class="my-2">
+          <b-card :title="course.slug.toUpperCase()" class=" h-100">
             <b-card-text>
-              {{ course.slug }}
+              {{ course.course_name }}
             </b-card-text>
 
             <b-button

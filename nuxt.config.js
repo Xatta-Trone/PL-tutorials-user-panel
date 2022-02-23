@@ -66,6 +66,10 @@ export default {
     {
       src: "~/plugins/fingerprint.js",
     },
+    {
+      src: "~/plugins/particles.js",
+      mode: "client",
+    },
   ],
 
   // specify module rules for css and scss

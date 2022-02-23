@@ -4,8 +4,7 @@
       <b-row>
         <b-col class="text-center">
           © All rights reserved
-          <span class="text-primary">PL Tutorials</span> || Developed &
-          maintained by <a href="#">Tejpata</a>
+          <span class="text-primary">PL Tutorials</span> || Developed by <a href="#">Tejpata</a>
         </b-col>
       </b-row>
     </b-container>

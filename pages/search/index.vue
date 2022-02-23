@@ -122,6 +122,7 @@
                   class="text-white w-100"
                   >Clear</b-button
                 >
+                <b-badge variant="danger">if doesn't work please press clear first.</b-badge>
               </b-col>
             </b-row>
           </b-form>
