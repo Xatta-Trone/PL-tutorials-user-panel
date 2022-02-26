@@ -30,6 +30,7 @@
             >
 
             <b-nav-item to="/faq">FAQ</b-nav-item>
+            <b-nav-item to="/chat">Chat</b-nav-item>
             <b-nav-item to="/search">Search</b-nav-item>
             <b-nav-item to="/contact">Contact</b-nav-item>
 
@@ -146,6 +147,6 @@ export default {
 
 .dropdown-item:hover,
 .dropdown-item:focus {
-  background-color: red;
+  background-color: #17a2b8;
 }
 </style>

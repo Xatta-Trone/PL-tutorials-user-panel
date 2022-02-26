@@ -67,6 +67,9 @@ export default {
       src: "~/plugins/fingerprint.js",
     },
     {
+      src: "~/plugins/echo.js",
+    },
+    {
       src: "~/plugins/particles.js",
       mode: "client",
     },
@@ -92,7 +95,7 @@ export default {
   components: true,
 
   // Modules for dev and build (recommended): https://go.nuxtjs.dev/config-modules
-  buildModules: [],
+  // buildModules: ["@nuxtjs/ngrok"],
 
   // Modules: https://go.nuxtjs.dev/config-modules
   modules: [
@@ -152,4 +155,18 @@ export default {
     // use vue mixins
     transpile: ["mixins"],
   },
+
+  buildModules: [
+    "@nuxtjs/ngrok",
+    [
+      "@nuxtjs/laravel-echo",
+      {
+        broadcaster: "pusher",
+        key: "0d804a37eb14ea67a5ce",
+        cluster: "ap1",
+        forceTLS: true,
+      },
+    ],
+  ],
+  echo: {},
 };
