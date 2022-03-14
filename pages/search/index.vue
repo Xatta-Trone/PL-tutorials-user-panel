@@ -139,7 +139,7 @@
                   class="float-right"
                   v-if="item.post_type"
                   variant="primary"
-                  >{{ item.post_type.toUpperCase() }}</b-badge
+                  >MATERIAL</b-badge
                 >
                 <b-badge v-if="item.department_slug" variant="primary">{{
                   item.department_slug.toUpperCase()
@@ -313,7 +313,8 @@ export default {
       if (this.courses == []) {
         return "";
       }
-      let c = this.courses.filter((course) => course.id == course_id);
+      let c = this.courses.filter((course) => parseInt(course.id) == parseInt(course_id));
+      if(c[0]== undefined) return;
       return c[0].slug.toUpperCase().split(/(\d+)/).filter(Boolean).join("-");
     },
 

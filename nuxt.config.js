@@ -8,18 +8,65 @@ export default {
 
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
-    title: "pl-tutorials-user",
+    title: "PL Tutorials",
+    titleTemplate: "%s - PL Tutorials",
     htmlAttrs: {
       lang: "en",
     },
     meta: [
       { charset: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { hid: "description", name: "description", content: "" },
+      {
+        hid: "description",
+        name: "description",
+        content:
+          "PL Tutorials is a website dedicated for students of buet. At first it was only for the students of Civil Engineering Department, but now the site serves all student. It was launched on year May 2015 . A big number of student were helped by this site and currently this site is also serving for all current students of buet.",
+      },
+      {
+        hid: "keywords",
+        name: "keywords",
+        content:
+          "PL Tutuorials, CE Course Materials BUET, P.L. Tutorials, The home of soft materials, pl tutorials buet, ce course materials, pl tutorials weebly, civil materials buet, buet civil engineering, pl-tutorials.com, pl tuts",
+      },
+      {
+        hid: "google-site-verification",
+        name: "google-site-verification",
+        content: "PBMxea_eN0W8LipvPuiASvMq_DjiV5aV_8MlUE_hQ2k",
+      },
+      {
+        hid: "google-site-verification",
+        name: "google-site-verification",
+        content: "Mymz826nHXOhX0iO-maMnE5J2dQjIGPqwTXqnqIQVgY",
+      },
+      {
+        hid: "og:title",
+        name: "og:title",
+        content:
+          "PL Tutuorials || CE Course Materials BUET - P.L. Tutorials | The home of soft materials",
+      },
+      {
+        hid: "og:description",
+        name: "og:description",
+        content:
+          "PL Tutorials is a website dedicated for students of buet. At first it was only for the students of Civil Engineering Department, but now the site serves all student. It was launched on year May 2015 . A big number of student were helped by this site and currently this site is also serving for all current students of buet.",
+      },
+
+      {
+        hid: "og:url",
+        name: "og:url",
+        content: "https://pl-tutorials.com",
+      },
+      {
+        hid: "og:site_name",
+        name: "og:site_name",
+        content: "PL Tutorials",
+      },
+
       { name: "format-detection", content: "telephone=no" },
     ],
     link: [
       { rel: "icon", type: "image/x-icon", href: "/favicon.ico" },
+      { rel: "canonical", href: "https://pl-tutorials.com" },
       {
         rel: "stylesheet",
         href: "https://fonts.googleapis.com/css?family=Roboto:400,700",
@@ -85,12 +132,6 @@ export default {
     ],
   },
 
-  // use these settings to use custom css
-  // bootstrapVue: {
-  //   bootstrapCSS: false,
-  //   icons: true,
-  // },
-
   // Auto import components: https://go.nuxtjs.dev/config-components
   components: true,
 
@@ -143,10 +184,15 @@ export default {
       callback: "/login",
       home: "/profile",
     },
-    localStorage: false,
+    // localStorage: false,
     resetOnError: true,
     rewriteRedirects: true,
     watchLoggedIn: true,
+    cookie: {
+      options: {
+        maxAge: 7 * 24 * 60 * 60,
+      },
+    },
   },
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
@@ -154,6 +200,7 @@ export default {
   build: {
     // use vue mixins
     transpile: ["mixins"],
+    // analyze: true,
   },
 
   buildModules: [
@@ -167,6 +214,10 @@ export default {
         forceTLS: true,
       },
     ],
+    "@nuxtjs/google-analytics",
   ],
   echo: {},
+  googleAnalytics: {
+    id: "UA-90874165-1",
+  },
 };

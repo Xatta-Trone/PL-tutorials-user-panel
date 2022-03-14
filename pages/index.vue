@@ -6,7 +6,7 @@
     <Testimonial-area/>
     <div class="contact-area my-5">
       <b-row class="justify-content-center">
-        <b-col sm="7">
+        <b-col sm="6">
           <h4 class="text-center mb-4">Have a question ?</h4>
           <Contact-form/>
         </b-col>
@@ -18,7 +18,9 @@
 
 <script>
 export default {
-  name: "IndexPage",
+  head:{
+    title:'Home'
+  },
   layout: "content",
   data() {
     return {

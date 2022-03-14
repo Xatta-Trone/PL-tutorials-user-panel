@@ -10,7 +10,7 @@
         <b-col sm="5">
           <p>
             Links:: Since, we do not have any physical address
-            <font-awesome-icon :icon="['far', 'smile-wink']" />
+            😊
           </p>
           <b-list-group v-for="links in socialLinks" :key="links.key">
             <b-list-group-item

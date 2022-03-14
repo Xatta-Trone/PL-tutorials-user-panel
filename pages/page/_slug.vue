@@ -3,27 +3,29 @@
     <CustomHeader :title="page ? page.title : 'Page'" />
     <b-container>
       <b-row class="my-4">
-        <b-col sm="12" v-if="page" >
-          <div v-html="page.body"></div>
+        <b-col sm="12" v-if="page">
+          <!-- <div v-html="page.body"></div> -->
+          <vue-markdown>{{page.body}}</vue-markdown>
         </b-col>
         <b-col v-else class="text-center">
           <h4>Page does not exists <span class="text-danger">:(</span></h4>
         </b-col>
       </b-row>
-
-
     </b-container>
   </div>
 </template>
 <script>
+import VueMarkdown from 'vue-markdown'
 export default {
   layout: "content",
-
+  components: {
+    'vue-markdown': VueMarkdown
+  },
 
   data() {
     return {
       department: null,
-      page:null,
+      page: null,
     };
   },
   mounted() {
