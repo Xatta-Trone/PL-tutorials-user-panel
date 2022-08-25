@@ -161,6 +161,7 @@ var mixin = {
         "TOKEN_EXPIRED",
         "ADMIN_MUST_HAVE_USER_ACCOUNT",
         "NO_DATA_FOUND",
+        "NOT_AUTHORIZED_TO_ACCESS_THIS_DEPARTMENT",
       ];
 
       if (exceptions.includes(statusmessage)) {
@@ -244,6 +245,12 @@ var mixin = {
         case "NO_DATA_FOUND":
           console.log("NO_DATA_FOUND");
           this.$toast.error("No user data found");
+          break;
+        case "NOT_AUTHORIZED_TO_ACCESS_THIS_DEPARTMENT":
+          console.log("NOT_AUTHORIZED_TO_ACCESS_THIS_DEPARTMENT");
+          this.$toast.error(
+            "You are not authorized to access this department."
+          );
           break;
 
         default:

@@ -1,8 +1,17 @@
 <template>
   <div>
-    <CustomHeader :title="department ? department.name : 'Department'" />
+    <CustomHeader :title="$nuxt.$route.params.dept" />
+
     <b-container>
-      <b-row v-if="department" class="my-4">
+      <template v-if="loading">
+        <b-row class="my-5">
+          <b-col>
+            <loading></loading>
+            </b-col>
+        </b-row>
+      </template>
+      <template v-else>
+        <b-row v-if="department" class="my-4">
         <b-col
           cols="3"
           v-for="levelterm in department.levelterms"
@@ -22,20 +31,29 @@
         </b-col>
       </b-row>
       <b-row v-else class="mt-5 text-center">
-        <h2>No level term found.</h2>
+        <h2>No level-term found.</h2>
       </b-row>
+      </template>
     </b-container>
+
+
   </div>
 </template>
 <script>
+import Loading from "../../../components/loading/Loading.vue";
+
 export default {
   layout: "content",
-  // middleware: "auth",
+  middleware: "auth",
 
   data() {
     return {
       department: null,
+      loading: false,
     };
+  },
+  components: {
+    Loading,
   },
   mounted() {
     this.getData();
@@ -43,6 +61,8 @@ export default {
 
   methods: {
     getData() {
+      let vm = this;
+      vm.loading = true;
       this.$axios
         .get("departments/" + this.$nuxt.$route.params.dept)
         .then((res) => {
@@ -50,9 +70,10 @@ export default {
           console.log(res.data);
         })
         .catch(function (err) {
-          console.log(err);
-          alert(err.response.status);
-        });
+          console.log(err.response);
+          // alert(err.response.status);
+          vm.getmessage(err.response.data.message);
+        }).finally(() => (this.loading = false));
     },
   },
 };

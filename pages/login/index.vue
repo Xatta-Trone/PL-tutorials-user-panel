@@ -106,6 +106,10 @@ export default {
           .then((res) => {
             this.btntxt = "Login successful";
             console.log("asdfsf", res.data);
+            // set loggedin user
+            localStorage.setItem('auth_user',JSON.stringify(res.data));
+
+
           });
       } catch (err) {
         this.btntxt = "Log in";

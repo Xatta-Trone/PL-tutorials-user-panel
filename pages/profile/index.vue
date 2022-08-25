@@ -1,8 +1,8 @@
 <template>
   <div>
     <CustomHeader
-      :title="'#' + $auth.user.student_id"
-      :subtitle="$auth.user.name"
+      :title="$auth.user.name"
+      :subtitle="'#' + $auth.user.student_id"
     />
 
     <b-container>
@@ -55,8 +55,7 @@
               <b-tab title="Change password">
                 <change-password />
               </b-tab>
-              <b-tab title="Activity"
-                ><p>I'm the tab with the very, very long title</p>
+              <b-tab title="Activity">
 
                 <v-server-table
                   url="user-activity"

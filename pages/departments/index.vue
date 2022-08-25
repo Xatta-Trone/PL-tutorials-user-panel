@@ -2,7 +2,15 @@
   <div>
     <CustomHeader title="departments" />
     <b-container>
-      <b-row v-if="departments" class="mt-5">
+      <template v-if="loading">
+        <b-row class="my-5">
+          <b-col>
+            <loading></loading>
+            </b-col>
+        </b-row>
+      </template>
+      <template v-else>
+        <b-row v-if="departments" class="my-5">
         <b-col cols="3" v-for="dept in departments" :key="dept.id">
           <b-card :title="dept.slug.toUpperCase()" class="mb-2">
             <b-card-text>
@@ -10,22 +18,23 @@
             </b-card-text>
 
             <b-button
-              :to="$nuxt.$route.fullPath + '/' + dept.slug"
+              :to="$nuxt.$route.fullPath +  dept.slug"
               variant="primary"
               >Browse</b-button
             >
           </b-card>
         </b-col>
       </b-row>
-      <b-row v-else class="mt-5 text-center">
+      <b-row v-else class="my-5 text-center">
         <h2 class="text-center">No department found.</h2>
       </b-row>
+      </template>
     </b-container>
   </div>
 </template>
 
 <script>
-import { RotateSquare5 } from "vue-loading-spinner";
+import Loading from "../../components/loading/Loading.vue";
 
 export default {
   layout: "content",
@@ -37,7 +46,7 @@ export default {
     };
   },
   components: {
-    RotateSquare5,
+    Loading,
   },
   mounted() {
     this.getDepatments();
@@ -48,12 +57,15 @@ export default {
       this.loading = true;
       this.$axios
         .get("departments")
-        .then((res) => (this.departments = res.data.data))
+        .then((res) => {
+          this.departments = res.data.data;
+        })
         .catch(function (err) {
-          console.log(err);
-          alert(err.response.status);
-        });
-      // .finally(() => (this.loading = false));
+          console.log(err.response);
+          // alert(err.response.status);
+          vm.getmessage(err.response.data.message);
+        })
+        .finally(() => (this.loading = false));
     },
   },
 };

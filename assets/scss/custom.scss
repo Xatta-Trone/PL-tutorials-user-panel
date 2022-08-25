@@ -32,6 +32,9 @@ h6 {
 .tr-bg {
   background-color: transparent !important;
 }
+.VueTables__search-field label {
+  justify-content: start !important;
+}
 // @import "~/node_modules/bootstrap/scss/bootstrap.scss";
 
 // Include Bootstrap and BootstrapVue SCSS files
