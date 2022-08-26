@@ -21,12 +21,23 @@
                   download</b-button
                 ></a
               >
-              <b-button @click="handleDetail(row)" variant="outline-info">detail <font-awesome-icon :icon="['fas', 'info-circle']" /></b-button>
+              <b-button @click="handleDetail(row)" variant="outline-info"
+                >detail <font-awesome-icon :icon="['fas', 'info-circle']"
+              /></b-button>
+            </div>
+            <div slot="id" slot-scope="{ row }">
+              {{ hashCode(row.id.toString()) }}
             </div>
           </v-server-table>
         </b-col>
       </b-row>
-      <b-modal ref="my-modal" size="lg" id="modal-center" centered :title="selectedData.name">
+      <b-modal
+        ref="my-modal"
+        size="lg"
+        id="modal-center"
+        centered
+        :title="selectedData.name"
+      >
         <span v-html="selectedData.description"></span>
       </b-modal>
     </b-container>
@@ -42,7 +53,7 @@ export default {
     return {
       loading: false,
       error: false,
-      selectedData:[],
+      selectedData: [],
       columns: ["id", "name", "download"],
       options: {
         perPage: 10,
@@ -50,7 +61,7 @@ export default {
         pagination: { chunk: 5 },
         orderBy: { ascending: false },
         headings: {
-          id: "Sl. No.",
+          id: "#",
         },
         requestFunction(data) {
           let vm = this;
@@ -83,7 +94,7 @@ export default {
 
     handleDetail(data) {
       this.selectedData = data;
-      this.$refs['my-modal'].show();
+      this.$refs["my-modal"].show();
     },
   },
 };

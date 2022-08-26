@@ -32,16 +32,14 @@
             </b-card>
           </b-col>
         </b-row>
-        <b-row v-else class="mt-5 text-center">
-          <h2>No post found.</h2>
+        <b-row v-else class="mt-5 text-center" align-self="center">
+          <b-col><h2>No content found.</h2></b-col>
         </b-row>
       </template>
     </b-container>
-
   </div>
 </template>
 <script>
-
 import Loading from "../../../../../components/loading/Loading.vue";
 export default {
   layout: "content",
@@ -50,7 +48,7 @@ export default {
   data() {
     return {
       course: null,
-      loading: false
+      loading: false,
     };
   },
   mounted() {

@@ -149,6 +149,7 @@ export default {
     "@nuxtjs/axios",
     "@nuxtjs/dotenv",
     "@nuxtjs/auth-next",
+    "@nuxtjs/proxy",
   ],
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
@@ -156,13 +157,23 @@ export default {
     // Workaround to avoid enforcing hard-coded localhost:3000: https://github.com/nuxt-community/axios-module/issues/308
     baseURL: process.env.SERVER_URL,
     credentials: true,
+    // proxy: true,
+    // prefix: "api/v1/",
   },
+  // proxy: {
+  //   "api/v1": {
+  //     target: "http://pltutorials8.xt/api/v1",
+
+  //     changeOrigin: true,
+  //   },
+  // },
 
   auth: {
     strategies: {
       laravelSanctum: {
         provider: "laravel/sanctum",
         url: process.env.LOGIN_URL,
+        // url: "http://pltutorials8.xt/api/v1",
 
         endpoints: {
           login: { url: "/login", method: "post" },

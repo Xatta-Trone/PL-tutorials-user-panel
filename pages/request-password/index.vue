@@ -22,9 +22,11 @@
                     Email is required & must be a valid email address.
                   </b-form-invalid-feedback>
                   <small v-if="errMsg" class="text-danger">{{ errMsg }}</small>
-                  <small v-if="successMsg" class="text-success"
-                    >Please check your email for password reset link.</small
-                  >
+
+                    <b-alert v-if="successMsg" show variant="success" class="my-2">
+                      Please check your email (spam too) for the password reset link.
+                    </b-alert>
+
                   <custom-error :servererrors="serverErrors" chkkey="email" />
                 </b-form-group>
 
@@ -43,14 +45,14 @@
                     <b-col md="6">
                       <nuxt-link
                         to="/login"
-                        class="ml-auto d-inline-block text-dark text-left"
+                        class="ml-auto d-inline-block text-danger text-left"
                         >Already have an account ? Log in</nuxt-link
                       >
                     </b-col>
                     <b-col md="6">
                       <nuxt-link
                         to="/register"
-                        class="ml-auto d-inline-block text-dark text-right"
+                        class="ml-auto d-inline-block text-danger text-right"
                         >Don't have an account ? Register</nuxt-link
                       >
                     </b-col>

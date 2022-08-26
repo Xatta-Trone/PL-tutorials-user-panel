@@ -30,8 +30,8 @@
           </b-card>
         </b-col>
       </b-row>
-      <b-row v-else class="mt-5 text-center">
-        <h2>No level-term found.</h2>
+      <b-row v-else class="mt-5 text-center" align-self="center">
+        <b-col><h2>No level-term found.</h2></b-col>
       </b-row>
       </template>
     </b-container>

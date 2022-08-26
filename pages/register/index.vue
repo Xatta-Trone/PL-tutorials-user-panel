@@ -174,7 +174,7 @@
                           <b-col md="6">
                             <nuxt-link
                               to="/login"
-                              class="ml-auto d-inline-block text-dark text-left"
+                              class="ml-auto d-inline-block text-left text-danger"
                               >Already have an account ? Log in</nuxt-link
                             >
                             <b-link href="/register"></b-link
@@ -191,7 +191,7 @@
                   </div>
                 </b-tab>
                 <b-tab title="For Alumni/Foreign Students">
-                  <p class="p-5 text-center">
+                  <p class="p-5 text-center ">
                     Please send a message to our Facebook page here at
 
                     <a
@@ -233,7 +233,7 @@ export default {
       departments: [],
       halls: [],
       loading: false,
-      userRegisterd: true,
+      userRegisterd: false,
     };
   },
   mounted() {

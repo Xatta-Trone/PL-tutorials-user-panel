@@ -22,6 +22,9 @@
                 ></a
               >
             </div>
+            <div slot="id" slot-scope="{ row }">
+              {{ hashCode(row.id.toString()) }}
+            </div>
           </v-server-table>
         </b-col>
       </b-row>
@@ -45,7 +48,7 @@ export default {
         pagination: { chunk: 5 },
         orderBy: { ascending: false },
         headings: {
-          id: "Sl. No.",
+          id: "#",
         },
         requestFunction(data) {
           let vm = this;
@@ -71,7 +74,7 @@ export default {
         model_type: "book",
         model_id: data.id,
         causer_id: this.$auth.loggedIn ? this.$auth.user.id : 0,
-        label: data.name
+        label: data.name,
       });
       window.open(data.link, "_blank").focus();
     },

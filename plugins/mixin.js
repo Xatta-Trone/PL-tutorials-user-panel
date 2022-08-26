@@ -149,6 +149,44 @@ var mixin = {
       return Math.floor(seconds) + " seconds ago";
     },
 
+    hashCode(text, salt = "salt") {
+      const textToChars = (text) => text.split("").map((c) => c.charCodeAt(0));
+      const byteHex = (n) => ("0" + Number(n).toString(16)).substr(-2);
+      const applySaltToChar = (code) =>
+        textToChars(salt).reduce((a, b) => a ^ b, code);
+
+      return text
+        .split("")
+        .map(textToChars)
+        .map(applySaltToChar)
+        .map(byteHex)
+        .join("");
+
+      return text.split("").reduce(function (a, b) {
+        a = (a << 5) - a + b.charCodeAt(0);
+        return a & a;
+      }, 0);
+    },
+    decrypthashCode(encoded, salt = "salt") {
+      const textToChars = (text) => text.split("").map((c) => c.charCodeAt(0));
+      const applySaltToChar = (code) =>
+        textToChars(salt).reduce((a, b) => a ^ b, code);
+      return encoded
+        .match(/.{1,2}/g)
+        .map((hex) => parseInt(hex, 16))
+        .map(applySaltToChar)
+        .map((charCode) => String.fromCharCode(charCode))
+        .join("");
+    },
+
+    formatDateToString(date) {
+      console.log(date)
+      return new Intl.DateTimeFormat("en-US", {
+        // formatString: '%M %d %y, %h:%m:%s %a',
+        dateStyle: 'medium', timeStyle: 'short'
+      }).format(new Date(date));
+    },
+
     extractmessage(statusmessage = "") {
       // input the exception messages here and include in the getmessagecustom function
       let exceptions = [

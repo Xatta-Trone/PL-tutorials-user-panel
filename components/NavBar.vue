@@ -20,21 +20,32 @@
             <b-nav-item to="/books">Books</b-nav-item>
             <b-nav-item to="/softwares">Softwares</b-nav-item>
 
-            <b-nav-item v-if="!$auth.loggedIn" to="/login">Login</b-nav-item>
-            <b-nav-item v-if="!$auth.loggedIn" to="/register"
-              >Register</b-nav-item
-            >
-            <b-nav-item v-if="$auth.loggedIn" to="/profile">Profile</b-nav-item>
-            <b-nav-item v-if="$auth.loggedIn" @click="logout"
-              >Logout</b-nav-item
-            >
+            <b-nav-item-dropdown text="Account" right to="#">
+              <b-dropdown-item v-if="!$auth.loggedIn" to="/login"
+                >Login</b-dropdown-item
+              >
+              <b-dropdown-item v-if="!$auth.loggedIn" to="/register"
+                >Register</b-dropdown-item
+              >
+              <b-dropdown-item v-if="$auth.loggedIn" to="/profile"
+                >Profile</b-dropdown-item
+              >
+              <b-dropdown-item v-if="$auth.loggedIn" to="/chat"
+                >Chat</b-dropdown-item
+              >
+              <b-dropdown-item v-if="$auth.loggedIn" @click="logout"
+                >Logout</b-dropdown-item
+              >
+            </b-nav-item-dropdown>
 
-            <b-nav-item to="/faq">FAQ</b-nav-item>
-            <b-nav-item to="/chat">Chat</b-nav-item>
             <b-nav-item to="/search">Search</b-nav-item>
             <b-nav-item to="/contact">Contact</b-nav-item>
 
             <b-nav-item-dropdown text="More" right>
+              <b-dropdown-item to="/faq">FAQ</b-dropdown-item>
+              <b-dropdown-item href="https://play.google.com/store/apps/details?id=com.pl-tutorials.app" target="_blank">Android App</b-dropdown-item>
+
+
               <div v-for="page in pages" :key="page.id">
                 <b-dropdown-item :to="'/page/' + page.slug">{{
                   page.title

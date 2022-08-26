@@ -70,7 +70,7 @@
           </b-form-group>
         </b-form>
       </b-col>
-      <b-col class="bg-img h-100 hidden-sm"> </b-col>
+      <b-col class="bg-img h-100 d-none d-md-block"> </b-col>
     </b-row>
   </b-container>
 </template>
@@ -151,7 +151,7 @@ export default {
 };
 </script>
 
-<style lang="css">
+<style lang="css" scoped>
 .bg-img {
   background-image: url("~/assets/img/login-bg.jpg");
   background-position: center;

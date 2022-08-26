@@ -22,21 +22,21 @@
             <b-list-group-item
               v-if="links.key == 'facebook'"
               :href="links.value"
-              _target="blank"
+              target="_blank"
               ><font-awesome-icon :icon="['fab', 'facebook']" />
               {{ links.value }}</b-list-group-item
             >
             <b-list-group-item
               v-if="links.key == 'youtube'"
               :href="links.value"
-              _target="blank"
+              target="_blank"
               ><font-awesome-icon :icon="['fab', 'youtube']" />
               {{ links.value }}</b-list-group-item
             >
             <b-list-group-item
               v-if="links.key == 'messenger'"
               :href="links.value"
-              _target="blank"
+              target="_blank"
               ><font-awesome-icon :icon="['fab', 'facebook-messenger']" />
               {{ links.value }}</b-list-group-item
             >

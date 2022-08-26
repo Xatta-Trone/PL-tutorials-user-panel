@@ -10,8 +10,8 @@
         </b-row>
       </template>
       <template v-else>
-        <b-row v-if="departments" class="my-5">
-        <b-col cols="3" v-for="dept in departments" :key="dept.id">
+        <b-row v-if="departments" class="my-5" align-v="stretch">
+        <b-col cols="3" v-for="dept in departments" :key="dept.id" >
           <b-card :title="dept.slug.toUpperCase()" class="mb-2">
             <b-card-text>
               {{ dept.name }}
@@ -26,7 +26,7 @@
         </b-col>
       </b-row>
       <b-row v-else class="my-5 text-center">
-        <h2 class="text-center">No department found.</h2>
+        <h2 class="text-center" align-self="center">No department found.</h2>
       </b-row>
       </template>
     </b-container>

@@ -33,7 +33,7 @@
                       <b-list-group-item
                         ><b>Joined on:</b>
                         {{
-                          new Date($auth.user.created_at).toDateString()
+                          formatDateToString($auth.user.created_at)
                         }}</b-list-group-item
                       >
                     </b-list-group></b-col
@@ -67,7 +67,10 @@
                     slot-scope="{ row }"
                     class="d-flex justify-content-around"
                   >
-                    {{ new Date(row.created_at).toDateString() }}
+                    {{ formatDateToString(row.created_at) }}
+                  </div>
+                  <div slot="id" slot-scope="{ row }">
+                    {{ hashCode(row.id.toString()) }}
                   </div>
 
                   <div slot="label" slot-scope="{ row }">
@@ -77,13 +80,7 @@
                 </v-server-table>
               </b-tab>
               <b-tab title="Devices">
-                <div class="text-center my-3">
-                  <p>Scan to install or click the link below.</p>
-                  <qrcode-vue :value="appUrl" size="150" level="H" />
-                  <a :href="appUrl" target="_blank"
-                    ><img src="~/assets/img/googleplay.png" height="110"
-                  /></a>
-                </div>
+                <LoginHistory></LoginHistory>
               </b-tab>
             </b-tabs>
           </div>
@@ -102,7 +99,7 @@ export default {
   data() {
     return {
       appUrl:
-        "https://play.google.com/store/apps/details?id=com.pltutorials.app",
+        "https://play.google.com/store/apps/details?id=com.pl-tutorials.app",
       columns: ["id", "activity", "label", "created_at"],
       options: {
         perPage: 10,
@@ -110,7 +107,7 @@ export default {
         pagination: { chunk: 5 },
         orderBy: { ascending: false },
         headings: {
-          id: "Sl. No.",
+          id: "#",
           created_at:'Date',
           activity:'Activity type',
           label:'Activity'
@@ -134,11 +131,13 @@ export default {
     getSearchString(search) {
       console.log(search);
 
+      if(!search.includes('q=')){
+        return search;
+      }
+
       let words = search.split(",").filter(Boolean).map(e => e.trim())
 
-
       let q = words.find((e) => e.includes("q")).split("=")[1];
-
       let d = words.find((e) => e.includes("dept")).split("=")[1];
       let l = words.find((e) => e.includes("l_t")).split("=")[1];
       let c = words.find((e) => e.includes("content_type")).split("=")[1];
@@ -151,15 +150,15 @@ export default {
       }
 
       if (d) {
-        finalString += ` in ${d} department`;
+        finalString += ` in ${d.toUpperCase()} department`;
       }
 
       if (l) {
-        finalString += ` ${l}`;
+        finalString += ` ${l} level-term`;
       }
 
       if (c) {
-        finalString += ` under ${c}.`;
+        finalString += ` for ${c}.`;
       }
 
       return finalString;
