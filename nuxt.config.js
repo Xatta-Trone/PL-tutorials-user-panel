@@ -155,7 +155,10 @@ export default {
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
   axios: {
     // Workaround to avoid enforcing hard-coded localhost:3000: https://github.com/nuxt-community/axios-module/issues/308
-    baseURL: process.env.SERVER_URL,
+    baseURL:
+      process.env.NODE_ENV !== "production"
+        ? process.env.SERVER_URL
+        : process.env.PROD_SERVER_URL,
     credentials: true,
     // proxy: true,
     // prefix: "api/v1/",
@@ -172,7 +175,10 @@ export default {
     strategies: {
       laravelSanctum: {
         provider: "laravel/sanctum",
-        url: process.env.LOGIN_URL,
+        url:
+          process.env.NODE_ENV !== "production"
+            ? process.env.LOGIN_URL
+            : process.env.PROD_LOGIN_URL,
         // url: "http://pltutorials8.xt/api/v1",
 
         endpoints: {
