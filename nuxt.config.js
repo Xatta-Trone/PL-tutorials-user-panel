@@ -115,6 +115,7 @@ export default {
     {
       src: "~/plugins/mixin.js",
     },
+
     {
       src: "~/plugins/fingerprint.js",
     },
