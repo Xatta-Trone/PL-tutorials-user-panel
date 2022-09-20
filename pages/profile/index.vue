@@ -8,11 +8,15 @@
     <b-container>
       <b-row>
         <b-col sm="12">
-          <div class="my-3">
+          <div class="my-5">
             <b-tabs content-class="mt-3" justified pills>
               <b-tab title="Info" active>
                 <b-row>
+                  <b-col><b-alert show variant="primary"> <strong>Please refrain from sharing your account with others.</strong> <br>  Such activity may lead to permanent account suspension. The website constantly monitors all activities to prevent account sharing. You can see your activities from the <strong>Activity</strong> tab.</b-alert></b-col>
+                </b-row>
+                <b-row>
                   <b-col sm="6">
+
                     <b-list-group>
                       <b-list-group-item
                         ><b>Name:</b> {{ $auth.user.name }}</b-list-group-item

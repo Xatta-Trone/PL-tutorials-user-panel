@@ -30,8 +30,11 @@
               <b-dropdown-item v-if="$auth.loggedIn" to="/profile"
                 >Profile</b-dropdown-item
               >
-              <b-dropdown-item v-if="$auth.loggedIn" to="/chat"
+              <!-- <b-dropdown-item v-if="$auth.loggedIn" to="/chat"
                 >Chat</b-dropdown-item
+              > -->
+              <b-dropdown-item v-if="$auth.loggedIn" to="/contribute"
+                >Contribute</b-dropdown-item
               >
               <b-dropdown-item v-if="$auth.loggedIn" @click="logout"
                 >Logout</b-dropdown-item

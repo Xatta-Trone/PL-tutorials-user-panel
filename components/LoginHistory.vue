@@ -1,15 +1,16 @@
 <template>
   <v-server-table url="user-logins" :columns="columns" :options="options">
     <div
-      slot="created_at"
+      slot="updated_at"
       slot-scope="{ row }"
       class="d-flex justify-content-around"
     >
-      {{ formatDateToString(row.created_at) }}
+      {{ formatDateToString(row.updated_at) }}
     </div>
     <div slot="id" slot-scope="{ row }">
       {{ hashCode(row.id.toString()) }}
     </div>
+
 
 
   </v-server-table>
@@ -24,7 +25,7 @@ export default {
         "location",
         "device",
         "fingerprint",
-        "created_at",
+        "updated_at",
       ],
       options: {
         perPage: 10,
@@ -33,7 +34,7 @@ export default {
         orderBy: { ascending: false },
         headings: {
           id: "#",
-          created_at: "Date",
+          updated_at: "Last Active",
           user_ip: "IP Address",
         },
         requestFunction(data) {

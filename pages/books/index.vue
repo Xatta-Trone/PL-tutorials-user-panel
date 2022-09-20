@@ -35,6 +35,11 @@
 <script>
 export default {
   layout: "content",
+  head(){
+    return {
+      title: 'Books'
+    }
+  },
 
   data() {
     return {
