@@ -20,6 +20,8 @@
             <b-nav-item to="/books">Books</b-nav-item>
             <b-nav-item to="/softwares">Softwares</b-nav-item>
             <b-nav-item to="/contribute">Contribute</b-nav-item>
+            <b-nav-item to="/search">Search</b-nav-item>
+            <b-nav-item to="/contact">Contact</b-nav-item>
 
             <b-nav-item-dropdown text="Account" right to="#">
               <b-dropdown-item v-if="!$auth.loggedIn" to="/login"
@@ -42,8 +44,6 @@
               >
             </b-nav-item-dropdown>
 
-            <b-nav-item to="/search">Search</b-nav-item>
-            <b-nav-item to="/contact">Contact</b-nav-item>
 
             <b-nav-item-dropdown text="More" right>
               <b-dropdown-item to="/faq">FAQ</b-dropdown-item>

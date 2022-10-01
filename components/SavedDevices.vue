@@ -4,7 +4,7 @@
       <b-alert show class="w-100" variant="secondary">
         You can manage your regular devices from here.
       </b-alert>
-      <b-alert :show="deviceCheck.isGuest" variant="danger"
+      <b-alert :show="deviceCheck.isGuest" variant="danger" class="w-100"
         >You are using this device as guest. If you wish to use this device
         regularly then please add this device in the saved device list</b-alert
       >
@@ -41,7 +41,7 @@
             >
           </b-list-group-item>
         </b-list-group>
-        <b-alert v-else show variant="info" class="w-50 mx-auto text-center"
+        <b-alert v-else show variant="info" class="w-100 mx-auto text-center "
           >No device registered</b-alert
         >
       </b-row>
