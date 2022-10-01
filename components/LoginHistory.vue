@@ -24,7 +24,7 @@ export default {
         "user_ip",
         "location",
         "device",
-        "fingerprint",
+        // "fingerprint",
         "updated_at",
       ],
       options: {

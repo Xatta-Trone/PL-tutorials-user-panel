@@ -86,6 +86,9 @@
               <b-tab title="Devices">
                 <LoginHistory></LoginHistory>
               </b-tab>
+              <b-tab title="Saved Devices">
+                <saved-devices></saved-devices>
+              </b-tab>
             </b-tabs>
           </div>
         </b-col>

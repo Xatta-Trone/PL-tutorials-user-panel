@@ -200,6 +200,7 @@ var mixin = {
         "ADMIN_MUST_HAVE_USER_ACCOUNT",
         "NO_DATA_FOUND",
         "NOT_AUTHORIZED_TO_ACCESS_THIS_DEPARTMENT",
+        "DEVICE_ALREADY_ADDED",
       ];
 
       if (exceptions.includes(statusmessage)) {
@@ -289,6 +290,10 @@ var mixin = {
           this.$toast.error(
             "You are not authorized to access this department."
           );
+          break;
+        case "DEVICE_ALREADY_ADDED":
+          console.log("DEVICE_ALREADY_ADDED");
+          this.$toast.error("Device already added");
           break;
 
         default:
