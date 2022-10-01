@@ -17,6 +17,10 @@
               {{ dept.name }}
             </b-card-text>
 
+            <b-card-text>
+              Accessible to: {{ dept.can_be_accessed_by.toUpperCase() }}
+            </b-card-text>
+
             <b-button
               :to="$nuxt.$route.fullPath +'/' +dept.slug"
               variant="primary"
