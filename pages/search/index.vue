@@ -327,6 +327,9 @@ export default {
     },
 
     getCourseSlug(course_id) {
+      if(course_id == null || course_id == ""){
+        return;
+      }
       if (this.courses == []) {
         return "";
       }
@@ -335,6 +338,20 @@ export default {
       );
       if (c[0] == undefined) return;
       return c[0].slug.toUpperCase().split(/(\d+)/).filter(Boolean).join("-");
+    },
+
+    getCourseById(course_id) {
+      if(course_id == null || course_id == "" ){
+        return "";
+      }
+      if (this.courses == []) {
+        return "";
+      }
+      let c = this.courses.filter(
+        (course) => parseInt(course.id) == parseInt(course_id)
+      );
+      if (c[0] == undefined) return "";
+      return c[0];
     },
 
     infiniteHandler($state) {
@@ -371,6 +388,15 @@ export default {
         label += `${key}=${value},`;
       });
 
+      if(this.form.course_id){
+        let course = this.getCourseById(this.form.course_id);
+        if(course){
+          label += `course_slug=${course.slug},course_title=${course.course_name}`;
+        }
+      }
+
+
+
       this.saveActivity({
         activity: "searched",
         model_type: "",
@@ -396,9 +422,20 @@ export default {
         model_id: data.id,
         causer_id: this.$auth.loggedIn ? this.$auth.user.id : 0,
         label: data.name,
+        additionalData: this.getAdditionalData(data),
       });
       window.open(data.link, "_blank").focus();
     },
+
+    getAdditionalData(data){
+      if(data.post_type == 'post'){
+        let courseSlug =this.getCourseSlug(data.course_id);
+        return `${data.department_slug}/${data.level_term_slug}/${courseSlug == undefined ? '' : courseSlug}`.toUpperCase();
+      }
+      return data.author;
+    }
+
+
   },
   watch: {
     "form.l_t": {
@@ -447,8 +484,11 @@ export default {
 };
 </script>
 
-<style lang="css">
+<style lang="css" scoped>
 .infinite-loading-container {
   width: 100%;
+}
+.list-group{
+  cursor: pointer;
 }
 </style>

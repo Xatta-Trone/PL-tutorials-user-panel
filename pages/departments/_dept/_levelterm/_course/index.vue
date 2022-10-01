@@ -31,8 +31,8 @@
                   {{ post.name }}
                 </b-card-text>
 
-                <b-button target="_blank" :href="post.link" variant="primary"
-                  >Click here</b-button
+                <b-button @click="handleClick(post)" variant="primary"
+                  >Download</b-button
                 >
               </b-card>
             </b-col>
@@ -93,6 +93,19 @@ export default {
         })
         .finally(() => (this.loading = false));
     },
+
+    handleClick(data){
+      // console.log(data);
+      this.saveActivity({
+        activity: "downloaded",
+        model_type: data.post_type,
+        model_id: data.id,
+        causer_id: this.$auth.loggedIn ? this.$auth.user.id : 0,
+        label: data.name,
+        additionalData: `${this.$nuxt.$route.params.dept}/${this.$nuxt.$route.params.levelterm}/${this.$nuxt.$route.params.course}`,
+      });
+      window.open(data.link, "_blank").focus();
+    }
   },
 };
 </script>

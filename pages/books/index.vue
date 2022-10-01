@@ -80,6 +80,7 @@ export default {
         model_id: data.id,
         causer_id: this.$auth.loggedIn ? this.$auth.user.id : 0,
         label: data.name,
+        additionalData: data.author
       });
       window.open(data.link, "_blank").focus();
     },

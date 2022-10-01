@@ -87,7 +87,12 @@ var mixin = {
       model_id = 0,
       causer_id = 0,
       label = "",
+      additionalData = "",
     }) {
+      if (additionalData != "") {
+        label += ` (${additionalData})`;
+      }
+
       let data = { activity, model_id, model_type, causer_id, label };
       // console.log(data);
       this.$axios
@@ -180,10 +185,11 @@ var mixin = {
     },
 
     formatDateToString(date) {
-      console.log(date)
+      console.log(date);
       return new Intl.DateTimeFormat("en-US", {
         // formatString: '%M %d %y, %h:%m:%s %a',
-        dateStyle: 'medium', timeStyle: 'short'
+        dateStyle: "medium",
+        timeStyle: "short",
       }).format(new Date(date));
     },
 
