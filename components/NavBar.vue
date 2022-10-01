@@ -47,7 +47,7 @@
 
             <b-nav-item-dropdown text="More" right>
               <b-dropdown-item to="/faq">FAQ</b-dropdown-item>
-              <b-dropdown-item href="https://play.google.com/store/apps/details?id=com.pl-tutorials.app" target="_blank">Android App</b-dropdown-item>
+              <b-dropdown-item href="https://play.google.com/store/apps/details?id=com.pltutorials.plandroid" target="_blank">Android App</b-dropdown-item>
 
 
               <div v-for="page in pages" :key="page.id">

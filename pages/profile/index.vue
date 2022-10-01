@@ -103,7 +103,7 @@ export default {
   data() {
     return {
       appUrl:
-        "https://play.google.com/store/apps/details?id=com.pl-tutorials.app",
+        "https://play.google.com/store/apps/details?id=com.pltutorials.plandroid",
       columns: ["id", "activity", "label", "created_at"],
       options: {
         perPage: 10,

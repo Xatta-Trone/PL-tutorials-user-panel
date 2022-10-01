@@ -4,7 +4,7 @@
         <b-row align-v="center">
           <b-col sm="6">
             <h4>Download the app!</h4>
-            <a target="_blank" href="https://play.google.com/store/apps/details?id=com.pl-tutorials.app"><img src="~/assets/img/googleplay.png" height="110"/></a>
+            <a target="_blank" href="https://play.google.com/store/apps/details?id=com.pltutorials.plandroid"><img src="~/assets/img/googleplay.png" height="110"/></a>
 
           </b-col>
           <b-col sm="6" class="text-center">
