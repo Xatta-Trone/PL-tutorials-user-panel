@@ -1,221 +1,232 @@
 
 <template>
   <div>
-    <CustomHeader title="Search here" />
-    <b-container>
-      <!-- search form -->
-      <b-row class="my-2">
-        <b-col sm="12">
-          <b-form @submit.prevent="search">
-            <b-row>
-              <b-col sm="12">
-                <b-form-group
-                  id="input-group-1"
-                  label="Search query ::"
-                  label-for="input-1"
-                >
-                  <b-form-input
-                    id="input-1"
-                    v-model="form.q"
-                    type="text"
-                    placeholder="Enter your search query"
-                  ></b-form-input>
-                </b-form-group>
-              </b-col>
-              <b-col sm="3">
-                <b-form-group
-                  id="input-group-4"
-                  label="Department ::"
-                  label-for="input-4"
-                >
-                  <b-form-select
-                    v-model="form.dept"
-                    :options="departments"
-                    value-field="slug"
-                    text-field="name"
+    <template v-if="!deviceCheck.hasCheckedDevice">
+      <Devicecheck></Devicecheck>
+    </template>
+
+    <template v-else>
+      <CustomHeader title="Search here" />
+      <b-container>
+        <!-- search form -->
+        <b-row class="my-2">
+          <b-col sm="12">
+            <b-form @submit.prevent="search">
+              <b-row>
+                <b-col sm="12">
+                  <b-form-group
+                    id="input-group-1"
+                    label="Search query ::"
+                    label-for="input-1"
                   >
-                    <template #first>
-                      <b-form-select-option value="" disabled
-                        >-- Please select an option --</b-form-select-option
-                      >
-                    </template>
-                  </b-form-select>
-                </b-form-group>
-              </b-col>
-
-              <b-col sm="3">
-                <b-form-group
-                  id="input-group-5"
-                  label="Level Term ::"
-                  label-for="input-5"
-                >
-                  <b-form-select
-                    v-model="form.l_t"
-                    :options="levelterms"
-                    value-field="slug"
-                    text-field="name"
+                    <b-form-input
+                      id="input-1"
+                      v-model="form.q"
+                      type="text"
+                      placeholder="Enter your search query"
+                    ></b-form-input>
+                  </b-form-group>
+                </b-col>
+                <b-col sm="3">
+                  <b-form-group
+                    id="input-group-4"
+                    label="Department ::"
+                    label-for="input-4"
                   >
-                    <template #first>
-                      <b-form-select-option value="" disabled
-                        >-- Please select an option --</b-form-select-option
-                      >
-                    </template>
-                  </b-form-select>
-                </b-form-group>
-              </b-col>
+                    <b-form-select
+                      v-model="form.dept"
+                      :options="departments"
+                      value-field="slug"
+                      text-field="name"
+                    >
+                      <template #first>
+                        <b-form-select-option value="" disabled
+                          >-- Please select an option --</b-form-select-option
+                        >
+                      </template>
+                    </b-form-select>
+                  </b-form-group>
+                </b-col>
 
-              <b-col sm="3">
-                <b-form-group
-                  id="input-group-6"
-                  label="Course ::"
-                  label-for="input-6"
-                >
-                  <b-form-select
-                    v-model="form.course_id"
-                    :options="courses"
-                    value-field="id"
-                    text-field="course_name"
+                <b-col sm="3">
+                  <b-form-group
+                    id="input-group-5"
+                    label="Level Term ::"
+                    label-for="input-5"
                   >
-                    <template #first>
-                      <b-form-select-option value="" disabled
-                        >-- Please select an option --</b-form-select-option
-                      >
-                    </template>
-                  </b-form-select>
-                </b-form-group>
-              </b-col>
+                    <b-form-select
+                      v-model="form.l_t"
+                      :options="levelterms"
+                      value-field="slug"
+                      text-field="name"
+                    >
+                      <template #first>
+                        <b-form-select-option value="" disabled
+                          >-- Please select an option --</b-form-select-option
+                        >
+                      </template>
+                    </b-form-select>
+                  </b-form-group>
+                </b-col>
 
-              <b-col sm="3">
-                <b-form-group
-                  id="input-group-7"
-                  label="Material type ::"
-                  label-for="input-7"
-                >
-                  <b-form-select
-                    v-model="form.content_type"
-                    :options="content_types"
+                <b-col sm="3">
+                  <b-form-group
+                    id="input-group-6"
+                    label="Course ::"
+                    label-for="input-6"
                   >
-                    <template #first>
-                      <b-form-select-option value="" disabled
-                        >-- Please select an option --</b-form-select-option
-                      >
-                    </template>
-                  </b-form-select>
-                </b-form-group>
-              </b-col>
-            </b-row>
+                    <b-form-select
+                      v-model="form.course_id"
+                      :options="courses"
+                      value-field="id"
+                      text-field="course_name"
+                    >
+                      <template #first>
+                        <b-form-select-option value="" disabled
+                          >-- Please select an option --</b-form-select-option
+                        >
+                      </template>
+                    </b-form-select>
+                  </b-form-group>
+                </b-col>
 
-            <b-row>
-              <b-col sm="9">
-                <b-button
-                  type="submit"
-                  variant="primary"
-                  class="text-white w-100"
-                  :disabled="loading"
-                  >{{ btntxt }}</b-button
-                >
-              </b-col>
-              <b-col sm="3">
-                <b-button
-                  @click.prevent="clear"
-                  variant="secondary"
-                  class="text-white w-100"
-                  >Clear</b-button
-                >
-                <b-badge variant="danger">if doesn't work please press clear first.</b-badge>
-              </b-col>
-            </b-row>
-          </b-form>
-        </b-col>
-      </b-row>
+                <b-col sm="3">
+                  <b-form-group
+                    id="input-group-7"
+                    label="Material type ::"
+                    label-for="input-7"
+                  >
+                    <b-form-select
+                      v-model="form.content_type"
+                      :options="content_types"
+                    >
+                      <template #first>
+                        <b-form-select-option value="" disabled
+                          >-- Please select an option --</b-form-select-option
+                        >
+                      </template>
+                    </b-form-select>
+                  </b-form-group>
+                </b-col>
+              </b-row>
 
-      <b-row>
-        <b-col sm="12">
-          <p>Results::</p>
-          <b-list-group v-for="item in results" :key="item.id">
-            <b-list-group-item @click.prevent="handleClick(item)" class="my-1">
-              <div v-if="item.post_type == 'post'">
-                <b-badge
-                  class="float-right"
-                  v-if="item.post_type"
-                  variant="primary"
-                  >MATERIAL</b-badge
-                >
-                <b-badge v-if="item.department_slug" variant="primary">{{
-                  item.department_slug.toUpperCase()
-                }}</b-badge>
+              <b-row>
+                <b-col sm="9">
+                  <b-button
+                    type="submit"
+                    variant="primary"
+                    class="text-white w-100"
+                    :disabled="loading"
+                    >{{ btntxt }}</b-button
+                  >
+                </b-col>
+                <b-col sm="3">
+                  <b-button
+                    @click.prevent="clear"
+                    variant="secondary"
+                    class="text-white w-100"
+                    >Clear</b-button
+                  >
+                  <b-badge variant="danger"
+                    >if doesn't work please press clear first.</b-badge
+                  >
+                </b-col>
+              </b-row>
+            </b-form>
+          </b-col>
+        </b-row>
 
-                <b-badge v-if="item.level_term_slug" variant="danger">{{
-                  item.level_term_slug.toUpperCase()
-                }}</b-badge>
-                <b-badge v-if="item.course_id" variant="dark">{{
-                  getCourseSlug(item.course_id)
-                }}</b-badge>
-                {{ item.name }}
-              </div>
+        <b-row>
+          <b-col sm="12">
+            <p>Results::</p>
+            <b-list-group v-for="item in results" :key="item.id">
+              <b-list-group-item
+                @click.prevent="handleClick(item)"
+                class="my-1"
+              >
+                <div v-if="item.post_type == 'post'">
+                  <b-badge
+                    class="float-right"
+                    v-if="item.post_type"
+                    variant="primary"
+                    >MATERIAL</b-badge
+                  >
+                  <b-badge v-if="item.department_slug" variant="primary">{{
+                    item.department_slug.toUpperCase()
+                  }}</b-badge>
 
-              <div v-if="item.post_type == 'book'">
-                <b-badge
-                  class="float-right text-white"
-                  v-if="item.post_type"
-                  variant="danger"
-                  >{{ item.post_type.toUpperCase() }}</b-badge
-                >
-                <b-badge v-if="item.department_slug" variant="primary">{{
-                  item.department_slug.toUpperCase()
-                }}</b-badge>
+                  <b-badge v-if="item.level_term_slug" variant="danger">{{
+                    item.level_term_slug.toUpperCase()
+                  }}</b-badge>
+                  <b-badge v-if="item.course_id" variant="dark">{{
+                    getCourseSlug(item.course_id)
+                  }}</b-badge>
+                  {{ item.name }}
+                </div>
 
-                <b-badge v-if="item.level_term_slug" variant="danger">{{
-                  item.level_term_slug.toUpperCase()
-                }}</b-badge>
-                <b-badge v-if="item.course_id" variant="dark">{{
-                  getCourseSlug(item.course_id)
-                }}</b-badge>
-                {{ item.name }} by
-                <b-badge variant="light">{{ item.author }}</b-badge>
-              </div>
+                <div v-if="item.post_type == 'book'">
+                  <b-badge
+                    class="float-right text-white"
+                    v-if="item.post_type"
+                    variant="danger"
+                    >{{ item.post_type.toUpperCase() }}</b-badge
+                  >
+                  <b-badge v-if="item.department_slug" variant="primary">{{
+                    item.department_slug.toUpperCase()
+                  }}</b-badge>
 
-              <div v-if="item.post_type == 'software'">
-                <b-badge
-                  class="float-right text-white"
-                  v-if="item.post_type"
-                  variant="dark"
-                  >{{ item.post_type.toUpperCase() }}</b-badge
-                >
-                <b-badge v-if="item.department_slug" variant="primary">{{
-                  item.department_slug.toUpperCase()
-                }}</b-badge>
+                  <b-badge v-if="item.level_term_slug" variant="danger">{{
+                    item.level_term_slug.toUpperCase()
+                  }}</b-badge>
+                  <b-badge v-if="item.course_id" variant="dark">{{
+                    getCourseSlug(item.course_id)
+                  }}</b-badge>
+                  {{ item.name }} by
+                  <b-badge variant="light">{{ item.author }}</b-badge>
+                </div>
 
-                <b-badge v-if="item.level_term_slug" variant="danger">{{
-                  item.level_term_slug.toUpperCase()
-                }}</b-badge>
-                <b-badge v-if="item.course_id" variant="dark">{{
-                  getCourseSlug(item.course_id)
-                }}</b-badge>
-                {{ item.name }} from
-                <b-badge variant="light">{{ item.author }}</b-badge>
-              </div>
-            </b-list-group-item>
-          </b-list-group>
+                <div v-if="item.post_type == 'software'">
+                  <b-badge
+                    class="float-right text-white"
+                    v-if="item.post_type"
+                    variant="dark"
+                    >{{ item.post_type.toUpperCase() }}</b-badge
+                  >
+                  <b-badge v-if="item.department_slug" variant="primary">{{
+                    item.department_slug.toUpperCase()
+                  }}</b-badge>
 
-          <div v-if="results.length == 0" class="text-center"></div>
-        </b-col>
+                  <b-badge v-if="item.level_term_slug" variant="danger">{{
+                    item.level_term_slug.toUpperCase()
+                  }}</b-badge>
+                  <b-badge v-if="item.course_id" variant="dark">{{
+                    getCourseSlug(item.course_id)
+                  }}</b-badge>
+                  {{ item.name }} from
+                  <b-badge variant="light">{{ item.author }}</b-badge>
+                </div>
+              </b-list-group-item>
+            </b-list-group>
 
-        <infinite-loading
-          @infinite="infiniteHandler"
-          ref="infiniteLoading"
-          :identifier="infiniteId"
-          spinner="waveDots"
-        >
-          <div slot="no-more">
-            <b-alert show variant="danger">End of results......</b-alert>
-          </div>
-          <div slot="no-results">
-            <b-alert show variant="primary">No results......</b-alert>
-          </div>
-        </infinite-loading>
-      </b-row>
-    </b-container>
+            <div v-if="results.length == 0" class="text-center"></div>
+          </b-col>
+
+          <infinite-loading
+            @infinite="infiniteHandler"
+            ref="infiniteLoading"
+            :identifier="infiniteId"
+            spinner="waveDots"
+          >
+            <div slot="no-more">
+              <b-alert show variant="danger">End of results......</b-alert>
+            </div>
+            <div slot="no-results">
+              <b-alert show variant="primary">No results......</b-alert>
+            </div>
+          </infinite-loading>
+        </b-row>
+      </b-container>
+    </template>
   </div>
 </template>
 
@@ -254,6 +265,12 @@ export default {
       infiniteId: +new Date(),
     };
   },
+    computed: {
+    deviceCheck() {
+      return this.$store.state.device;
+    },
+  },
+
   mounted() {
     this.getDepatments();
     this.getLevelTerms();
@@ -313,8 +330,10 @@ export default {
       if (this.courses == []) {
         return "";
       }
-      let c = this.courses.filter((course) => parseInt(course.id) == parseInt(course_id));
-      if(c[0]== undefined) return;
+      let c = this.courses.filter(
+        (course) => parseInt(course.id) == parseInt(course_id)
+      );
+      if (c[0] == undefined) return;
       return c[0].slug.toUpperCase().split(/(\d+)/).filter(Boolean).join("-");
     },
 

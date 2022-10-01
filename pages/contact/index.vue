@@ -13,27 +13,27 @@
             😊
           </p>
           <b-list-group v-for="links in socialLinks" :key="links.key">
-            <b-list-group-item
+            <b-list-group-item class="my-1"
               v-if="links.key == 'email'"
               :href="'mailto:' + links.value"
               ><font-awesome-icon :icon="['fas', 'at']" />
               {{ links.value }}</b-list-group-item
             >
-            <b-list-group-item
+            <b-list-group-item class="my-1"
               v-if="links.key == 'facebook'"
               :href="links.value"
               target="_blank"
               ><font-awesome-icon :icon="['fab', 'facebook']" />
               {{ links.value }}</b-list-group-item
             >
-            <b-list-group-item
+            <b-list-group-item class="my-1"
               v-if="links.key == 'youtube'"
               :href="links.value"
               target="_blank"
               ><font-awesome-icon :icon="['fab', 'youtube']" />
               {{ links.value }}</b-list-group-item
             >
-            <b-list-group-item
+            <b-list-group-item class="my-1"
               v-if="links.key == 'messenger'"
               :href="links.value"
               target="_blank"
@@ -72,3 +72,4 @@ export default {
   },
 };
 </script>
+
