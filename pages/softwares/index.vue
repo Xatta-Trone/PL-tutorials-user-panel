@@ -1,46 +1,56 @@
 
 <template>
   <div>
-    <CustomHeader title="Softwares" />
-    <b-container>
-      <b-row class="text-left py-1 my-2">
-        <b-col>
-          <v-server-table url="softwares" :columns="columns" :options="options">
-            <div
-              slot="download"
-              slot-scope="{ row }"
-              class="d-flex justify-content-around"
+    <template v-if="!deviceCheck.hasCheckedDevice">
+      <Devicecheck></Devicecheck>
+    </template>
+
+    <template v-else>
+      <CustomHeader title="Softwares" />
+      <b-container>
+        <b-row class="text-left py-1 my-2">
+          <b-col>
+            <v-server-table
+              url="softwares"
+              :columns="columns"
+              :options="options"
             >
-              <a
-                href=""
-                @click.prevent="handleClick(row)"
-                title="Download book"
+              <div
+                slot="download"
+                slot-scope="{ row }"
+                class="d-flex justify-content-around"
               >
-                <b-button variant="outline-primary"
-                  ><font-awesome-icon :icon="['fas', 'file-download']" />
-                  download</b-button
-                ></a
-              >
-              <b-button @click="handleDetail(row)" variant="outline-info"
-                >detail <font-awesome-icon :icon="['fas', 'info-circle']"
-              /></b-button>
-            </div>
-            <div slot="id" slot-scope="{ row }">
-              {{ hashCode(row.id.toString()) }}
-            </div>
-          </v-server-table>
-        </b-col>
-      </b-row>
-      <b-modal
-        ref="my-modal"
-        size="lg"
-        id="modal-center"
-        centered
-        :title="selectedData.name"
-      >
-        <span v-html="selectedData.description"></span>
-      </b-modal>
-    </b-container>
+                <a
+                  href=""
+                  @click.prevent="handleClick(row)"
+                  title="Download book"
+                >
+                  <b-button variant="outline-primary"
+                    ><font-awesome-icon :icon="['fas', 'file-download']" />
+                    download</b-button
+                  ></a
+                >
+                <b-button @click="handleDetail(row)" variant="outline-info"
+                  >detail <font-awesome-icon :icon="['fas', 'info-circle']"
+                /></b-button>
+              </div>
+              <div slot="id" slot-scope="{ row }">
+                {{ hashCode(row.id.toString()) }}
+              </div>
+            </v-server-table>
+          </b-col>
+        </b-row>
+        <b-modal
+          ref="my-modal"
+          size="lg"
+          id="modal-center"
+          centered
+          :title="selectedData.name"
+        >
+          <span v-html="selectedData.description"></span>
+        </b-modal>
+      </b-container>
+    </template>
   </div>
 </template>
 
@@ -54,7 +64,7 @@ export default {
       loading: false,
       error: false,
       selectedData: [],
-      columns: ["id", "name", "download"],
+      columns: ["id", "name", 'author', "download"],
       options: {
         perPage: 10,
         perPageValues: [5, 10, 15, 25, 50, 100],
@@ -62,6 +72,8 @@ export default {
         orderBy: { ascending: false },
         headings: {
           id: "#",
+          author: 'Company',
+          download: 'Actions'
         },
         requestFunction(data) {
           let vm = this;
@@ -78,6 +90,13 @@ export default {
       },
     };
   },
+
+  computed: {
+    deviceCheck() {
+      return this.$store.state.device;
+    },
+  },
+
   mounted() {},
   methods: {
     handleClick(data) {

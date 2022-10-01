@@ -56,10 +56,10 @@
                   </b-col>
                 </b-row>
               </b-tab>
-              <b-tab title="Change password">
+              <b-tab title="Change password" lazy>
                 <change-password />
               </b-tab>
-              <b-tab title="Activity">
+              <b-tab title="Activity" lazy>
 
                 <v-server-table
                   url="user-activity"
@@ -83,10 +83,10 @@
                   </div>
                 </v-server-table>
               </b-tab>
-              <b-tab title="Devices">
+              <b-tab title="Devices" lazy>
                 <LoginHistory></LoginHistory>
               </b-tab>
-              <b-tab title="Saved Devices">
+              <b-tab title="Saved Devices" lazy>
                 <saved-devices></saved-devices>
               </b-tab>
             </b-tabs>

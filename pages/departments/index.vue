@@ -18,7 +18,7 @@
             </b-card-text>
 
             <b-button
-              :to="$nuxt.$route.fullPath +  dept.slug"
+              :to="$nuxt.$route.fullPath +'/' +dept.slug"
               variant="primary"
               >Browse</b-button
             >

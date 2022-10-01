@@ -1,42 +1,48 @@
 <template>
   <div>
-    <CustomHeader
-      :title="$nuxt.$route.params.course"
-      :subtitle="course ? course.course_name : 'Course Name'"
-    />
+    <template v-if="!deviceCheck.hasCheckedDevice">
+      <Devicecheck></Devicecheck>
+    </template>
 
-    <b-container>
-      <template v-if="loading">
-        <b-row class="my-5">
-          <b-col>
-            <loading></loading>
-          </b-col>
-        </b-row>
-      </template>
-      <template v-else>
-        <b-row v-if="course" class="my-4">
-          <b-col
-            cols="3"
-            v-for="post in course.active_posts"
-            :key="post.id"
-            class="my-2"
-          >
-            <b-card :title="post.name" class="mb-2 h-100">
-              <b-card-text>
-                {{ post.name }}
-              </b-card-text>
+    <template v-else>
+      <CustomHeader
+        :title="$nuxt.$route.params.course"
+        :subtitle="course ? course.course_name : 'Course Name'"
+      />
 
-              <b-button target="_blank" :href="post.link" variant="primary"
-                >Click here</b-button
-              >
-            </b-card>
-          </b-col>
-        </b-row>
-        <b-row v-else class="mt-5 text-center" align-self="center">
-          <b-col><h2>No content found.</h2></b-col>
-        </b-row>
-      </template>
-    </b-container>
+      <b-container>
+        <template v-if="loading">
+          <b-row class="my-5">
+            <b-col>
+              <loading></loading>
+            </b-col>
+          </b-row>
+        </template>
+        <template v-else>
+          <b-row v-if="course" class="my-4">
+            <b-col
+              cols="3"
+              v-for="post in course.active_posts"
+              :key="post.id"
+              class="my-2"
+            >
+              <b-card :title="post.name" class="mb-2 h-100">
+                <b-card-text>
+                  {{ post.name }}
+                </b-card-text>
+
+                <b-button target="_blank" :href="post.link" variant="primary"
+                  >Click here</b-button
+                >
+              </b-card>
+            </b-col>
+          </b-row>
+          <b-row v-else class="mt-5 text-center" align-self="center">
+            <b-col><h2>No content found.</h2></b-col>
+          </b-row>
+        </template>
+      </b-container>
+    </template>
   </div>
 </template>
 <script>
@@ -50,6 +56,11 @@ export default {
       course: null,
       loading: false,
     };
+  },
+   computed: {
+    deviceCheck() {
+      return this.$store.state.device;
+    },
   },
   mounted() {
     this.getData();

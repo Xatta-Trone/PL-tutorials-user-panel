@@ -85,7 +85,7 @@ export default {
     ],
   },
   router: {
-    middleware: "autologin",
+    middleware: ["loadLocalStorage"],
   },
 
   // Global CSS: https://go.nuxtjs.dev/config-css

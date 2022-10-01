@@ -4,6 +4,10 @@
       <b-alert show class="w-100" variant="secondary">
         You can manage your regular devices from here.
       </b-alert>
+      <b-alert :show="deviceCheck.isGuest" variant="danger"
+        >You are using this device as guest. If you wish to use this device
+        regularly then please add this device in the saved device list</b-alert
+      >
       <h3 class="text-center w-100" v-if="deviceResponse">
         Max allowed device: {{ deviceResponse.max_allowed_device }}
       </h3>
@@ -27,26 +31,38 @@
             :key="device.id"
           >
             <b-badge variant="primary">{{ device.ip_address }}</b-badge>
-            {{ device.device }} <br/>
+            {{ device.device }} <br />
 
-            {{ device.location }}<br/>
-            Last updated: {{ formatDateToString(device.updated_at) }}<br/>
+            {{ device.location }}<br />
+            Last updated: {{ formatDateToString(device.updated_at) }}<br />
 
-            <b-button @click="removeDevice(device.id)" variant="danger">Remove device</b-button>
-
-
+            <b-button @click="removeDevice(device.id)" variant="danger"
+              >Remove device</b-button
+            >
           </b-list-group-item>
         </b-list-group>
         <b-alert v-else show variant="info" class="w-50 mx-auto text-center"
           >No device registered</b-alert
         >
       </b-row>
-      <b-row v-if="!isInSavedDevice" class="my-3" >
+      <b-row v-if="!isInSavedDevice" class="my-3">
         <b-button @click="addDevice" :disabled="isInAsyncCall" variant="primary"
           >Add this device</b-button
         >
       </b-row>
     </template>
+
+    <b-row class="my-3">
+      <b-button
+        @click="addGuest"
+        variant="primary"
+        v-if="!deviceCheck.isGuest && !deviceCheck.hasCheckedDevice"
+        >Use as guest</b-button
+      >
+      <b-button @click="removeGuest" variant="danger" v-if="deviceCheck.isGuest"
+        >Remove as guest</b-button
+      >
+    </b-row>
   </div>
 </template>
 <script>
@@ -60,6 +76,12 @@ export default {
       isInSavedDevice: false,
       isInAsyncCall: false,
     };
+  },
+
+  computed: {
+    deviceCheck() {
+      return this.$store.state.device;
+    },
   },
 
   mounted() {
@@ -83,6 +105,7 @@ export default {
             );
             if (check != null) {
               vm.isInSavedDevice = true;
+              vm.$store.commit("device/addCurrentDevice");
             } else {
               vm.isInSavedDevice = false;
             }
@@ -91,8 +114,6 @@ export default {
           if (res.data.hasOwnProperty("message")) {
             this.getmessage(res.data.message);
           }
-
-          if (res.data.hasKey("status")) this.getmessage();
         })
         .catch(function (err) {
           console.log(err);
@@ -132,11 +153,16 @@ export default {
           if (res.data.hasOwnProperty("message")) {
             vm.getmessage(res.data.message);
           }
-
-
         })
         .catch(function (err) {
           console.log(err);
+
+          if (
+            err.response.data.hasOwnProperty("message") &&
+            err.response.data.message == "DEVICE_ALREADY_ADDED"
+          ) {
+            vm.$store.commit("device/addCurrentDevice");
+          }
 
           if (err.response.data.hasOwnProperty("message")) {
             vm.getmessage(err.response.data.message);
@@ -163,13 +189,12 @@ export default {
 
             if (res.data.status == "true") {
               this.getDevice();
+              vm.$store.commit("device/removeCurrentDevice");
             }
 
             if (res.data.hasOwnProperty("message")) {
               this.getmessage(res.data.message);
             }
-
-            if (res.data.hasKey("status")) this.getmessage();
           })
           .catch(function (err) {
             console.log(err);
@@ -186,6 +211,14 @@ export default {
             vm.isInAsyncCall = false;
           });
       }
+    },
+
+    addGuest() {
+      this.$store.commit("device/addGuest");
+    },
+
+    removeGuest() {
+      this.$store.commit("device/removeGuestDevice");
     },
 
     visitorId() {

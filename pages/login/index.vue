@@ -159,7 +159,7 @@ export default {
 <style lang="css" scoped>
 .bg-img {
   /* background-image: url("~/assets/img/login-bg.jpg"); */
-  background-image: url("/_nuxt/assets/img/play store.svg");
+  background-image: url("~/assets/img/play-store.svg");
   background-position: center;
   background-size: 75%;
   background-repeat: no-repeat;

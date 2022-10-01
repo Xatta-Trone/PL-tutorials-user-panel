@@ -1,45 +1,50 @@
 <template>
   <div>
-    <CustomHeader
-      :title="$nuxt.$route.params.dept"
-      :subtitle="levelterms ? levelterms.name : $nuxt.$route.params.levelterm"
-    />
+    <template v-if="!deviceCheck.hasCheckedDevice">
+      <Devicecheck></Devicecheck>
+    </template>
 
-    <b-container>
-      <template v-if="loading">
-        <b-row class="my-5">
-          <b-col>
-            <loading></loading>
-          </b-col>
-        </b-row>
-      </template>
-      <template v-else>
-        <b-row v-if="levelterms" class="my-4">
-          <b-col
-            cols="3"
-            v-for="course in levelterms.course"
-            :key="course.id"
-            class="my-2"
-          >
-            <b-card :title="course.slug.toUpperCase()" class="h-100">
-              <b-card-text>
-                {{ course.course_name }}
-              </b-card-text>
+    <template v-else>
+      <CustomHeader
+        :title="$nuxt.$route.params.dept"
+        :subtitle="levelterms ? levelterms.name : $nuxt.$route.params.levelterm"
+      />
 
-              <b-button
-                :to="$nuxt.$route.params.levelterm + '/' + course.slug"
-                variant="primary"
-                >Click here</b-button
-              >
-            </b-card>
-          </b-col>
-        </b-row>
-        <b-row v-else class="mt-5 text-center" align-self="center">
-        <b-col><h2>No course found.</h2></b-col>
-      </b-row>
-      </template>
-    </b-container>
+      <b-container>
+        <template v-if="loading">
+          <b-row class="my-5">
+            <b-col>
+              <loading></loading>
+            </b-col>
+          </b-row>
+        </template>
+        <template v-else>
+          <b-row v-if="levelterms" class="my-4">
+            <b-col
+              cols="3"
+              v-for="course in levelterms.course"
+              :key="course.id"
+              class="my-2"
+            >
+              <b-card :title="course.slug.toUpperCase()" class="h-100">
+                <b-card-text>
+                  {{ course.course_name }}
+                </b-card-text>
 
+                <b-button
+                  :to="$nuxt.$route.params.levelterm + '/' + course.slug"
+                  variant="primary"
+                  >Click here</b-button
+                >
+              </b-card>
+            </b-col>
+          </b-row>
+          <b-row v-else class="mt-5 text-center" align-self="center">
+            <b-col><h2>No course found.</h2></b-col>
+          </b-row>
+        </template>
+      </b-container>
+    </template>
   </div>
 </template>
 <script>
@@ -52,8 +57,13 @@ export default {
   data() {
     return {
       levelterms: null,
-      loading:false,
+      loading: false,
     };
+  },
+  computed: {
+    deviceCheck() {
+      return this.$store.state.device;
+    },
   },
   mounted() {
     this.getData();
