@@ -19,6 +19,7 @@
 
             <b-nav-item to="/books">Books</b-nav-item>
             <b-nav-item to="/softwares">Softwares</b-nav-item>
+            <b-nav-item to="/contribute">Contribute</b-nav-item>
 
             <b-nav-item-dropdown text="Account" right to="#">
               <b-dropdown-item v-if="!$auth.loggedIn" to="/login"
@@ -33,9 +34,9 @@
               <!-- <b-dropdown-item v-if="$auth.loggedIn" to="/chat"
                 >Chat</b-dropdown-item
               > -->
-              <b-dropdown-item v-if="$auth.loggedIn" to="/contribute"
+              <!-- <b-dropdown-item v-if="$auth.loggedIn" to="/contribute"
                 >Contribute</b-dropdown-item
-              >
+              > -->
               <b-dropdown-item v-if="$auth.loggedIn" @click="logout"
                 >Logout</b-dropdown-item
               >

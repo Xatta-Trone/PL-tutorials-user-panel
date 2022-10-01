@@ -202,6 +202,12 @@
                     to open your account.
                   </p>
                 </b-tab>
+                <b-tab title="For Non-buetians">
+                  <p class="p-5 text-center ">
+                    We are sorry, this website is only for the undergraduate students of BUET. However, you can still access the <b-link to="/books">Books</b-link> section. <br> Have a good day!!
+
+                  </p>
+                </b-tab>
               </b-tabs>
             </div>
           </b-col>

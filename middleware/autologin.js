@@ -12,6 +12,9 @@ export default async function ({ store, redirect, route }) {
     //   store.commit("auth/SET", data.user);
     // }
 
+    // store.$auth.setToken("local", token);
+    // store.$auth.strategy._setToken(token);
+
     // store.commit("auth/setAuth", token);
 
     // if (!token) {

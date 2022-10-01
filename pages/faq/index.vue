@@ -70,7 +70,7 @@ export default {
     getData() {
       this.loading = true;
       this.$axios
-        .get("faqs/")
+        .get("faqs")
         .then((res) => {
           this.faqs = res.data.data;
           console.log(res.data);

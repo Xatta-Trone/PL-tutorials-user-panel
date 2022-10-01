@@ -32,9 +32,16 @@
             ></b-form-input>
           </b-form-group>
 
-          <p v-show="errMsg" class="text-danger text-sm">
+
+          <b-alert
+            v-show="errMsg != ''"
+            variant="danger"
+            dismissible
+            fade
+            show
+          >
             {{ errMsg }}
-          </p>
+          </b-alert>
 
           <b-button type="submit" variant="primary" class="text-white">{{
             btntxt
@@ -107,9 +114,7 @@ export default {
             this.btntxt = "Login successful";
             console.log("asdfsf", res.data);
             // set loggedin user
-            localStorage.setItem('auth_user',JSON.stringify(res.data));
-
-
+            localStorage.setItem("auth_user", JSON.stringify(res.data));
           });
       } catch (err) {
         this.btntxt = "Log in";
@@ -153,10 +158,12 @@ export default {
 
 <style lang="css" scoped>
 .bg-img {
-  background-image: url("~/assets/img/login-bg.jpg");
+  /* background-image: url("~/assets/img/login-bg.jpg"); */
+  background-image: url("/_nuxt/assets/img/play store.svg");
   background-position: center;
-  background-attachment: fixed;
-  background-size: cover;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-color: #fbfbfbb8;
 }
 /* .row {
   background-color: #f6f7fc;
