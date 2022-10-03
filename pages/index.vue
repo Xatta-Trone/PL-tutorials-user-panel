@@ -19,7 +19,7 @@
 <script>
 export default {
   head:{
-    title:'Home'
+    title:'Home - PL Tutorials'
   },
   layout: "content",
   data() {

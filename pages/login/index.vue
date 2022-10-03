@@ -86,6 +86,12 @@ import FingerprintJS from "@fingerprintjs/fingerprintjs";
 export default {
   layout: "auth",
   middleware: "guest",
+  head(){
+    return {
+      title: 'Login - PL Tutorials'
+    }
+  },
+
   data() {
     return {
       form: {

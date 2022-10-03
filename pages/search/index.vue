@@ -237,6 +237,11 @@ export default {
   layout: "content",
   middleware: "auth",
   components: { InfiniteLoading },
+   head(){
+    return {
+      title: 'Search - PL Tutorials'
+    }
+  },
 
   data() {
     return {

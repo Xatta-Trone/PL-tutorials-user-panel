@@ -51,6 +51,12 @@ export default {
   layout: "content",
   middleware: "auth",
 
+  head(){
+    return {
+      title: `${this.$nuxt.$route.params.dept.toUpperCase()}::${this.$nuxt.$route.params.levelterm.toUpperCase()}::${this.$nuxt.$route.params.course.toUpperCase()}- PL Tutorials`
+    }
+  },
+
   data() {
     return {
       course: null,

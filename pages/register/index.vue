@@ -225,6 +225,11 @@ export default {
   layout: "content",
   components: { CustomError, ImageBarcodeReader },
   middleware: ["guest"],
+   head(){
+    return {
+      title: 'Register - PL Tutorials'
+    }
+  },
 
   data() {
     return {

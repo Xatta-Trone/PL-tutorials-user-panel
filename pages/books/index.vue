@@ -37,7 +37,7 @@ export default {
   layout: "content",
   head(){
     return {
-      title: 'Books'
+      title: 'Books - PL Tutorials'
     }
   },
 

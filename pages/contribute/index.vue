@@ -37,6 +37,11 @@
 <script>
 export default {
   layout: "content",
+  head(){
+    return {
+      title: 'Contribute - PL Tutorials'
+    }
+  },
 
   data() {
     return {

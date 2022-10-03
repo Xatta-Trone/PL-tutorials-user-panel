@@ -39,6 +39,11 @@ import FingerprintJS from "@fingerprintjs/fingerprintjs";
 export default {
   layout: "content",
   middleware: "auth",
+  head(){
+    return {
+      title: 'Add Device - PL Tutorials'
+    }
+  },
 
   beforeRouteEnter(_to, from, next) {
     next((vm) => {

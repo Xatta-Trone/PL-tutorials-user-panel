@@ -51,6 +51,12 @@ export default {
   layout: "content",
   middleware: ["auth", ],
 
+  head(){
+    return {
+      title: `Department:: ${this.$nuxt.$route.params.dept.toUpperCase()} - PL Tutorials`
+    }
+  },
+
   data() {
     return {
       department: null,

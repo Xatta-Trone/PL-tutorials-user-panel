@@ -103,6 +103,11 @@ export default {
   layout: "content",
   middleware: "auth",
   components: { QrcodeVue, ChangePassword },
+   head(){
+    return {
+      title: 'Profile - PL Tutorials'
+    }
+  },
   data() {
     return {
       appUrl:

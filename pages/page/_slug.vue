@@ -34,6 +34,12 @@ export default {
     Loading,
   },
 
+  head(){
+    return {
+      title: `${this.$nuxt.$route.params.slug.replaceAll('-',' ').toLowerCase().replace(/\b\w/g, s => s.toUpperCase())} - PL Tutorials`
+    }
+  },
+
   data() {
     return {
       page: null,

@@ -52,6 +52,12 @@
 import Loading from "../../components/loading/Loading.vue";
 export default {
   layout: "content",
+  head(){
+    return {
+      title: 'Frequently asked questions - PL Tutorials'
+    }
+  },
+
   components: {
     Loading,
   },

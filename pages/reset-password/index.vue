@@ -104,6 +104,11 @@ export default {
   layout: "content",
   components: { CustomError },
    middleware: "guest",
+    head(){
+    return {
+      title: 'Reset password - PL Tutorials'
+    }
+  },
 
   data() {
     return {

@@ -42,6 +42,11 @@ import Loading from "../../components/loading/Loading.vue";
 
 export default {
   layout: "content",
+  head(){
+    return {
+      title: 'Departments - PL Tutorials'
+    }
+  },
 
   data() {
     return {

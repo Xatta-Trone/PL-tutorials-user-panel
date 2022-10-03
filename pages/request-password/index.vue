@@ -74,6 +74,11 @@ export default {
   layout: "content",
   components: { CustomError },
   middleware: "guest",
+   head(){
+    return {
+      title: 'Request password - PL Tutorials'
+    }
+  },
   //  auth: true,
 
   data() {

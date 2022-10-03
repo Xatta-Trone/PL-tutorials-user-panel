@@ -58,6 +58,11 @@
 export default {
   layout: "content",
   middleware: "auth",
+   head(){
+    return {
+      title: 'Softwares - PL Tutorials'
+    }
+  },
 
   data() {
     return {

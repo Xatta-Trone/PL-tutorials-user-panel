@@ -50,6 +50,11 @@
 <script>
 export default {
   layout: "content",
+  head(){
+    return {
+      title: 'Contact - PL Tutorials'
+    }
+  },
 
   data() {
     return {
