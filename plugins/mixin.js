@@ -185,7 +185,7 @@ var mixin = {
     },
 
     formatDateToString(date) {
-      console.log(date);
+      // console.log(date);
       return new Intl.DateTimeFormat("en-US", {
         // formatString: '%M %d %y, %h:%m:%s %a',
         dateStyle: "medium",

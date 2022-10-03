@@ -148,7 +148,9 @@ export default {
       let d = words.find((e) => e.includes("dept")).split("=")[1];
       let l = words.find((e) => e.includes("l_t")).split("=")[1];
       let c = words.find((e) => e.includes("content_type")).split("=")[1];
-      // console.log(words,q,d,l);
+      let cs = words.find((e) => e.includes("course_slug"))?.split("=")[1];
+      let ct = words.find((e) => e.includes("course_title"))?.split("=")[1];
+      // console.log(words,q,d,l,cs,ct);
 
       let finalString = "Searched";
 
@@ -156,20 +158,48 @@ export default {
         finalString +=  ' for '+ q;
       }
 
-      if (d) {
-        finalString += ` in ${d.toUpperCase()} department`;
-      }
+      finalString += ` ${this.getDeptString(d,l,cs,ct)}`;
 
-      if (l) {
-        finalString += ` ${l} level-term`;
-      }
+      // if (d) {
+      //   finalString += ` in ${d.toUpperCase()} department`;
+      // }
+
+      // if (l) {
+      //   finalString += ` ${l} level-term`;
+      // }
 
       if (c) {
-        finalString += ` for ${c}.`;
+        finalString += ` :: content type: ${c}.`;
       }
 
       return finalString;
     },
+
+    getDeptString(dept,levelTerm,course_slug,course_name){
+
+      console.log(dept,levelTerm,course_slug,course_name);
+      let returnString = "";
+
+      if(dept.length > 0){
+        returnString += `${dept}`;
+      }
+      if(levelTerm.length > 0){
+        returnString += `/${levelTerm}`;
+      }
+      if(course_slug != undefined){
+        returnString += `/${course_slug}`;
+      }
+
+     returnString =  returnString.toUpperCase();
+
+       if(course_name != undefined){
+        returnString += ` ${course_name}`;
+      }
+
+      return returnString;
+
+
+    }
   },
 };
 </script>

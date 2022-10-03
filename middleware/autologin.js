@@ -1,10 +1,21 @@
-export default async function ({ store, redirect, route }) {
-  console.log("[PLUGIN] Auth (Client)");
+export default async function ({ store, redirect, route, $auth, axios }) {
+  console.log("[middleware] Auth (Client)");
+  // console.log($auth);
 
-  try {
+  if (!store.state.autoauth.isLoadedFromAutoAuth) {
     const token = localStorage.getItem("auth_user");
     let data = JSON.parse(token);
-    console.log(data, store.$auth.loggedIn);
+    // console.log(data, store.$auth.loggedIn);
+
+    if (data != null) {
+      // store.state.auth.setUser(data.user);
+      store.commit("autoauth/setAutoAuthLoaded");
+      // store.commit("auth/SET", { key: "user", value: data.user }); // set state auth
+      // store.commit("auth/SET", { key: "loggedIn", value: true }); // set state auth
+
+      // store.state.auth.setUserToken(data.access_token);
+      // store.commit("SET_USER_TOKEN", data.access_token); // set state auth
+    }
 
     // if (store.$auth.loggedIn) {
     //   //try logging in
@@ -29,7 +40,5 @@ export default async function ({ store, redirect, route }) {
     //   console.log("redirecting... 2");
     //   return redirect(401, "/auth/login?2");
     // }
-  } catch (e) {
-    return redirect(401, "/login");
   }
 }
