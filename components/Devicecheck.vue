@@ -38,6 +38,31 @@
             </b-alert>
           </b-col>
         </b-row>
+        <b-row>
+        <b-list-group
+          v-if="deviceResponse && deviceResponse.devices.length > 0"
+        >
+          <b-list-group-item
+            v-for="device in deviceResponse.devices"
+            :key="device.id"
+            class="my-3"
+          >
+            <b-badge variant="primary">{{ device.ip_address }}</b-badge>
+            <b-badge variant="danger" v-show="device.fingerprint == fingerprint">This device</b-badge>
+            {{ device.device }} <br />
+
+            {{ device.location }}<br />
+            Last updated: {{ formatDateToString(device.updated_at) }}<br />
+
+            <b-button @click="removeDevice(device.id)" variant="danger"
+              >Remove device</b-button
+            >
+          </b-list-group-item>
+        </b-list-group>
+        <b-alert v-else show variant="info" class="w-100 mx-auto text-center "
+          >No device registered</b-alert
+        >
+      </b-row>
       </template>
     </b-container>
   </div>
@@ -71,6 +96,7 @@ export default {
   },
   mounted() {
     this.visitorId();
+     this.getDevice();
   },
 
   methods: {
@@ -120,6 +146,47 @@ export default {
         });
     },
 
+    getDevice() {
+      let vm = this;
+      vm.isInAsyncCall = true;
+      this.$axios
+        .get("user-devices")
+        .then((res) => {
+          console.log(res);
+          this.deviceResponse = res.data;
+
+          if (res.data.devices) {
+            var check = res.data.devices.find(
+              (device) => device.fingerprint == vm.fingerprint
+            );
+            if (check != null) {
+              vm.isInSavedDevice = true;
+              vm.$store.commit("device/addCurrentDevice");
+            } else {
+              vm.isInSavedDevice = false;
+            }
+          }
+
+          if (res.data.hasOwnProperty("message")) {
+            this.getmessage(res.data.message);
+          }
+        })
+        .catch(function (err) {
+          console.log(err);
+
+          if (err.response.data.hasOwnProperty("message")) {
+            this.getmessage(err.response.data.message);
+          }
+
+          if (err.response.data.hasOwnProperty("errors")) {
+            this.serverErrors = Object.entries(err.response.data.errors);
+          }
+        })
+        .finally(() => {
+          vm.isInAsyncCall = false;
+        });
+    },
+
     addGuest() {
       this.$store.commit("device/addGuest");
     },
@@ -144,6 +211,41 @@ export default {
         const visitorId = result.visitorId;
         this.fingerprint = visitorId;
       })();
+    },
+    removeDevice(id) {
+      if (confirm("Are you sure ?")) {
+        let vm = this;
+        vm.isInAsyncCall = true;
+        this.$axios
+          .delete(`user-devices/${id}`)
+
+          .then((res) => {
+            console.log(res);
+
+            if (res.data.status == "true") {
+              this.getDevice();
+              vm.$store.commit("device/removeCurrentDevice");
+            }
+
+            if (res.data.hasOwnProperty("message")) {
+              this.getmessage(res.data.message);
+            }
+          })
+          .catch(function (err) {
+            console.log(err);
+
+            if (err.response.data.hasOwnProperty("message")) {
+              this.getmessage(err.response.data.message);
+            }
+
+            if (err.response.data.hasOwnProperty("errors")) {
+              this.serverErrors = Object.entries(err.response.data.errors);
+            }
+          })
+          .finally(() => {
+            vm.isInAsyncCall = false;
+          });
+      }
     },
   },
 };

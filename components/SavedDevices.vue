@@ -29,8 +29,10 @@
           <b-list-group-item
             v-for="device in deviceResponse.devices"
             :key="device.id"
+            class="my-3"
           >
             <b-badge variant="primary">{{ device.ip_address }}</b-badge>
+            <b-badge variant="danger" v-show="device.fingerprint == fingerprint">This device</b-badge>
             {{ device.device }} <br />
 
             {{ device.location }}<br />
