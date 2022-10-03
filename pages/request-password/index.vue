@@ -73,6 +73,8 @@ import { required, email } from "vuelidate/lib/validators";
 export default {
   layout: "content",
   components: { CustomError },
+  middleware: "guest",
+  //  auth: true,
 
   data() {
     return {

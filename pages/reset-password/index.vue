@@ -103,6 +103,7 @@ import { required, minLength, sameAs } from "vuelidate/lib/validators";
 export default {
   layout: "content",
   components: { CustomError },
+   middleware: "guest",
 
   data() {
     return {

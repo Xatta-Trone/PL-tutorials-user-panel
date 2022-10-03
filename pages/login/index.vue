@@ -85,7 +85,7 @@
 import FingerprintJS from "@fingerprintjs/fingerprintjs";
 export default {
   layout: "auth",
-  // middleware: "guest",
+  middleware: "guest",
   data() {
     return {
       form: {
