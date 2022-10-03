@@ -81,6 +81,13 @@ export default {
       quote: null,
     };
   },
+   computed: {
+    darkMode() {
+      return this.$store.state.darkmode;
+    },
+
+  },
+
   mounted() {
     this.getQuote();
   },
@@ -113,6 +120,12 @@ export default {
   background-size: cover;
   background-position: center center;
   /* background-attachment: fixed; */
+}
+
+body.dark-mode .hero-area {
+
+   background-image: url("~/assets/img/dark-bg3.jpg");
+
 }
 
 .center-content {

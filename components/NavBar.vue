@@ -64,7 +64,9 @@
                 }}</b-dropdown-item>
               </div>
             </b-nav-item-dropdown>
-            <b-nav-item @click="modeToggle">{{ darkMode.isDark ? 'Light' : 'Dark' }} mode</b-nav-item>
+            <b-nav-item @click="modeToggle"
+              >{{ darkMode.isDark ? "Light" : "Dark" }} mode</b-nav-item
+            >
           </b-navbar-nav>
         </b-collapse>
       </b-navbar>
@@ -86,11 +88,10 @@ export default {
       departments: [],
       isSticky: false,
       pages: [],
-
     };
   },
 
-   computed: {
+  computed: {
     darkMode() {
       return this.$store.state.darkmode;
     },
@@ -141,8 +142,6 @@ export default {
       }
     },
 
-
-
     modeToggle() {
       if (
         this.darkMode.darkMode ||
@@ -188,4 +187,7 @@ export default {
 .dropdown-item:focus {
   background-color: #17a2b8;
 }
+
+/* dark mode */
+
 </style>

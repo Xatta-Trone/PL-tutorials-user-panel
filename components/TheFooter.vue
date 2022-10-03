@@ -4,7 +4,7 @@
       <b-row>
         <b-col class="text-center">
           © All rights reserved
-          <span class="text-primary">PL Tutorials</span> || Developed by <a href="#">Tejpata</a>
+          <a href="https://www.facebook.com/thepltutorials" target="_blank"><span class="text-primary">PL Tutorials</span> </a> || Developed by <a href="https://www.facebook.com/monzurul.islam1112" target="_blank"><span class="text-primary">Tejpata</span> </a>
         </b-col>
       </b-row>
     </b-container>

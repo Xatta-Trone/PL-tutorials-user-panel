@@ -38,19 +38,111 @@ h6 {
 h4.card-title {
   letter-spacing: normal;
 }
+.btn:disabled {
+  cursor: not-allowed;
+}
 // @import "~/node_modules/bootstrap/scss/bootstrap.scss";
 
 // dark mode
 
-$dark: #171717;
+$dark: #1b2431;
 $mode-toggle-bg: #262626;
+$text-color: #fff;
+$text-color-alt: #313d4f;
+$border-color: #313d4f;
+$text-hover-color: #a9c7df;
+$text-danger: #e0102b;
+$theme-color: #17a2b8;
 
 // _dark-mode.scss
 body {
   &.dark-mode {
-    background-color: lighten($dark, 5%);
+    background-color: $dark;
+    color: $text-color;
+    a {
+      color: $text-color;
+    }
 
-    color: #fff;
+    // navbar
+    .pl-nav {
+      background: $dark;
+    }
+    .dropdown-menu.show {
+      background: lighten($color: $dark, $amount: 5%);
+      padding: 0;
+    }
+
+    .dropdown-item:hover,
+    .dropdown-item:focus {
+      background-color: #17a2b8;
+    }
+
+    // info area
+    .info-card {
+      box-shadow: 0 0 15px $dark;
+    }
+
+    .info-card h5 {
+      color: $text-color;
+    }
+
+    // app area
+    .android {
+      background: darken($color: $dark, $amount: 5%);
+    }
+    // bootstrap
+    .form-control {
+      background-color: $dark;
+      color: $text-color;
+    }
+    .text-dark {
+      color: $text-color !important;
+    }
+    .card,
+    .list-group-item {
+      background-color: darken($color: $dark, $amount: 5%);
+      color: $text-color;
+    }
+    .custom-select {
+      background-color: $dark;
+      color: $text-color;
+    }
+
+    .text-danger {
+      color: $text-color !important;
+    }
+    .text-danger:hover,
+    a.text-dark:hover,
+    a.text-dark:focus {
+      color: darken($text-color, 10%) !important;
+    }
+
+    // footer
+    .myfooter {
+      border-top: 1px solid $border-color;
+    }
+    // login page
+    .bg-img {
+      background-color: darken($color: $dark, $amount: 5%);
+    }
+    // vue datatables
+    .VueTables__table.table {
+      color: $text-color !important;
+    }
+    .table-hover tbody tr:hover {
+      color: $text-hover-color;
+    }
+    .btn-outline-primary,
+    .btn-outline-info {
+      color: $text-color;
+      border-color: $text-color;
+    }
+    .page-link {
+      color: $text-color-alt !important;
+    }
+    .page-item.active {
+      color: $text-color !important;
+    }
   }
 }
 // Include Bootstrap and BootstrapVue SCSS files

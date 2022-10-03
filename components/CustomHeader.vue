@@ -36,6 +36,11 @@ export default {
   background-color: #333;
   position: relative;
 }
+
+body.dark-mode .hero_title_section {
+  background-image: url("~/assets/img/dark-bg4.jpg");
+
+}
 .hero_title_section:before {
   position: absolute;
   left: 0;

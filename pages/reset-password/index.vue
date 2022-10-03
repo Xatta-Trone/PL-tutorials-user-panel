@@ -54,10 +54,14 @@
                 </b-form-group>
 
                 <div class="mb-2" v-if="errMsg || successMsg">
-                  <small v-if="errMsg" class="text-danger">{{ errMsg }}</small>
-                  <small v-if="successMsg" class="text-success"
-                    >Password changed successfully. Please login now.</small
-                  >
+                  <b-alert v-if="errMsg" show variant="danger" class="my-2">
+                      {{ errMsg }}
+                    </b-alert>
+
+                     <b-alert v-if="successMsg" show variant="primary" class="my-2">
+                      Password changed successfully. Please <b-link to="/login">login now</b-link>.
+                    </b-alert>
+
                 </div>
 
                 <b-button

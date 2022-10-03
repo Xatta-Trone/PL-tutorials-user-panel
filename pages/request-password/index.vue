@@ -21,7 +21,11 @@
                   <b-form-invalid-feedback :state="!$v.form.email.$error">
                     Email is required & must be a valid email address.
                   </b-form-invalid-feedback>
-                  <small v-if="errMsg" class="text-danger">{{ errMsg }}</small>
+
+
+                  <b-alert v-if="errMsg" show variant="danger" class="my-2">
+                      {{ errMsg }}
+                    </b-alert>
 
                     <b-alert v-if="successMsg" show variant="success" class="my-2">
                       Please check your email (spam too) for the password reset link.
@@ -130,7 +134,9 @@ export default {
           if (err.response.data.hasOwnProperty("errors")) {
             this.serverErrors = Object.entries(err.response.data.errors);
           }
-        });
+        }).finally(() => {
+          vm.loading = false;
+        })
     },
   },
   validations: {

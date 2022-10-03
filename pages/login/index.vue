@@ -43,7 +43,7 @@
             {{ errMsg }}
           </b-alert>
 
-          <b-button type="submit" variant="primary" class="text-white">{{
+          <b-button type="submit" :disabled="isInAsyncCall" variant="primary" class="text-white">{{
             btntxt
           }}</b-button>
 
@@ -101,6 +101,7 @@ export default {
       },
       btntxt: "Log in",
       errMsg: "",
+      isInAsyncCall: false,
     };
   },
   mounted() {
@@ -108,6 +109,7 @@ export default {
   },
   methods: {
     async userLogin() {
+      this.isInAsyncCall = true;
       this.errMsg = "";
       this.visitorId();
       try {
@@ -134,6 +136,9 @@ export default {
           this.errMsg = "Something went wrong! :(";
           this.getmessage("Something went wrong");
         }
+      } finally  {
+        this.isInAsyncCall = false;
+
       }
     },
     visitorId() {
