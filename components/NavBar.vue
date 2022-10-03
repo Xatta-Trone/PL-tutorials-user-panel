@@ -44,11 +44,13 @@
               >
             </b-nav-item-dropdown>
 
-
             <b-nav-item-dropdown text="More" right>
               <b-dropdown-item to="/faq">FAQ</b-dropdown-item>
-              <b-dropdown-item href="https://play.google.com/store/apps/details?id=com.pltutorials.plandroid" target="_blank">Android App</b-dropdown-item>
-
+              <b-dropdown-item
+                href="https://play.google.com/store/apps/details?id=com.pltutorials.plandroid"
+                target="_blank"
+                >Android App</b-dropdown-item
+              >
 
               <div v-for="page in pages" :key="page.id">
                 <b-dropdown-item :to="'/page/' + page.slug">{{
@@ -62,6 +64,7 @@
                 }}</b-dropdown-item>
               </div>
             </b-nav-item-dropdown>
+            <b-nav-item @click="modeToggle">{{ darkMode.isDark ? 'Light' : 'Dark' }} mode</b-nav-item>
           </b-navbar-nav>
         </b-collapse>
       </b-navbar>
@@ -83,7 +86,14 @@ export default {
       departments: [],
       isSticky: false,
       pages: [],
+
     };
+  },
+
+   computed: {
+    darkMode() {
+      return this.$store.state.darkmode;
+    },
   },
 
   mounted() {
@@ -102,6 +112,7 @@ export default {
   },
   methods: {
     getDepatments() {
+      console.log("getting departments");
       this.$axios
         .get("departments")
         .then((res) => (this.departments = res.data.data))
@@ -127,6 +138,19 @@ export default {
         } catch (err) {
           console.log("err", err);
         }
+      }
+    },
+
+
+
+    modeToggle() {
+      if (
+        this.darkMode.darkMode ||
+        document.querySelector("body").classList.contains("dark-mode")
+      ) {
+        this.$store.commit("darkmode/setLight");
+      } else {
+        this.$store.commit("darkmode/setDark");
       }
     },
   },

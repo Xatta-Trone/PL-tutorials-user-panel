@@ -40,6 +40,19 @@ h4.card-title {
 }
 // @import "~/node_modules/bootstrap/scss/bootstrap.scss";
 
+// dark mode
+
+$dark: #171717;
+$mode-toggle-bg: #262626;
+
+// _dark-mode.scss
+body {
+  &.dark-mode {
+    background-color: lighten($dark, 5%);
+
+    color: #fff;
+  }
+}
 // Include Bootstrap and BootstrapVue SCSS files
 @import "~bootstrap/scss/bootstrap.scss";
 @import "~bootstrap-vue/src/index.scss";
