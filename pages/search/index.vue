@@ -265,7 +265,7 @@ export default {
       infiniteId: +new Date(),
     };
   },
-    computed: {
+  computed: {
     deviceCheck() {
       return this.$store.state.device;
     },
@@ -273,14 +273,17 @@ export default {
 
   mounted() {
     this.getDepatments();
-    this.getLevelTerms();
+    // this.getLevelTerms();
     this.getCourses();
   },
   methods: {
     getDepatments() {
       this.$axios
         .get("departments")
-        .then((res) => (this.departments = res.data.data))
+        .then((res) => {
+          this.departments = res.data.data;
+        })
+        .then(() => this.getLevelTerms())
         .catch(function (err) {
           console.log(err);
           alert(err.response.status);
@@ -291,8 +294,27 @@ export default {
       this.$axios
         .get("level-terms")
         .then((res) => {
-          this.levelterms = res.data.data;
-          this.all_levelterms = res.data.data;
+          let mappedLevelTermData = res.data.data
+            .map((levelTerm) => {
+              const dept = this.departments.find(
+                (dept) => dept.id == levelTerm.department_id
+              );
+
+              if (dept != undefined) {
+                levelTerm.dept = dept;
+                levelTerm.name = `[${dept.slug.toUpperCase()}] ${
+                  levelTerm.name
+                }`;
+              }
+
+              return levelTerm;
+            })
+            .sort(function (a, b) {
+              return a.name.localeCompare(b.name);
+            });
+
+          this.levelterms = mappedLevelTermData;
+          this.all_levelterms = mappedLevelTermData;
         })
         .catch(function (err) {
           console.log(err);
@@ -304,8 +326,18 @@ export default {
       this.$axios
         .get("courses")
         .then((res) => {
-          this.courses = res.data.data;
-          this.all_courses = res.data.data;
+          let mappedCourses = res.data.data
+            .map((course) => {
+              course.course_name = `[${course.slug.toUpperCase()}] ${course.course_name}`;
+              return course;
+            })
+            .sort(function (a, b) {
+              return a.slug.localeCompare(b.slug);
+            });
+          console.log(mappedCourses);
+
+          this.courses = mappedCourses;
+          this.all_courses = mappedCourses;
         })
         .catch(function (err) {
           console.log(err);
@@ -327,7 +359,7 @@ export default {
     },
 
     getCourseSlug(course_id) {
-      if(course_id == null || course_id == ""){
+      if (course_id == null || course_id == "") {
         return;
       }
       if (this.courses == []) {
@@ -341,7 +373,7 @@ export default {
     },
 
     getCourseById(course_id) {
-      if(course_id == null || course_id == "" ){
+      if (course_id == null || course_id == "") {
         return "";
       }
       if (this.courses == []) {
@@ -388,14 +420,12 @@ export default {
         label += `${key}=${value},`;
       });
 
-      if(this.form.course_id){
+      if (this.form.course_id) {
         let course = this.getCourseById(this.form.course_id);
-        if(course){
+        if (course) {
           label += `course_slug=${course.slug},course_title=${course.course_name}`;
         }
       }
-
-
 
       this.saveActivity({
         activity: "searched",
@@ -427,15 +457,15 @@ export default {
       window.open(data.link, "_blank").focus();
     },
 
-    getAdditionalData(data){
-      if(data.post_type == 'post'){
-        let courseSlug =this.getCourseSlug(data.course_id);
-        return `${data.department_slug}/${data.level_term_slug}/${courseSlug == undefined ? '' : courseSlug}`.toUpperCase();
+    getAdditionalData(data) {
+      if (data.post_type == "post") {
+        let courseSlug = this.getCourseSlug(data.course_id);
+        return `${data.department_slug}/${data.level_term_slug}/${
+          courseSlug == undefined ? "" : courseSlug
+        }`.toUpperCase();
       }
       return data.author;
-    }
-
-
+    },
   },
   watch: {
     "form.l_t": {
@@ -488,7 +518,7 @@ export default {
 .infinite-loading-container {
   width: 100%;
 }
-.list-group{
+.list-group {
   cursor: pointer;
 }
 </style>
