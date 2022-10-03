@@ -153,14 +153,27 @@ export default {
     "@nuxtjs/dotenv",
     "@nuxtjs/auth-next",
     "@nuxtjs/proxy",
+    "@nuxtjs/sitemap",
   ],
+
+  sitemap: {
+    hostname:
+      process.env.NODE_ENV !== "production"
+        ? process.env.BASE_URL
+        : process.env.PROD_BASE_URL,
+    defaults: {
+      changefreq: "daily",
+      priority: 1,
+      lastmod: new Date(),
+    },
+  },
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
   axios: {
     // Workaround to avoid enforcing hard-coded localhost:3000: https://github.com/nuxt-community/axios-module/issues/308
     baseURL:
       process.env.NODE_ENV !== "production"
-        ? process.env.SERVER_URL
+        ? process.env.base
         : process.env.PROD_SERVER_URL,
     credentials: true,
     // proxy: true,
