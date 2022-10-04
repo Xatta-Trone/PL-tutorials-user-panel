@@ -237,10 +237,10 @@ export default {
   layout: "content",
   middleware: "auth",
   components: { InfiniteLoading },
-   head(){
+  head() {
     return {
-      title: 'Search - PL Tutorials'
-    }
+      title: "Search - PL Tutorials",
+    };
   },
 
   data() {
@@ -321,6 +321,7 @@ export default {
           this.levelterms = mappedLevelTermData;
           this.all_levelterms = mappedLevelTermData;
         })
+        // .then(() => this.getCourses())
         .catch(function (err) {
           console.log(err);
           alert(err.response.status);
@@ -333,7 +334,10 @@ export default {
         .then((res) => {
           let mappedCourses = res.data.data
             .map((course) => {
-              course.course_name = `[${course.slug.toUpperCase()}] ${course.course_name}`;
+              course.course_name = `[${course.slug.toUpperCase()}] ${
+                course.course_name
+              }`;
+              // course.dept = this.getDeptById(course.department_id);
               return course;
             })
             .sort(function (a, b) {
@@ -389,6 +393,14 @@ export default {
       );
       if (c[0] == undefined) return "";
       return c[0];
+    },
+
+    getDeptById(deptId) {
+      if (!deptId) {
+        return null;
+      }
+
+      return this.departments.find((dept) => dept.id == deptId);
     },
 
     infiniteHandler($state) {
@@ -476,20 +488,38 @@ export default {
     "form.l_t": {
       handler: function (after, before) {
         // Changes detected. Do work...
-        console.log(after, before);
+        console.log(after, before, this.form.l_t);
 
         if (after === "" || after == null) {
           this.courses = this.all_courses;
         } else {
-          let selectedLevelTerm = this.all_levelterms.filter(
-            (lt) => lt.slug == after
-          )[0].id;
+          // check if dept selected
+          let selectedDept = this.form.dept ? this.form.dept : null;
 
-          let filterCourseByLevelTerm = this.all_courses.filter(
-            (c) => c.level_term_id == selectedLevelTerm
-          );
+          console.log("selectedDept", selectedDept);
+          console.log("selected LT", after);
+
+          // if (typeof after == 'number') {
+          //   let selectedLevelTerm = this.all_levelterms.find(
+          //     (lt) => lt.id == after
+          //   );
+
+          //   console.log("selected LT", selectedLevelTerm);
+
+          //   this.form.l_t = selectedLevelTerm.slug;
+          // }
+
+          let filterCourseByLevelTerm = this.all_courses.filter((c) => {
+            if (selectedDept) {
+              return (
+                c.department.slug == selectedDept && c.levelterm.slug == after
+              );
+            } else {
+              return c.levelterm.slug == after;
+            }
+          });
           this.courses = filterCourseByLevelTerm;
-          console.log(selectedLevelTerm);
+          // console.log("selected level term", selectedLevelTerm);
         }
       },
       deep: true,
