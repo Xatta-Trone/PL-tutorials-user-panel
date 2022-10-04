@@ -35,6 +35,11 @@ h6 {
 .VueTables__search-field label {
   justify-content: start !important;
 }
+.table-bordered th,
+.table-bordered td {
+  border: 1px solid #ddd !important;
+}
+
 h4.card-title {
   letter-spacing: normal;
 }
@@ -131,6 +136,10 @@ body {
     }
     .table-hover tbody tr:hover {
       color: $text-hover-color;
+    }
+    .table-bordered th,
+    .table-bordered td {
+      border: 1px solid $border-color !important;
     }
     .btn-outline-primary,
     .btn-outline-info {

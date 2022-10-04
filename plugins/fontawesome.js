@@ -13,6 +13,7 @@ import {
   faSortDown,
   faFileDownload,
   faInfoCircle,
+  faSort,
 } from "@fortawesome/free-solid-svg-icons";
 // import { far } from "@fortawesome/free-regular-svg-icons";
 import {
@@ -36,6 +37,7 @@ library.add(
   faSortDown,
   faFileDownload,
   faInfoCircle,
+  faSort,
   faFacebook,
   faYoutube,
   faFacebookMessenger
