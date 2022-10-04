@@ -207,19 +207,8 @@ export default {
       if(dId){
         vm.fingerprint = dId;
       }
-
-      let ec = new evercookie();
-      ec.get("deviceId", function (value) {
-        console.log("Cookie value is " + value);
-        if (value.includes("<!doctype html>") == false) {
-          fingerprint = value;
-          vm.fingerprint = fingerprint;
-          localStorage.setItem("deviceId",fingerprint);
-          console.log('form ec deviceId',fingerprint);
-          // return;
-        } else {
-          // Initialize an agent at application startup.
-          const fpPromise = FingerprintJS.load();
+      else{
+         const fpPromise = FingerprintJS.load();
           (async () => {
             // Get the visitor identifier when you need it.
             const fp = await fpPromise;
@@ -229,11 +218,11 @@ export default {
             const visitorId = result.visitorId;
             fingerprint = visitorId;
             vm.fingerprint = fingerprint;
-            ec.set("deviceId", visitorId);
             localStorage.setItem("deviceId",visitorId);
           })();
-        }
-      });
+
+      }
+
     },
     removeDevice(id) {
       if (confirm("Are you sure ?")) {

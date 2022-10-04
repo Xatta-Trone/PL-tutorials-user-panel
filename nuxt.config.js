@@ -84,18 +84,18 @@ export default {
       // },
     ],
     script: [
-      {
-        src: "https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.1/jquery.min.js",
-        body: true,
-      },
-      {
-        src: "/js/swfobject-2.2.min.js",
-        body: true,
-      },
-      {
-        src: "/js/evercookie.js",
-        body: true,
-      },
+      // {
+      //   src: "https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.1/jquery.min.js",
+      //   body: true,
+      // },
+      // {
+      //   src: "/js/swfobject-2.2.min.js",
+      //   body: true,
+      // },
+      // {
+      //   src: "/js/evercookie.js",
+      //   body: true,
+      // },
     ],
   },
   router: {

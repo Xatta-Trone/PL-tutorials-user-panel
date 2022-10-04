@@ -137,37 +137,34 @@ export default {
         this.isInAsyncCall = false;
       }
     },
-     visitorId() {
+    visitorId() {
       console.log("Visitor Id called");
       let vm = this;
       let fingerprint = null;
 
-      let ec = new evercookie();
-      ec.get("deviceId", function (value) {
-        console.log("Cookie value is " + value);
-        if (value.includes("<!doctype html>") == false) {
-          fingerprint = value;
-          vm.form.fingerprint = fingerprint;
-          localStorage.setItem("deviceId",fingerprint);
-          console.log('form ec deviceId',fingerprint);
-          // return;
-        } else {
-          // Initialize an agent at application startup.
-          const fpPromise = FingerprintJS.load();
-          (async () => {
-            // Get the visitor identifier when you need it.
-            const fp = await fpPromise;
-            const result = await fp.get();
+      // check if visitor id exists
+      let dId = localStorage.getItem("deviceId");
 
-            // This is the visitor identifier:
-            const visitorId = result.visitorId;
-            fingerprint = visitorId;
-            vm.form.fingerprint = fingerprint;
-            ec.set("deviceId", visitorId);
-            localStorage.setItem("deviceId",visitorId);
-          })();
-        }
-      });
+      if (dId) {
+        vm.form.fingerprint = dId;
+        console.log("visitor id login page", dId);
+      } else {
+        // Initialize an agent at application startup.
+        const fpPromise = FingerprintJS.load();
+        (async () => {
+          // Get the visitor identifier when you need it.
+          const fp = await fpPromise;
+          const result = await fp.get();
+
+          // This is the visitor identifier:
+          const visitorId = result.visitorId;
+          fingerprint = visitorId;
+          vm.form.fingerprint = fingerprint;
+          localStorage.setItem("deviceId", visitorId);
+
+        })();
+      }
+
     },
   },
 };
