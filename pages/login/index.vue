@@ -32,20 +32,17 @@
             ></b-form-input>
           </b-form-group>
 
-
-          <b-alert
-            v-show="errMsg != ''"
-            variant="danger"
-            dismissible
-            fade
-            show
-          >
+          <b-alert v-show="errMsg != ''" variant="danger" dismissible fade show>
             {{ errMsg }}
           </b-alert>
 
-          <b-button type="submit" :disabled="isInAsyncCall" variant="primary" class="text-white">{{
-            btntxt
-          }}</b-button>
+          <b-button
+            type="submit"
+            :disabled="isInAsyncCall"
+            variant="primary"
+            class="text-white"
+            >{{ btntxt }}</b-button
+          >
 
           <b-form-group class="mt-5">
             <b-row>
@@ -86,10 +83,10 @@ import FingerprintJS from "@fingerprintjs/fingerprintjs";
 export default {
   layout: "auth",
   middleware: "guest",
-  head(){
+  head() {
     return {
-      title: 'Login - PL Tutorials'
-    }
+      title: "Login - PL Tutorials",
+    };
   },
 
   data() {
@@ -120,9 +117,9 @@ export default {
           })
           .then((res) => {
             this.btntxt = "Login successful";
-            console.log("asdfsf", res.data);
+            // console.log("asdfsf", res.data);
             // set loggedin user
-            localStorage.setItem("auth_user", JSON.stringify(res.data));
+            // localStorage.setItem("auth_user", JSON.stringify(res.data));
           });
       } catch (err) {
         this.btntxt = "Log in";
@@ -136,32 +133,41 @@ export default {
           this.errMsg = "Something went wrong! :(";
           this.getmessage("Something went wrong");
         }
-      } finally  {
+      } finally {
         this.isInAsyncCall = false;
-
       }
     },
-    visitorId() {
-      console.log("function called");
-      console.log(localStorage.getItem("visitorid"));
+     visitorId() {
+      console.log("Visitor Id called");
+      let vm = this;
+      let fingerprint = null;
 
-      // Initialize an agent at application startup.
-      const fpPromise = FingerprintJS.load();
+      let ec = new evercookie();
+      ec.get("deviceId", function (value) {
+        console.log("Cookie value is " + value);
+        if (value.includes("<!doctype html>") == false) {
+          fingerprint = value;
+          vm.form.fingerprint = fingerprint;
+          localStorage.setItem("deviceId",fingerprint);
+          console.log('form ec deviceId',fingerprint);
+          // return;
+        } else {
+          // Initialize an agent at application startup.
+          const fpPromise = FingerprintJS.load();
+          (async () => {
+            // Get the visitor identifier when you need it.
+            const fp = await fpPromise;
+            const result = await fp.get();
 
-      (async () => {
-        // Get the visitor identifier when you need it.
-        const fp = await fpPromise;
-        const result = await fp.get();
-
-        // This is the visitor identifier:
-        const visitorId = result.visitorId;
-        this.form.fingerprint = visitorId;
-      })();
-
-      // // console.log("from compoenent", window.fingerprint.visitorId);
-      // if (window.fingerprint) {
-      //   this.fingerprint = window.fingerprint.visitorId;
-      // }
+            // This is the visitor identifier:
+            const visitorId = result.visitorId;
+            fingerprint = visitorId;
+            vm.form.fingerprint = fingerprint;
+            ec.set("deviceId", visitorId);
+            localStorage.setItem("deviceId",visitorId);
+          })();
+        }
+      });
     },
   },
 };

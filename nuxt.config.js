@@ -83,9 +83,23 @@ export default {
       //   href: "https://pl-tutorials.com/user/css/responsive.css",
       // },
     ],
+    script: [
+      {
+        src: "https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.1/jquery.min.js",
+        body: true,
+      },
+      {
+        src: "/js/swfobject-2.2.min.js",
+        body: true,
+      },
+      {
+        src: "/js/evercookie.js",
+        body: true,
+      },
+    ],
   },
   router: {
-    middleware: ["loadLocalStorage", "autologin", "darkMode"],
+    middleware: ["loadLocalStorage", "darkMode"],
   },
 
   // Global CSS: https://go.nuxtjs.dev/config-css
