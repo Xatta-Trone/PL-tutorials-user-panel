@@ -34,7 +34,7 @@
                 <b-button
                   :to="$nuxt.$route.params.levelterm + '/' + course.slug"
                   variant="primary"
-                  >Click here</b-button
+                  >Browse</b-button
                 >
               </b-card>
             </b-col>

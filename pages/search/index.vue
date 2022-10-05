@@ -284,6 +284,7 @@ export default {
         content_type: this.form.content_type ? this.form.content_type : "",
         per_page: this.form.per_page,
         page: this.form.page,
+        q:this.form.q ? this.form.q : "",
       }
 
     }

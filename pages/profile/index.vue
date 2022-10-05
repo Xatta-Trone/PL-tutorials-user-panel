@@ -142,6 +142,7 @@ export default {
   methods: {
     getSearchString(search) {
       console.log(search);
+      console.log('!search.includes',!search.includes('q='));
 
       if(!search.includes('q=')){
         return search;
@@ -155,7 +156,7 @@ export default {
       let c = words.find((e) => e.includes("content_type")).split("=")[1];
       let cs = words.find((e) => e.includes("course_slug"))?.split("=")[1];
       let ct = words.find((e) => e.includes("course_title"))?.split("=")[1];
-      // console.log(words,q,d,l,cs,ct);
+      console.log(words,q,d,l,cs,ct);
 
       let finalString = "Searched";
 
