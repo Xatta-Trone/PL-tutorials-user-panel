@@ -35,15 +35,17 @@
                   >
                     <b-form-select
                       v-model="form.dept"
-                      :options="departments"
-                      value-field="slug"
-                      text-field="name"
+                      :options="[]"
                     >
                       <template #first>
-                        <b-form-select-option value="" disabled
+                        <b-form-select-option value="null" disabled
                           >-- Please select an option --</b-form-select-option
                         >
                       </template>
+
+                       <b-form-select-option v-for="department in departments" :key="department.id" :value="department">{{department.name}}</b-form-select-option>
+
+
                     </b-form-select>
                   </b-form-group>
                 </b-col>
@@ -56,15 +58,14 @@
                   >
                     <b-form-select
                       v-model="form.l_t"
-                      :options="levelterms"
-                      value-field="slug"
-                      text-field="name"
+                      :options="[]"
                     >
                       <template #first>
-                        <b-form-select-option value="" disabled
+                        <b-form-select-option value="null" disabled
                           >-- Please select an option --</b-form-select-option
                         >
                       </template>
+                      <b-form-select-option v-for="levelterm in levelterms" :key="levelterm.id" :value="levelterm">{{levelterm.name}}</b-form-select-option>
                     </b-form-select>
                   </b-form-group>
                 </b-col>
@@ -77,15 +78,14 @@
                   >
                     <b-form-select
                       v-model="form.course_id"
-                      :options="courses"
-                      value-field="id"
-                      text-field="course_name"
+                      :options="[]"
                     >
                       <template #first>
-                        <b-form-select-option value="" disabled
+                        <b-form-select-option value="null" disabled
                           >-- Please select an option --</b-form-select-option
                         >
                       </template>
+                       <b-form-select-option v-for="course in courses" :key="course.id" :value="course">{{course.course_name}}</b-form-select-option>
                     </b-form-select>
                   </b-form-group>
                 </b-col>
@@ -101,7 +101,7 @@
                       :options="content_types"
                     >
                       <template #first>
-                        <b-form-select-option value="" disabled
+                        <b-form-select-option value="null" disabled
                           >-- Please select an option --</b-form-select-option
                         >
                       </template>
@@ -246,13 +246,13 @@ export default {
   data() {
     return {
       form: {
-        dept: "",
-        q: "",
-        l_t: "",
-        course_id: "",
+        dept: null,
+        q: null,
+        l_t: null,
+        course_id: null,
         page: 1,
         per_page: 30,
-        content_type: "",
+        content_type: null,
       },
       btntxt: "Search",
       loading: false,
@@ -274,6 +274,19 @@ export default {
     deviceCheck() {
       return this.$store.state.device;
     },
+    getQueryParams(){
+      return {
+        dept: this.form.dept ? this.form.dept.slug : "",
+        l_t: this.form.l_t ? this.form.l_t.slug : "",
+        course_id: this.form.course_id ? this.form.course_id.id : "",
+        course_slug: this.form.course_id ? this.form.course_id.slug : "",
+        course_title: this.form.course_id ? this.form.course_id.course_name : "",
+        content_type: this.form.content_type ? this.form.content_type : "",
+        per_page: this.form.per_page,
+        page: this.form.page,
+      }
+
+    }
   },
 
   mounted() {
@@ -343,7 +356,7 @@ export default {
             .sort(function (a, b) {
               return a.slug.localeCompare(b.slug);
             });
-          console.log(mappedCourses);
+          // console.log(mappedCourses);
 
           this.courses = mappedCourses;
           this.all_courses = mappedCourses;
@@ -356,12 +369,12 @@ export default {
 
     clear() {
       (this.form = {
-        dept: "",
-        q: "",
-        l_t: "",
-        course_id: "",
+        dept: null,
+        q: null,
+        l_t: null,
+        course_id: null,
         page: 1,
-        content_type: "",
+        content_type: null,
       }),
         (this.results = []);
       this.infiniteId += 1;
@@ -409,7 +422,7 @@ export default {
 
       let vm = this;
       this.$axios
-        .get("search", { params: this.form })
+        .get("search", { params: this.getQueryParams })
         .then((res) => {
           vm.loading = false;
           console.log(res);
@@ -433,16 +446,9 @@ export default {
     search() {
       // this.clear();
       let label = "";
-      Object.entries(this.form).forEach(([key, value]) => {
+      Object.entries(this.getQueryParams).forEach(([key, value]) => {
         label += `${key}=${value},`;
       });
-
-      if (this.form.course_id) {
-        let course = this.getCourseById(this.form.course_id);
-        if (course) {
-          label += `course_slug=${course.slug},course_title=${course.course_name}`;
-        }
-      }
 
       this.saveActivity({
         activity: "searched",
@@ -493,30 +499,14 @@ export default {
         if (after === "" || after == null) {
           this.courses = this.all_courses;
         } else {
-          // check if dept selected
-          let selectedDept = this.form.dept ? this.form.dept : null;
 
-          console.log("selectedDept", selectedDept);
           console.log("selected LT", after);
 
-          // if (typeof after == 'number') {
-          //   let selectedLevelTerm = this.all_levelterms.find(
-          //     (lt) => lt.id == after
-          //   );
-
-          //   console.log("selected LT", selectedLevelTerm);
-
-          //   this.form.l_t = selectedLevelTerm.slug;
-          // }
-
           let filterCourseByLevelTerm = this.all_courses.filter((c) => {
-            if (selectedDept) {
-              return (
-                c.department.slug == selectedDept && c.levelterm.slug == after
+            return (
+                c.department.slug == after.dept.slug && c.levelterm.slug == after.slug
               );
-            } else {
-              return c.levelterm.slug == after;
-            }
+
           });
           this.courses = filterCourseByLevelTerm;
           // console.log("selected level term", selectedLevelTerm);
@@ -528,19 +518,19 @@ export default {
     "form.dept": {
       handler: function (after, before) {
         // Changes detected. Do work...
-        console.log(after, before);
+        // console.log(after, before);
 
         if (after === "" || after == null) {
           this.levelterms = this.all_levelterms;
+          this.form.l_t = null;
         } else {
-          let selectedDept = this.departments.filter(
-            (dept) => dept.slug == after
-          )[0].id;
+          let selectedDept = after;
           let filterLevelTerm = this.all_levelterms.filter(
-            (c) => c.department_id == selectedDept
+            (c) => c.department_id == selectedDept.id
           );
           this.levelterms = filterLevelTerm;
-          console.log(filterLevelTerm);
+          this.form.l_t = null;
+          // console.log(filterLevelTerm);
         }
       },
       deep: true,

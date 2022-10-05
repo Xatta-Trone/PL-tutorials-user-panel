@@ -48,7 +48,7 @@
                         Scan or click the link below to install our
                         Android app.
                       </p>
-                      <qrcode-vue :value="appUrl" size="150" level="H" />
+                      <qrcode-vue :value="appUrl" size="150" level="H" margin="2" />
                       <a :href="appUrl" target="_blank"
                         ><img src="~/assets/img/googleplay.png" height="110"
                       /></a>
