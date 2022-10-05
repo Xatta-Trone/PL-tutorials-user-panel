@@ -8,7 +8,7 @@
 
           </b-col>
           <b-col sm="6" class="text-center">
-            <img class="" src="~/assets/img/app2.svg" height="400"/>
+            <img class="" src="~/assets/img/app3-svg.svg" height="400"/>
           </b-col>
         </b-row>
       </b-container>

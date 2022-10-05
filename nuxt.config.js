@@ -130,12 +130,12 @@ export default {
       src: "~/plugins/mixin.js",
     },
 
-    {
-      src: "~/plugins/fingerprint.js",
-    },
-    {
-      src: "~/plugins/echo.js",
-    },
+    // {
+    //   src: "~/plugins/fingerprint.js",
+    // },
+    // {
+    //   src: "~/plugins/echo.js",
+    // },
     {
       src: "~/plugins/particles.js",
       mode: "client",
@@ -169,6 +169,40 @@ export default {
     "@nuxtjs/proxy",
     "@nuxtjs/sitemap",
   ],
+
+  // bootstrapVue: {
+  //   components: [
+  //     "BContainer",
+  //     "BRow",
+  //     "BCol",
+  //     "BAlert",
+  //     "BButton",
+  //     "BLink",
+  //     "BListGroup",
+  //     "BListGroupItem",
+  //     "BCard",
+  //     "BCardText",
+  //     "BCardHeader",
+  //     "BCardBody",
+  //     "BCollapse",
+  //     "BForm",
+  //     "BFormGroup",
+  //     "BFormInput",
+  //     "BFormSelect",
+  //     "BFormSelectOption",
+  //     "BFormInvalidFeedback",
+  //     "BTabs",
+  //     "BTab",
+  //     "BModal",
+  //     "BNavbar",
+  //     "BNavbarToggle",
+  //     "BNavbarBrand",
+  //     "BNavbarNav",
+  //     "BNavItemDropdown",
+  //     "BDropdownItem",
+  //   ],
+  //   directives: ["VBModal","VBNavbar"],
+  // },
 
   sitemap: {
     hostname:
