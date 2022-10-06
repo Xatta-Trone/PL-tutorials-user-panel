@@ -9,14 +9,15 @@
         <b-collapse id="nav-collapse" is-nav>
           <!-- Right aligned nav items -->
           <b-navbar-nav class="ml-auto">
-            <b-nav-item-dropdown text="Departments" right to="#">
+            <!-- <b-nav-item-dropdown text="Departments" right to="#">
               <div v-for="department in departments" :key="department.slug">
                 <b-dropdown-item :to="'/departments/' + department.slug">{{
                   department.slug.toUpperCase()
                 }}</b-dropdown-item>
               </div>
-            </b-nav-item-dropdown>
+            </b-nav-item-dropdown> -->
 
+            <b-nav-item to="/departments">Departments</b-nav-item>
             <b-nav-item to="/books">Books</b-nav-item>
             <b-nav-item to="/softwares">Softwares</b-nav-item>
             <b-nav-item to="/contribute">Contribute</b-nav-item>
@@ -99,7 +100,7 @@ export default {
 
   mounted() {
     console.log(process.env.SERVER_URL);
-    this.getDepatments();
+    // this.getDepatments();
     this.getPages();
 
     window.document.onscroll = () => {

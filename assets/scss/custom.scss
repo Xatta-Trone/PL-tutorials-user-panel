@@ -152,6 +152,9 @@ body {
     .page-item.active {
       color: $text-color !important;
     }
+    .modal{
+      color:  $text-color-alt !important;
+    }
   }
 }
 // Include Bootstrap and BootstrapVue SCSS files

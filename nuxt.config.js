@@ -289,19 +289,24 @@ export default {
 
   buildModules: [
     "@nuxtjs/ngrok",
+    // [
+    //   "@nuxtjs/laravel-echo",
+    //   {
+    //     broadcaster: "pusher",
+    //     key: "0d804a37eb14ea67a5ce",
+    //     cluster: "ap1",
+    //     forceTLS: true,
+    //   },
+    // ],
     [
-      "@nuxtjs/laravel-echo",
+      "@nuxtjs/google-analytics",
       {
-        broadcaster: "pusher",
-        key: "0d804a37eb14ea67a5ce",
-        cluster: "ap1",
-        forceTLS: true,
+        id: "UA-90874165-1",
       },
     ],
-    "@nuxtjs/google-analytics",
   ],
-  echo: {},
-  googleAnalytics: {
-    id: "UA-90874165-1",
-  },
+  // echo: {},
+  // googleAnalytics: {
+  //   id: "UA-90874165-1",
+  // },
 };
