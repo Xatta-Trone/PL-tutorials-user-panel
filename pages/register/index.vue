@@ -148,7 +148,25 @@
                         <ImageBarcodeReader
                           @decode="onDecode"
                           @error="onError"
+                          :key="barcodeKey"
+                          ref="inputFile"
+                          class="form-control"
                         ></ImageBarcodeReader>
+
+                        <div id="preview">
+                          <span class="text-danger d-block">
+                            Selected file will be previewed below. Please ignore
+                            when the input says no file selected after file
+                            selection.
+                          </span>
+                          <img
+                            v-if="url"
+                            class="mt-2"
+                            height="200"
+                            :src="url"
+                          />
+                        </div>
+
                         <b-form-invalid-feedback
                           :state="!$v.form.student_id.$error"
                         >
@@ -160,6 +178,14 @@
                           chkkey="student_id"
                         />
                       </b-form-group>
+
+                      <b-alert :show="showContactErr > 2" variant="warning"
+                        >Still having problem with registration ? Send a message
+                        <a target="_blank" style="color:#000;" href="https://m.me/thepltutorials"
+                          >here https://m.me/thepltutorials</a
+                        >
+                        with your student id and email address.
+                      </b-alert>
 
                       <b-button
                         type="submit"
@@ -174,7 +200,11 @@
                           <b-col md="6">
                             <nuxt-link
                               to="/login"
-                              class="ml-auto d-inline-block text-left text-danger"
+                              class="
+                                ml-auto
+                                d-inline-block
+                                text-left text-danger
+                              "
                               >Already have an account ? Log in</nuxt-link
                             >
                             <b-link href="/register"></b-link
@@ -191,7 +221,7 @@
                   </div>
                 </b-tab>
                 <b-tab title="For Alumni/Foreign Students">
-                  <p class="p-5 text-center ">
+                  <p class="p-5 text-center">
                     Please send a message to our Facebook page here at
 
                     <a
@@ -203,9 +233,11 @@
                   </p>
                 </b-tab>
                 <b-tab title="For Non-buetians">
-                  <p class="p-5 text-center ">
-                    We are sorry, this website is only for the undergraduate students of BUET. However, you can still access the <b-link to="/books">Books</b-link> section. <br> Have a good day!!
-
+                  <p class="p-5 text-center">
+                    We are sorry, this website is only for the undergraduate
+                    students of BUET. However, you can still access the
+                    <b-link to="/books">Books</b-link> section. <br />
+                    Have a good day!!
                   </p>
                 </b-tab>
               </b-tabs>
@@ -225,10 +257,11 @@ export default {
   layout: "content",
   components: { CustomError, ImageBarcodeReader },
   middleware: ["guest"],
-   head(){
+  head() {
     return {
-      title: 'Register - PL Tutorials'
-    }
+      title: "Register - PL Tutorials",
+      script: [{ src: "//unpkg.com/javascript-barcode-reader", body: true }],
+    };
   },
 
   data() {
@@ -245,6 +278,9 @@ export default {
       halls: [],
       loading: false,
       userRegisterd: false,
+      url: null,
+      barcodeKey: 0,
+      showContactErr: 0,
     };
   },
   mounted() {
@@ -281,6 +317,7 @@ export default {
 
       if (this.$v.$invalid) {
         this.loading = false;
+        this.showContactErr += 1;
         return this.$toast.error("Fill-up the required fields!!");
       }
       let vm = this;
@@ -288,7 +325,7 @@ export default {
         .post("register", this.form)
         .then((res) => {
           vm.loading = false;
-          vm.userRegisterd = true;
+          vm.userRegisterd = false;
           console.log(res);
           if (res.data.hasOwnProperty("message")) {
             this.getmessage(res.data.message);
@@ -299,6 +336,7 @@ export default {
         })
         .catch((err) => {
           vm.loading = false;
+          this.showContactErr += 1;
           console.log("Errrr", err);
           if (err.response.data.hasOwnProperty("message")) {
             this.getmessage(err.response.data.message);
@@ -312,13 +350,66 @@ export default {
 
     onDecode(result) {
       // console.log(result);
-      // alert(result);
-      this.form.student_id = result;
-      this.$toast.success("All good.");
+
+      this.url = URL.createObjectURL(this.$refs.inputFile.$el.files[0]);
+      this.barcodeKey += 1;
+
+      if ((result?.trim()?.length || 0) == 10) {
+        // alert(result);
+
+        this.form.student_id = result?.trim();
+        this.$toast.success(`All good. ${result}`);
+        this.barcodeKey += 1;
+        // this.$refs.inputFile.reset();
+      } else {
+        this.form.student_id = "";
+        this.barcodeKey += 1;
+        this.showContactErr += 1;
+        return this.$toast.error(
+          "Error!! please use a different image or fix the image rotation."
+        );
+      }
     },
     onError(err) {
+      // this.$refs.inputFile.reset();
+      this.url = URL.createObjectURL(this.$refs.inputFile.$el.files[0]);
       console.log(err);
-      this.$toast.error("Error!! please use a different image.");
+      console.log("Vue barcode reader failed, trying another library");
+      this.barcodeKey += 1;
+
+      // try another library
+      javascriptBarcodeReader({
+        /* Image ID || HTML5 Image || HTML5 Canvas || HTML5 Canvas ImageData || Image URL */
+        image: this.url,
+        barcode: "code-39",
+        // barcodeType: 'industrial',
+        options: {
+          useAdaptiveThreshold: true, // for images with sahded portions
+          // singlePass: true
+        },
+      })
+        .then((code) => {
+          console.log(code);
+          if ((code?.trim()?.length || 0) == 10) {
+            // alert(code);
+            this.form.student_id = code?.trim();
+            this.$toast.success(`All good. ${code}`);
+          } else {
+            this.form.student_id = "";
+            this.showContactErr += 1;
+            return this.$toast.error(
+              "Error!! please use a different image or fix the image rotation."
+            );
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+          this.form.student_id = "";
+          this.showContactErr += 1;
+          return this.$toast.error(
+            "Error!! please use a different image or fix the image rotation."
+          );
+        });
     },
   },
   validations: {
