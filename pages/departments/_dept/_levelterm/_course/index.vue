@@ -31,13 +31,25 @@
                   {{ post.name }}
                 </b-card-text>
 
-                <b-button @click="handleGdrive(post)" v-show="getFolderIdFromUrl(post.link) != null" variant="primary btn-sm"
-                  >Open here</b-button
-                >
+                <template #footer>
+                  <b-button
+                    :to="
+                      $nuxt.$route.path + '/' + getFolderIdFromUrl(post.link)
+                    "
+                    @click="handleGdrive(post)"
+                    v-show="getFolderIdFromUrl(post.link) != null"
+                    variant="primary btn-sm"
+                    class="mx-auto"
+                    >Open here</b-button
+                  >
 
-                <b-button @click="handleClick(post)" variant="primary btn-sm"
-                  >Open in drive</b-button
-                >
+                  <b-button
+                    @click="handleClick(post)"
+                    variant="primary btn-sm"
+                    class="mx-auto"
+                    >Open in drive</b-button
+                  >
+                </template>
               </b-card>
             </b-col>
           </b-row>
@@ -73,6 +85,7 @@ export default {
     },
   },
   mounted() {
+    console.log(this.$nuxt.$route);
     this.getData();
   },
   components: {
@@ -128,7 +141,11 @@ export default {
         additionalData: `${this.$nuxt.$route.params.dept}/${this.$nuxt.$route.params.levelterm}/${this.$nuxt.$route.params.course}`,
       });
 
-      window.location.href = window.location.origin + window.location.pathname + '/' +  this.getFolderIdFromUrl(data.link)
+      // window.location.href =
+      //   window.location.origin +
+      //   window.location.pathname +
+      //   "/" +
+      //   this.getFolderIdFromUrl(data.link);
 
       // window.open(, "_blank").focus();
     },
@@ -144,5 +161,10 @@ export default {
 .card-title {
   text-overflow: ellipsis !important;
   overflow: hidden;
+}
+
+.card-footer {
+  background: transparent;
+  border: none;
 }
 </style>
