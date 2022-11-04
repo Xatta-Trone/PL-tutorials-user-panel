@@ -46,6 +46,11 @@ export default {
           "PL Tutuorials || CE Course Materials BUET - P.L. Tutorials | The home of soft materials",
       },
       {
+        hid: "og:image",
+        name: "og:image",
+        content: `https://pl-tutorials.com/og-image.png`,
+      },
+      {
         hid: "og:description",
         name: "og:description",
         content:
