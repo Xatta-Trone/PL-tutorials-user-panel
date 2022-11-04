@@ -1,5 +1,15 @@
 <template>
   <b-form @submit.prevent="submit">
+    <b-alert show
+      >For quick response, send a message to our page here at
+      <a
+        href="https://m.me/thepltutorials"
+        style="color: red !important"
+        target="_blank"
+        rel="noopener noreferrer"
+        >https://m.me/thepltutorials</a
+      ></b-alert
+    >
     <b-form-group id="input-group-1" label="Name ::" label-for="input-1">
       <b-form-input
         id="input-1"
@@ -97,9 +107,7 @@ export default {
       loading: false,
     };
   },
-  mounted() {
-
-  },
+  mounted() {},
   methods: {
     submit() {
       this.loading = true;
@@ -140,8 +148,6 @@ export default {
           }
         });
     },
-
-
   },
   validations: {
     form: {
