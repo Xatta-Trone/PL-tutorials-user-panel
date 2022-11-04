@@ -1,3 +1,4 @@
+const ttl = 6 * 60 * 60 * 1000; //ms
 export const state = () => ({
   isGuest: false,
   isInSavedDevice: false,
@@ -11,12 +12,15 @@ export const mutations = {
     state.isInSavedDevice = false;
     state.hasCheckedDevice = true;
 
+    const now = new Date();
+
     localStorage.setItem(
       "deviceCheck",
       JSON.stringify({
         isGuest: true,
         isInSavedDevice: false,
         hasCheckedDevice: true,
+        expiry: now.getTime() + ttl,
       })
     );
   },
@@ -26,12 +30,15 @@ export const mutations = {
     state.hasCheckedDevice = true;
     state.isInSavedDevice = true;
 
+    const now = new Date();
+
     localStorage.setItem(
       "deviceCheck",
       JSON.stringify({
         isGuest: false,
         isInSavedDevice: true,
         hasCheckedDevice: true,
+        expiry: 0,
       })
     );
   },
@@ -41,36 +48,33 @@ export const mutations = {
     state.hasCheckedDevice = false;
     state.isInSavedDevice = false;
 
-    localStorage.setItem(
-      "deviceCheck",
-      JSON.stringify({
-        isGuest: false,
-        isInSavedDevice: false,
-        hasCheckedDevice: false,
-      })
-    );
+    localStorage.removeItem("deviceCheck");
   },
 
   removeGuestDevice(state) {
     state.isGuest = false;
     state.hasCheckedDevice = false;
     state.isInSavedDevice = false;
-
-    localStorage.setItem(
-      "deviceCheck",
-      JSON.stringify({
-        isGuest: false,
-        isInSavedDevice: false,
-        hasCheckedDevice: false,
-      })
-    );
+    localStorage.removeItem("deviceCheck");
   },
 
   addFormLocalStorage(state, data) {
-    state.isGuest = data.isGuest;
-    state.hasCheckedDevice = data.hasCheckedDevice;
-    state.isInSavedDevice = data.isInSavedDevice;
-    state.isLoadedFromLocalStorage = true;
+    const now = new Date();
+    // check if device is guest and has expired
+    console.log(
+      `[mutation] checking expiry`,
+      data,
+      now.getTime() > data.expiry
+    );
+
+    if (data.isGuest && now.getTime() > data.expiry) {
+      this.commit("device/removeGuestDevice");
+    } else {
+      state.isGuest = data.isGuest;
+      state.hasCheckedDevice = data.hasCheckedDevice;
+      state.isInSavedDevice = data.isInSavedDevice;
+      state.isLoadedFromLocalStorage = true;
+    }
   },
 
   addLoadedFormLS(state) {
