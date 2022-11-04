@@ -14,6 +14,15 @@ import {
   faFileDownload,
   faInfoCircle,
   faSort,
+  faFolder,
+  faFileAudio,
+  faFilePdf,
+  faFileExcel,
+  faFilePowerpoint,
+  faFileWord,
+  faVideo,
+  faFile,
+  faImage,
 } from "@fortawesome/free-solid-svg-icons";
 // import { far } from "@fortawesome/free-regular-svg-icons";
 import {
@@ -40,7 +49,16 @@ library.add(
   faSort,
   faFacebook,
   faYoutube,
-  faFacebookMessenger
+  faFacebookMessenger,
+  faFolder,
+  faFileAudio,
+  faFilePdf,
+  faFileExcel,
+  faFilePowerpoint,
+  faFileWord,
+  faVideo,
+  faFile,
+  faImage
 );
 
 Vue.component('font-awesome-icon', FontAwesomeIcon)

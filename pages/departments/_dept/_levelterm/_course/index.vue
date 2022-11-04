@@ -31,8 +31,12 @@
                   {{ post.name }}
                 </b-card-text>
 
-                <b-button @click="handleClick(post)" variant="primary"
-                  >Download</b-button
+                <b-button @click="handleGdrive(post)" v-show="getFolderIdFromUrl(post.link) != null" variant="primary btn-sm"
+                  >Open here</b-button
+                >
+
+                <b-button @click="handleClick(post)" variant="primary btn-sm"
+                  >Open in drive</b-button
                 >
               </b-card>
             </b-col>
@@ -51,10 +55,10 @@ export default {
   layout: "content",
   middleware: "auth",
 
-  head(){
+  head() {
     return {
-      title: `${this.$nuxt.$route.params.dept.toUpperCase()}::${this.$nuxt.$route.params.levelterm.toUpperCase()}::${this.$nuxt.$route.params.course.toUpperCase()}- PL Tutorials`
-    }
+      title: `${this.$nuxt.$route.params.dept.toUpperCase()}::${this.$nuxt.$route.params.levelterm.toUpperCase()}::${this.$nuxt.$route.params.course.toUpperCase()}- PL Tutorials`,
+    };
   },
 
   data() {
@@ -63,7 +67,7 @@ export default {
       loading: false,
     };
   },
-   computed: {
+  computed: {
     deviceCheck() {
       return this.$store.state.device;
     },
@@ -100,7 +104,7 @@ export default {
         .finally(() => (this.loading = false));
     },
 
-    handleClick(data){
+    handleClick(data) {
       // console.log(data);
       this.saveActivity({
         activity: "downloaded",
@@ -111,7 +115,27 @@ export default {
         additionalData: `${this.$nuxt.$route.params.dept}/${this.$nuxt.$route.params.levelterm}/${this.$nuxt.$route.params.course}`,
       });
       window.open(data.link, "_blank").focus();
-    }
+    },
+
+    handleGdrive(data) {
+      // console.log(data);
+      this.saveActivity({
+        activity: "downloaded",
+        model_type: data.post_type,
+        model_id: data.id,
+        causer_id: this.$auth.loggedIn ? this.$auth.user.id : 0,
+        label: data.name,
+        additionalData: `${this.$nuxt.$route.params.dept}/${this.$nuxt.$route.params.levelterm}/${this.$nuxt.$route.params.course}`,
+      });
+
+      window.location.href = window.location.origin + window.location.pathname + '/' +  this.getFolderIdFromUrl(data.link)
+
+      // window.open(, "_blank").focus();
+    },
+
+    getFolderIdFromUrl(url) {
+      return url.match(/[-\w]{25,}/);
+    },
   },
 };
 </script>
