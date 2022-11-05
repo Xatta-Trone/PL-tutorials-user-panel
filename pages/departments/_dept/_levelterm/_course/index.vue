@@ -19,7 +19,7 @@
           </b-row>
         </template>
         <template v-else>
-          <b-row v-if="course" class="my-4">
+          <b-row v-if="course && course.active_posts.length > 0" class="my-4">
             <b-col
               cols="3"
               v-for="post in course.active_posts"
@@ -53,7 +53,7 @@
               </b-card>
             </b-col>
           </b-row>
-          <b-row v-else class="mt-5 text-center" align-self="center">
+          <b-row v-else class="mt-5 mb-5 text-center" align-self="center">
             <b-col><h2>No content found.</h2></b-col>
           </b-row>
         </template>
@@ -163,8 +163,5 @@ export default {
   overflow: hidden;
 }
 
-.card-footer {
-  background: transparent;
-  border: none;
-}
+
 </style>

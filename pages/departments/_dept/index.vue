@@ -5,7 +5,10 @@
     </template>
 
     <template v-else lazy>
-      <CustomHeader :title="$nuxt.$route.params.dept" :subtitle="department ? department.name  : ''" />
+      <CustomHeader
+        :title="$nuxt.$route.params.dept"
+        :subtitle="department ? department.name : ''"
+      />
 
       <b-container>
         <template v-if="loading">
@@ -27,15 +30,21 @@
                   {{ levelterm.name }}
                 </b-card-text>
 
-                <b-button
-                  :to="$nuxt.$route.params.dept + '/' + levelterm.slug"
-                  variant="primary"
-                  >Browse</b-button
-                >
+                <template #footer>
+                  <b-button
+                    :to="$nuxt.$route.params.dept + '/' + levelterm.slug"
+                    variant="primary"
+                    >Browse</b-button
+                  >
+                </template>
               </b-card>
             </b-col>
           </b-row>
-          <b-row v-if="department && department.levelterms.length == 0" class="mt-5 text-center" align-self="center">
+          <b-row
+            v-if="department && department.levelterms.length == 0"
+            class="mt-5 text-center"
+            align-self="center"
+          >
             <b-col><h2>No level-term found.</h2></b-col>
           </b-row>
         </template>
@@ -44,17 +53,17 @@
   </div>
 </template>
 <script>
-import Devicecheck from '../../../components/Devicecheck.vue';
+import Devicecheck from "../../../components/Devicecheck.vue";
 import Loading from "../../../components/loading/Loading.vue";
 
 export default {
   layout: "content",
-  middleware: ["auth", ],
+  middleware: ["auth"],
 
-  head(){
+  head() {
     return {
-      title: `Department:: ${this.$nuxt.$route.params.dept.toUpperCase()} - PL Tutorials`
-    }
+      title: `Department:: ${this.$nuxt.$route.params.dept.toUpperCase()} - PL Tutorials`,
+    };
   },
 
   data() {
@@ -64,7 +73,8 @@ export default {
     };
   },
   components: {
-    Loading, Devicecheck,
+    Loading,
+    Devicecheck,
   },
   mounted() {
     this.getData();

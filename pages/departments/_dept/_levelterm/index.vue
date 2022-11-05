@@ -31,11 +31,13 @@
                   {{ course.course_name }}
                 </b-card-text>
 
-                <b-button
-                  :to="$nuxt.$route.params.levelterm + '/' + course.slug"
-                  variant="primary"
-                  >Browse</b-button
-                >
+                <template #footer>
+                  <b-button
+                    :to="$nuxt.$route.params.levelterm + '/' + course.slug"
+                    variant="primary"
+                    >Browse</b-button
+                  >
+                </template>
               </b-card>
             </b-col>
           </b-row>
@@ -54,11 +56,10 @@ export default {
   layout: "content",
   middleware: "auth",
 
-
-  head(){
+  head() {
     return {
-      title: `Department ${this.$nuxt.$route.params.dept.toUpperCase()}::${this.$nuxt.$route.params.levelterm.toUpperCase()}- PL Tutorials`
-    }
+      title: `Department ${this.$nuxt.$route.params.dept.toUpperCase()}::${this.$nuxt.$route.params.levelterm.toUpperCase()}- PL Tutorials`,
+    };
   },
 
   data() {
