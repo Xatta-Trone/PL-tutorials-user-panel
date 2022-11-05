@@ -20,10 +20,37 @@
         </template>
         <template v-else>
           <b-row v-if="results" class="my-4">
+            <b-col cols="12" class="mb-3">
+              <b-button-group>
+                <b-button
+                  v-show="parentFolder != currentFolder"
+                  @click="goToHomeFolder"
+                  >Home folder</b-button
+                >
+                <b-button v-show="previousFolder" @click="goToPreviousFolder"
+                  >Previous folder</b-button
+                >
+                <b-button
+                  :href="
+                    'https://drive.google.com/drive/folders/' + parentFolder
+                  "
+                  target="_blank"
+                  >Open home folder in drive</b-button
+                >
+                <b-button
+                  :href="
+                    'https://drive.google.com/drive/folders/' + currentFolder
+                  "
+                  target="_blank"
+                  >Open current folder in drive</b-button
+                >
+              </b-button-group>
+            </b-col>
+
             <b-col>
               <b-list-group v-for="post in results" :key="post.id">
                 <b-list-group-item>
-                  <b-row>
+                  <b-row no-gutters>
                     <b-col cols="1" class="mx-auto justify-center">
                       <font-awesome-icon
                         :icon="['fas', getIconByMimeType(post.mimeType)]"
@@ -31,12 +58,12 @@
                       />
                     </b-col>
                     <b-col>
-                      <a @click="gotoFolder(post.id)" style="cursor: pointer">
+                      <a @click="gotoFolder(post)" style="cursor: pointer">
                         {{ post.name }}
                       </a>
                     </b-col>
 
-                    <b-col cols="2" class="text-center">
+                    <b-col cols="4" sm="1" class="text-center">
                       <a
                         :href="
                           'https://drive.google.com/uc?export=download&id=' +
@@ -66,13 +93,75 @@
                 <b-button v-show="previousFolder" @click="goToPreviousFolder"
                   >Previous folder</b-button
                 >
-              </b-button-group></b-col
-            >
+                <b-button
+                  :href="
+                    'https://drive.google.com/drive/folders/' + parentFolder
+                  "
+                  target="_blank"
+                  >Open home folder in drive</b-button
+                >
+                <b-button
+                  :href="
+                    'https://drive.google.com/drive/folders/' + currentFolder
+                  "
+                  target="_blank"
+                  >Open current folder in drive</b-button
+                >
+              </b-button-group>
+            </b-col>
           </b-row>
           <b-row v-else class="mt-5 text-center" align-self="center">
             <b-col><h2>No content found.</h2></b-col>
           </b-row>
         </template>
+
+        <b-modal
+          id="modal-center"
+          centered
+          size="lg"
+          scrollable
+          :title="modalContent != null ? modalContent.name : 'Preview file'"
+        >
+          <b-col v-if="modalContent != null">
+            <iframe
+              style="min-height: 60vh; height:70vh;"
+              class="w-100 h-100"
+              :src="
+                'https://drive.google.com/file/d/' +
+                modalContent.id +
+                '/preview'
+              "
+              frameborder="0"
+            ></iframe>
+          </b-col>
+          <b-col v-else>Please select a file to preview</b-col>
+          <template #modal-footer>
+            <div class="w-100">
+              <b-button
+                variant="primary"
+                size="md"
+                class="float-right"
+                @click="$bvModal.hide('modal-center')"
+              >
+                Close
+              </b-button>
+              <a
+                :href="'https://drive.google.com/uc?export=download&id=' + modalContent.id"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="btn btn-sm"
+                ><b-button variant="primary" size="md">download</b-button></a
+              >
+              <a
+                :href="'https://drive.google.com/file/d/' + modalContent.id"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="btn btn-sm"
+                ><b-button variant="primary" size="md">Open in drive</b-button></a
+              >
+            </div>
+          </template>
+        </b-modal>
       </b-container>
     </template>
   </div>
@@ -97,6 +186,8 @@ export default {
       parentFolder: $nuxt.$route.params.gdrive,
       currentFolder: $nuxt.$route.params.gdrive,
       previousFolder: null,
+      folderHistory: [],
+      modalContent: null,
     };
   },
   computed: {
@@ -106,6 +197,7 @@ export default {
   },
   mounted() {
     this.getFolderContentsByFolderId($nuxt.$route.params.gdrive);
+    this.folderHistory.push($nuxt.$route.params.gdrive);
 
     console.log(this.$nuxt.$route);
   },
@@ -129,24 +221,48 @@ export default {
         .finally(() => (this.loading = false));
     },
 
-    gotoFolder(folderId) {
+    gotoFolder(post) {
       let vm = this;
-      vm.previousFolder = vm.currentFolder;
-      vm.currentFolder = folderId;
-      this.getFolderContentsByFolderId(folderId);
+
+      if (post.mimeType == "application/vnd.google-apps.folder") {
+        vm.previousFolder = vm.currentFolder;
+        vm.currentFolder = post.id;
+        vm.folderHistory.push(post.id);
+        this.getFolderContentsByFolderId(post.id);
+        vm.modalContent = null;
+      } else {
+        vm.modalContent = post;
+        this.$bvModal.show("modal-center");
+      }
     },
 
     goToHomeFolder() {
       let vm = this;
       vm.previousFolder = null;
       vm.currentFolder = vm.parentFolder;
+      vm.folderHistory = [];
       this.getFolderContentsByFolderId(vm.parentFolder);
     },
 
     goToPreviousFolder() {
       let vm = this;
-      vm.currentFolder = vm.previousFolder;
-      vm.previousFolder = null;
+
+      if (vm.folderHistory.length > 0) {
+        vm.folderHistory.pop();
+      }
+
+      if (vm.folderHistory.length > 1) {
+        vm.currentFolder = vm.folderHistory.at(-1);
+        vm.previousFolder = vm.folderHistory.at(-2);
+      } else if (vm.folderHistory.length == 1) {
+        vm.currentFolder = vm.folderHistory.at(-1);
+        vm.previousFolder = null;
+      } else {
+        vm.previousFolder = null;
+      }
+
+      // vm.previousFolder = null;
+
       this.getFolderContentsByFolderId(vm.currentFolder);
     },
 
@@ -156,7 +272,7 @@ export default {
       if (mimeType.includes("folder")) {
         data = "folder";
       }
-      if (mimeType.includes("document")) {
+      if (mimeType.includes("document") || mimeType.includes("word")) {
         data = "file-word";
       }
       if (mimeType.includes("pdf")) {
@@ -177,7 +293,7 @@ export default {
       if (mimeType.includes("video")) {
         data = "video";
       }
-      if (mimeType.includes("photo")) {
+      if (mimeType.includes("photo") || mimeType.includes("image")) {
         data = "image";
       }
       return data;
