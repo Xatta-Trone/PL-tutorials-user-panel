@@ -69,6 +69,10 @@ export default {
       },
 
       { name: "format-detection", content: "telephone=no" },
+      {
+        "http-equiv": "Content-Security-Policy",
+        content: "upgrade-insecure-requests",
+      },
     ],
     link: [
       { rel: "icon", type: "image/png", href: "/logo.png" },
@@ -104,7 +108,7 @@ export default {
     ],
   },
   router: {
-    middleware: ["loadLocalStorage", "darkMode"],
+    middleware: ["forcehttps", "loadLocalStorage", "darkMode"],
   },
 
   // Global CSS: https://go.nuxtjs.dev/config-css
