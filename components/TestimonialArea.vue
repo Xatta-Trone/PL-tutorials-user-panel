@@ -13,10 +13,10 @@
           <slide v-for="testimonial in testimonials" :key="testimonial.name">
             <div class="testimonial text-center px-2">
               <div class="author mb-3">
-                <b-badge variant="light">{{ testimonial.name.toUpperCase() }}</b-badge>
-                <b-badge variant="danger">{{
-                  testimonial.dept_batch
+                <b-badge variant="light">{{
+                  testimonial.name.toUpperCase()
                 }}</b-badge>
+                <b-badge variant="danger">{{ testimonial.dept_batch }}</b-badge>
               </div>
               <span class="msg text-justify">
                 {{ testimonial.message }}
@@ -45,20 +45,16 @@ export default {
   },
   methods: {
     getTestimonials() {
-      if (localStorage.hasOwnProperty("testimonials")) {
-        this.testimonials = JSON.parse(localStorage.getItem("testimonials"));
-      } else {
-        this.$axios
-          .get("testimonials")
-          .then((res) => {
-            this.testimonials = res.data.data;
-            localStorage.setItem("testimonials", JSON.stringify(res.data.data));
-          })
-          .catch(function (err) {
-            console.log(err);
-            alert(err.response.status);
-          });
-      }
+      this.$axios
+        .get("testimonials")
+        .then((res) => {
+          this.testimonials = res.data.data;
+          localStorage.setItem("testimonials", JSON.stringify(res.data.data));
+        })
+        .catch(function (err) {
+          console.log(err);
+          alert(err.response.status);
+        });
     },
   },
 };
