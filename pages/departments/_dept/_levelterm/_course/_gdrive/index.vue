@@ -210,7 +210,7 @@ export default {
       let vm = this;
       vm.loading = true;
       fetch(
-        `https://www.googleapis.com/drive/v3/files?q='${folderId}' in parents&orderBy=folder,name&key=AIzaSyDpxqhJ315NPc36abbjuazsO8NEpfpwLvg`
+        `https://www.googleapis.com/drive/v3/files?q='${folderId}' in parents&orderBy=folder,name&key=AIzaSyDHbDkDUqv39yqYtBI5XD7arA2L8LEzgko`
       )
         .then((response) => response.json())
         .then((data) => {
