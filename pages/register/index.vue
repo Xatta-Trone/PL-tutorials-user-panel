@@ -179,7 +179,7 @@
                         />
                       </b-form-group>
 
-                      <b-alert :show="showContactErr > 2" variant="warning"
+                      <b-alert :show="showContactErr > 1" variant="warning"
                         >Still having problem with registration ? Send a message
                         <a target="_blank" style="color:#000;" href="https://m.me/thepltutorials"
                           >here https://m.me/thepltutorials</a
@@ -216,8 +216,18 @@
                   <div v-else class="text-center my-5">
                     <b-alert variant="success" show>
                       Your account has been created. Please check your email
-                      (spam folder too) for your login id and password.
+                      (spam folder also) for your login ID and password.
                     </b-alert>
+                    <div class="text-center my-3">
+                      <p>
+                        Scan or click the link below to install the
+                        Android app.
+                      </p>
+                      <qrcode-vue value="https://play.google.com/store/apps/details?id=com.pltutorials.plandroid" size="150" level="H" margin="2" />
+                      <a href="https://play.google.com/store/apps/details?id=com.pltutorials.plandroid" target="_blank"
+                        ><img src="~/assets/img/googleplay.png" height="110"
+                      /></a>
+                    </div>
                   </div>
                 </b-tab>
                 <b-tab title="For Alumni/Foreign Students">
@@ -231,6 +241,16 @@
                     >
                     to open your account.
                   </p>
+                  <div class="text-center my-3">
+                      <p>
+                        Scan or click the link below to install the
+                        Android app.
+                      </p>
+                      <qrcode-vue value="https://play.google.com/store/apps/details?id=com.pltutorials.plandroid" size="150" level="H" margin="2" />
+                      <a href="https://play.google.com/store/apps/details?id=com.pltutorials.plandroid" target="_blank"
+                        ><img src="~/assets/img/googleplay.png" height="110"
+                      /></a>
+                    </div>
                 </b-tab>
                 <b-tab title="For Non-buetians">
                   <p class="p-5 text-center">
@@ -252,10 +272,11 @@
 import CustomError from "~/components/vuelidate/CustomError.vue";
 import { required, email, numeric } from "vuelidate/lib/validators";
 import { ImageBarcodeReader } from "vue-barcode-reader";
+import QrcodeVue from "qrcode.vue";
 
 export default {
   layout: "content",
-  components: { CustomError, ImageBarcodeReader },
+  components: { CustomError, ImageBarcodeReader,QrcodeVue },
   middleware: ["guest"],
   head() {
     return {
@@ -329,6 +350,10 @@ export default {
           console.log(res);
           if (res.data.hasOwnProperty("message")) {
             this.getmessage(res.data.message);
+          }
+
+          if(res.data.hasOwnProperty("message") && res.data.message == 'ACCOUNT_CREATED_CHECK_YOUR_EMAIL_FOR_PASSWORD'){
+            vm.userRegisterd = true;
           }
 
           this.$v.$reset();

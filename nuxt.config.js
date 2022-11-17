@@ -217,7 +217,7 @@ export default {
     hostname:
       process.env.NODE_ENV !== "production"
         ? process.env.BASE_URL
-        : process.env.PROD_BASE_URL,
+        : process.env.PROD_MAIN_URL,
     defaults: {
       changefreq: "daily",
       priority: 1,
