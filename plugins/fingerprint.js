@@ -30,4 +30,5 @@ const fpPromise = FingerprintJS.load();
   window.visitorId = visitorId;
   console.log("visitor id", visitorId);
   localStorage.setItem("visitorid", String(visitorId));
+  // localStorage.setItem("visitorid", String(visitorId));
 })();

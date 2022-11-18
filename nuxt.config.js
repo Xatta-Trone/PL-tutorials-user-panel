@@ -108,7 +108,12 @@ export default {
     ],
   },
   router: {
-    middleware: ["forcehttps", "loadLocalStorage", "darkMode"],
+    middleware: [
+      "forcehttps",
+      "loadLocalStorage",
+      "darkMode",
+      "deviceCheckMiddleware",
+    ],
   },
 
   // Global CSS: https://go.nuxtjs.dev/config-css
