@@ -21,7 +21,7 @@
         <template v-else>
           <b-row v-if="department && department.levelterms.length" class="my-4">
             <b-col
-              cols="3"
+             xs="12" sm="12" md="6" lg="3"
               v-for="levelterm in department.levelterms"
               :key="levelterm.id"
             >

@@ -19,7 +19,7 @@
         </b-row>
 
         <b-row v-if="departments" class="mt-3 mb-5" align-v="stretch">
-          <b-col cols="3" v-for="dept in departments" :key="dept.id">
+          <b-col xs="12" sm="12" md="6" lg="3" v-for="dept in departments" :key="dept.id">
             <b-card :title="dept.slug.toUpperCase()" class="mb-2">
               <b-card-text>
                 {{ dept.name }}
