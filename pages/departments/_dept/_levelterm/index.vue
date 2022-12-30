@@ -40,6 +40,38 @@
                 </template>
               </b-card>
             </b-col>
+            <b-col
+             xs="12" sm="12" md="6" lg="3"
+              v-for="post in levelterms.additional_data"
+              :key="post.id"
+              class="my-2"
+            >
+              <b-card :title="post.name" class="mb-2 h-100">
+                <b-card-text>
+                  {{ post.name }}
+                </b-card-text>
+
+                <template #footer>
+                  <!-- <b-button
+                    :to="
+                      $nuxt.$route.path + '/' + getFolderIdFromUrl(post.link)
+                    "
+                    @click="handleGdrive(post)"
+                    v-show="getFolderIdFromUrl(post.link) != null"
+                    variant="primary btn-sm"
+                    class="mx-auto"
+                    >Open here</b-button
+                  > -->
+
+                  <b-button
+                    @click="handleClick(post)"
+                    variant="primary "
+                    class="mx-auto"
+                    >Open in drive</b-button
+                  >
+                </template>
+              </b-card>
+            </b-col>
           </b-row>
           <b-row v-else class="mt-5 text-center" align-self="center">
             <b-col><h2>No course found.</h2></b-col>
@@ -102,6 +134,20 @@ export default {
         })
         .finally(() => (this.loading = false));
     },
+
+    handleClick(data) {
+      // console.log(data);
+      this.saveActivity({
+        activity: "downloaded",
+        model_type: 'post',
+        model_id: data.id,
+        causer_id: this.$auth.loggedIn ? this.$auth.user.id : 0,
+        label: data.name,
+        additionalData: `${this.$nuxt.$route.params.dept}/${this.$nuxt.$route.params.levelterm}`,
+      });
+      window.open(data.link, "_blank").focus();
+    },
+
   },
 };
 </script>

@@ -121,9 +121,9 @@ export default {
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
-    // {
-    //   src: "~/plugins/autologin.js",
-    // },
+    {
+      src: "~/plugins/axios.js",
+    },
     {
       src: "~/plugins/toastnotification.js",
       mode: "client",
