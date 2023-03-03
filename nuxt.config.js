@@ -105,6 +105,13 @@ export default {
       //   src: "/js/evercookie.js",
       //   body: true,
       // },
+      // Google Analytics Code
+      {
+        src: "https://www.googletagmanager.com/gtag/js?id=G-5RLMDLJW3R",
+        async: true,
+      },
+      // Import analytics.js file
+      { src: "/js/analytics.js" },
     ],
   },
   router: {
