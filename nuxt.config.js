@@ -161,6 +161,9 @@ export default {
       src: "~/plugins/particles.js",
       mode: "client",
     },
+    // {
+    //   src: "~/plugins/vue-gtag.js",
+    // },
   ],
 
   // specify module rules for css and scss
