@@ -131,7 +131,7 @@ export default {
       let dId_alt = localStorage.getItem("deviceId_alt");
 
       if (dId_alt) {
-        vm.fingerprint = dId;
+        vm.fingerprint = dId_alt;
       } else {
         // add the clientJs Id
         // Create a new ClientJS object
