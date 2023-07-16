@@ -22,5 +22,5 @@ jobs:
         key: ${{ secrets.SSHKEY }}
         script: |
           cd /var/www/pluser
-          git pull origin main
-          npm run build
+          sudo git pull origin main
+          sudo npm run build
