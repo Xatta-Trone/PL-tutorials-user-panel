@@ -4,10 +4,9 @@
       <b-alert show class="w-100" variant="secondary">
         You can manage your regular devices from here.
       </b-alert>
-      <b-alert :show="deviceCheck.isGuest" variant="danger" class="w-100"
-        >You are using this device as guest. If you wish to use this device
-        regularly then please add this device in the saved device list</b-alert
-      >
+      <b-alert :show="deviceCheck.isGuest" variant="danger" class="w-100">You are using this device as guest. If you wish
+        to use this device
+        regularly then please add this device in the saved device list</b-alert>
       <h3 class="text-center w-100" v-if="deviceResponse">
         Max allowed device: {{ deviceResponse.max_allowed_device }}
       </h3>
@@ -23,54 +22,34 @@
     </template>
     <template v-else>
       <b-row>
-        <b-list-group
-          v-if="deviceResponse && deviceResponse.devices.length > 0"
-        >
-          <b-list-group-item
-            v-for="device in deviceResponse.devices"
-            :key="device.id"
-            class="my-3"
-          >
+        <b-list-group v-if="deviceResponse && deviceResponse.devices.length > 0">
+          <b-list-group-item v-for="device in deviceResponse.devices" :key="device.id" class="my-3">
             <b-badge variant="primary">{{ device.ip_address }}</b-badge>
-            <b-badge variant="danger" v-show="device.fingerprint == fingerprint"
-              >This device</b-badge
-            >
+            <b-badge variant="danger" v-show="device.fingerprint == fingerprint">This device</b-badge>
             {{ device.device }} <br />
 
             {{ device.location }}<br />
             Last updated: {{ formatDateToString(device.updated_at) }}<br />
 
-            <b-button @click="removeDevice(device.id)" variant="danger"
-              >Remove device</b-button
-            >
+            <b-button @click="removeDevice(device.id)" variant="danger">Remove device</b-button>
           </b-list-group-item>
         </b-list-group>
-        <b-alert v-else show variant="info" class="w-100 mx-auto text-center"
-          >No device registered</b-alert
-        >
+        <b-alert v-else show variant="info" class="w-100 mx-auto text-center">No device registered</b-alert>
       </b-row>
       <b-row v-if="!isInSavedDevice" class="my-3">
-        <b-button @click="addDevice" :disabled="isInAsyncCall" variant="primary"
-          >Add this device</b-button
-        >
+        <b-button @click="addDevice" :disabled="isInAsyncCall" variant="primary">Add this device</b-button>
       </b-row>
     </template>
 
     <b-row class="my-3">
-      <b-button
-        @click="addGuest"
-        variant="primary"
-        v-if="!deviceCheck.isGuest && !deviceCheck.hasCheckedDevice"
-        >Use as guest</b-button
-      >
-      <b-button @click="removeGuest" variant="danger" v-if="deviceCheck.isGuest"
-        >Remove as guest</b-button
-      >
+      <b-button @click="addGuest" variant="primary" v-if="!deviceCheck.isGuest && !deviceCheck.hasCheckedDevice">Use as
+        guest</b-button>
+      <b-button @click="removeGuest" variant="danger" v-if="deviceCheck.isGuest">Remove as guest</b-button>
     </b-row>
   </div>
 </template>
 <script>
-import FingerprintJS from "@fingerprintjs/fingerprintjs";
+import { ClientJS } from 'clientjs';
 
 export default {
   data() {
@@ -231,23 +210,22 @@ export default {
       let fingerprint = null;
 
       // check if visitor id exists
-      let dId = localStorage.getItem("deviceId");
+      let dId_alt = localStorage.getItem("deviceId_alt");
 
-      if (dId) {
+      if (dId_alt) {
         vm.fingerprint = dId;
       } else {
-        const fpPromise = FingerprintJS.load();
-        (async () => {
-          // Get the visitor identifier when you need it.
-          const fp = await fpPromise;
-          const result = await fp.get();
+        // add the clientJs Id
+        // Create a new ClientJS object
+        const client = new ClientJS();
 
-          // This is the visitor identifier:
-          const visitorId = result.visitorId;
-          fingerprint = visitorId;
-          vm.fingerprint = fingerprint;
-          localStorage.setItem("deviceId", visitorId);
-        })();
+        // Get the client's fingerprint id
+        const fingerprint2 = client.getFingerprint();
+
+        // Print the 32bit hash id to the console
+        vm.fingerprint = fingerprint2;
+        localStorage.removeItem("deviceId");
+        localStorage.setItem("deviceId_alt", fingerprint2);
       }
     },
   },

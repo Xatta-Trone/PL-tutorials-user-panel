@@ -34,7 +34,7 @@
 
 <script>
 import Loading from "../../components/loading/Loading.vue";
-import FingerprintJS from "@fingerprintjs/fingerprintjs";
+import { ClientJS } from 'clientjs';
 
 export default {
   layout: "content",
@@ -127,27 +127,23 @@ export default {
       let vm = this;
       let fingerprint = null;
 
-       // check if visitor id exists
-      let dId = localStorage.getItem("deviceId");
+      // check if visitor id exists
+      let dId_alt = localStorage.getItem("deviceId_alt");
 
-
-      if(dId){
+      if (dId_alt) {
         vm.fingerprint = dId;
-      }
-      else{
-         const fpPromise = FingerprintJS.load();
-          (async () => {
-            // Get the visitor identifier when you need it.
-            const fp = await fpPromise;
-            const result = await fp.get();
+      } else {
+        // add the clientJs Id
+        // Create a new ClientJS object
+        const client = new ClientJS();
 
-            // This is the visitor identifier:
-            const visitorId = result.visitorId;
-            fingerprint = visitorId;
-            vm.fingerprint = fingerprint;
-            localStorage.setItem("deviceId",visitorId);
-          })();
+        // Get the client's fingerprint id
+        const fingerprint2 = client.getFingerprint();
 
+        // Print the 32bit hash id to the console
+        vm.fingerprint = fingerprint2;
+        localStorage.removeItem("deviceId");
+        localStorage.setItem("deviceId_alt", fingerprint2);
       }
 
     },

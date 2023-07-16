@@ -1,6 +1,6 @@
 {
   "name": "pl-tutorials-user",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "private": true,
   "scripts": {
     "dev": "nuxt",
@@ -10,7 +10,6 @@
     "heroku-postbuild": "npm run build"
   },
   "dependencies": {
-    "@fingerprintjs/fingerprintjs": "^3.3.0",
     "@fortawesome/fontawesome-free-brands": "^5.0.13",
     "@fortawesome/fontawesome-svg-core": "^1.2.36",
     "@fortawesome/free-brands-svg-icons": "^5.15.3",
@@ -26,6 +25,7 @@
     "babel-runtime": "^6.26.0",
     "bootstrap": "^4.6.1",
     "bootstrap-vue": "^2.21.2",
+    "clientjs": "^0.2.1",
     "core-js": "^3.19.3",
     "marked": "^4.0.12",
     "nuxt": "^2.15.8",

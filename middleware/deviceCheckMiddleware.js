@@ -1,4 +1,4 @@
-import FingerprintJS from "@fingerprintjs/fingerprintjs";
+import { ClientJS } from "clientjs";
 
 export default async function ({ store, $axios, $auth }) {
   console.log("[middleware] device check");
@@ -8,26 +8,24 @@ export default async function ({ store, $axios, $auth }) {
 
   if ($auth.loggedIn) {
     // check if visitor id exists
-    let dId = localStorage.getItem("deviceId");
+    let dId_alt = localStorage.getItem("deviceId_alt");
     let visitorID = null;
 
-    if (dId) {
+    if (dId_alt) {
       // console.log("visitor id form middleware localstorage", dId);
-      visitorID = dId;
+      visitorID = dId_alt;
     } else {
-      // Initialize an agent at application startup.
-      const fpPromise = FingerprintJS.load();
+      // add the clientJs Id
+      // Create a new ClientJS object
+      const client = new ClientJS();
 
-      (async () => {
-        // Get the visitor identifier when you need it.
-        const fp = await fpPromise;
-        const result = await fp.get();
+      // Get the client's fingerprint id
+      const fingerprint2 = client.getFingerprint();
 
-        // This is the visitor identifier:
-        const visitorId = result.visitorId;
-        visitorID = visitorId;
-        // console.log("deviceId from middleware", visitorId);
-      })();
+      // Print the 32bit hash id to the console
+      visitorID = fingerprint2;
+      localStorage.removeItem("deviceId");
+      localStorage.setItem("deviceId_alt", fingerprint2);
     }
 
     // console.log("visitor ", visitorID);
