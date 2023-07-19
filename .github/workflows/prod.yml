@@ -24,7 +24,7 @@ jobs:
           cd /var/www/pluser
           sudo git add .
           sudo git commit -m "asdf"
-          sudo git pull origin main
+          sudo git pull origin main --rebase
           sudo cp ./.htaccess dist
           # sudo npm run i --force
           # sudo npm run build
