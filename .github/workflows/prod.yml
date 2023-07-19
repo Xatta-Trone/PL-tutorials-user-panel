@@ -25,6 +25,7 @@ jobs:
           sudo git add .
           sudo git commit -m "asdf"
           sudo git pull origin main
+          sudo cp ./.htaccess dist
           # sudo npm run i --force
           # sudo npm run build
           sudo service apache2 restart
