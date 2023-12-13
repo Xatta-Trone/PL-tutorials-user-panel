@@ -168,7 +168,7 @@ export default {
       let vm = this;
       vm.loading = true;
       fetch(
-        `https://www.googleapis.com/drive/v3/files?q='${folderId}' in parents&orderBy=folder asc&key=AIzaSyDHbDkDUqv39yqYtBI5XD7arA2L8LEzgko&pageToken=${this.nextPageToken ? this.nextPageToken : ''}`
+        `https://www.googleapis.com/drive/v3/files?q='${folderId}' in parents&orderBy=folder asc,modifiedTime,name&key=AIzaSyDHbDkDUqv39yqYtBI5XD7arA2L8LEzgko&pageToken=${this.nextPageToken ? this.nextPageToken : ''}`
       )
         .then((response) => response.json())
         .then((data) => {
