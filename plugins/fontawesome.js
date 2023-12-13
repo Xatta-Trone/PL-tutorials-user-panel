@@ -23,6 +23,10 @@ import {
   faVideo,
   faFile,
   faImage,
+  faArrowRight,
+  faArrowLeft,
+  faHome,
+  faExternalLinkAlt
 } from "@fortawesome/free-solid-svg-icons";
 // import { far } from "@fortawesome/free-regular-svg-icons";
 import {
@@ -58,7 +62,11 @@ library.add(
   faFileWord,
   faVideo,
   faFile,
-  faImage
+  faImage,
+  faArrowLeft,
+  faArrowRight,
+  faHome,
+  faExternalLinkAlt,
 );
 
 Vue.component('font-awesome-icon', FontAwesomeIcon)
