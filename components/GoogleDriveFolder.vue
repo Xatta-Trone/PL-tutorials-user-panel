@@ -291,7 +291,7 @@ export default {
         model_type: 'post',
         model_id: this.post.id,
         causer_id: this.$auth.loggedIn ? this.$auth.user.id : 0,
-        label: `${name} (${this.$nuxt.$route.params.dept}/${this.$nuxt.$route.params.levelterm}/${this.$nuxt.$route.params.course})`,
+        label: `${name} (${this.breadcrumb})`,
       });
 
     }
