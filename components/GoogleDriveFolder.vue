@@ -17,13 +17,15 @@
           <b-row>
             <b-col md="4">
               <b-button-group size="md">
-                <b-button variant="outline-primary" title="Go back one page" @click="goToPreviousFolder" :disabled="folderHistory.length == 0">
+                <b-button variant="outline-primary" title="Go back one page" @click="goToPreviousFolder"
+                  :disabled="folderHistory.length == 0">
                   <font-awesome-icon :icon="['fas', 'arrow-left']" />
                 </b-button>
                 <b-button variant="outline-primary" title="Clear history and go to root page" @click="goToHomeFolder">
                   <font-awesome-icon :icon="['fas', 'home']" />
                 </b-button>
-                <b-button variant="outline-primary" title="Go forward one page" @click="goToNextFolder" :disabled="previousFolderHistory.length == 0">
+                <b-button variant="outline-primary" title="Go forward one page" @click="goToNextFolder"
+                  :disabled="previousFolderHistory.length == 0">
                   <font-awesome-icon :icon="['fas', 'arrow-right']" />
                 </b-button>
               </b-button-group>
@@ -31,14 +33,17 @@
             </b-col>
             <b-col class="text-right">
               <b-button-group>
-                <b-button variant="outline-primary" @click="openFolder(parentFolder)">download root folder in drive</b-button>
-                <b-button variant="outline-primary" @click="openFolder(currentFolder)">download this folder in drive</b-button>
+                <b-button variant="outline-primary" @click="openFolder(parentFolder)">download root folder in
+                  drive</b-button>
+                <b-button variant="outline-primary" @click="openFolder(currentFolder)">download this folder in
+                  drive</b-button>
               </b-button-group>
             </b-col>
           </b-row>
           <b-row v-if="results" class="">
             <b-col cols="12" class="my-3">
-              <a href="#" @click="openFolder(currentFolder)"> <span class="text-dark">{{ breadcrumb }}</span> <font-awesome-icon :icon="['fas', 'external-link-alt']" /> </a>
+              <a href="#" @click="openFolder(currentFolder)"> <span class="text-dark">{{ breadcrumb }}</span>
+                <font-awesome-icon :icon="['fas', 'external-link-alt']" /> </a>
             </b-col>
 
             <b-col>
@@ -65,6 +70,11 @@
                   </b-row>
                 </b-list-group-item>
               </b-list-group>
+              <b-list-group-item class="my-0 text-center" v-if="nextPageToken">
+                <b-col>
+                    <b-button @click="loadMore" size="md" variant="outline-primary">Load next results</b-button>
+                </b-col>
+              </b-list-group-item>
             </b-col>
           </b-row>
           <b-row v-else class="mt-5 text-center" align-self="center">
@@ -129,6 +139,7 @@ export default {
       folderHistory: [],
       previousFolderHistory: [],
       modalContent: null,
+      nextPageToken: null,
     };
   },
   computed: {
@@ -153,20 +164,39 @@ export default {
     initFolderQuery() {
       this.getFolderIdFromUrl(this.post.link)
     },
-    getFolderContentsByFolderId(folderId) {
+    getFolderContentsByFolderId(folderId, loadMore = false) {
       let vm = this;
       vm.loading = true;
       fetch(
-        `https://www.googleapis.com/drive/v3/files?q='${folderId}' in parents&orderBy=folder&key=AIzaSyDHbDkDUqv39yqYtBI5XD7arA2L8LEzgko`
+        `https://www.googleapis.com/drive/v3/files?q='${folderId}' in parents&orderBy=folder&key=AIzaSyDHbDkDUqv39yqYtBI5XD7arA2L8LEzgko&pageToken=${this.nextPageToken ? this.nextPageToken : ''}`
       )
         .then((response) => response.json())
         .then((data) => {
           console.log(data);
-          console.log(data.nextPageToken)
-          vm.results = data.files;
+          if (data.nextPageToken != undefined) {
+            vm.nextPageToken = data.nextPageToken;
+          } else {
+            vm.nextPageToken = null;
+          }
+          if (loadMore) {
+            vm.results = [...vm.results, ...data.files]
+          } else {
+            vm.results = data.files;
+          }
+
         })
-        .catch((err) => console.log(err))
+        .catch((err) => {
+          console.log(err);
+          vm.nextPageToken = null;
+          vm.hasMore = false;
+        })
         .finally(() => (this.loading = false));
+    },
+
+    loadMore(){
+      if(this.nextPageToken != null) {
+        this.getFolderContentsByFolderId(this.currentFolder,true)
+      }
     },
 
 
@@ -193,14 +223,18 @@ export default {
 
     goToPreviousFolder() {
       if (this.folderHistory.length > 0) {
-        this.previousFolderHistory.push(this.folderHistory.pop());
+        let popped = this.folderHistory.pop();
+        this.currentFolder = this.folderHistory.length > 0 ? this.folderHistory.at(-1).id : this.parentFolder;
+        this.previousFolderHistory.push(popped);
       }
 
       this.getFolderContentsByFolderId(this.folderHistory.length > 0 ? this.folderHistory.at(-1).id : this.parentFolder);
     },
     goToNextFolder() {
       if (this.previousFolderHistory.length > 0) {
-        this.folderHistory.push(this.previousFolderHistory.pop());
+        let popped = this.previousFolderHistory.pop();
+        this.currentFolder = this.folderHistory.length > 0 ? this.folderHistory.at(-1).id : this.parentFolder;
+        this.folderHistory.push(popped);
       }
 
       this.getFolderContentsByFolderId(this.folderHistory.length > 0 ? this.folderHistory.at(-1).id : this.parentFolder);
