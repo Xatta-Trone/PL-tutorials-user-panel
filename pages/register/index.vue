@@ -26,7 +26,7 @@
                       </b-card>
                     </div>
 
-                    <b-form @submit.prevent="register">
+                    <b-form @submit.prevent="register" novalidate>
                       <b-form-group label="Select Your Graduation Level ::">
                         <b-form-radio v-model="form.grad_level" name="grad_level"
                           value="UG">Undergraduate</b-form-radio>
