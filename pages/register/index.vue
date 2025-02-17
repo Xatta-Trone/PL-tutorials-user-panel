@@ -4,154 +4,85 @@
     <div>
       <b-container class="pt-5">
         <b-row>
-          <b-col col="8">
+          <b-col >
             <div>
               <b-tabs pills content-class="mt-3" align="center">
                 <b-tab title="For Current Students" active>
                   <div v-if="!userRegisterd">
                     <div class="accordion" role="tablist">
                       <b-card no-body class="mb-1">
-                        <b-card-header
-                          header-tag="header"
-                          class="p-1"
-                          role="tab"
-                        >
-                          <b-button block v-b-toggle.accordion-1 variant="info"
-                            >Click to see registration process.</b-button
-                          >
+                        <b-card-header header-tag="header" class="p-1" role="tab">
+                          <b-button block v-b-toggle.accordion-1 variant="info">Click to see registration
+                            process.</b-button>
                         </b-card-header>
-                        <b-collapse
-                          id="accordion-1"
-                          accordion="my-accordion"
-                          role="tabpanel"
-                        >
+                        <b-collapse id="accordion-1" accordion="my-accordion" role="tabpanel">
                           <b-card-body class="text-center">
-                            <iframe
-                              width="560"
-                              height="315"
-                              src="https://www.youtube-nocookie.com/embed/3U3P6OKBV4o"
-                              title="YouTube video player"
-                              frameborder="0"
+                            <iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/3U3P6OKBV4o"
+                              title="YouTube video player" frameborder="0"
                               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                              allowfullscreen
-                            ></iframe>
+                              allowfullscreen></iframe>
                           </b-card-body>
                         </b-collapse>
                       </b-card>
                     </div>
 
                     <b-form @submit.prevent="register">
-                      <b-form-group
-                        id="input-group-1"
-                        label="Official Name [as per document] ::"
-                        label-for="input-1"
-                        description="Including dots also if you have in your name i.e. Md. Monzurul ISLAM."
-                      >
-                        <b-form-input
-                          id="input-1"
-                          v-model="form.name"
-                          type="text"
-                          placeholder="Official name (as per document)"
-                        ></b-form-input>
+                      <b-form-group label="Select Your Graduation Level ::">
+                        <b-form-radio v-model="form.grad_level" name="grad_level"
+                          value="UG">Undergraduate</b-form-radio>
+                        <b-form-radio v-model="form.grad_level" name="grad_level" value="PG">Post
+                          Graduate</b-form-radio>
+                      </b-form-group>
+
+                      <b-form-group id="input-group-1" label="Official Name [as per document] ::" label-for="input-1"
+                        description="Including dots also if you have in your name i.e. Md. Monzurul ISLAM.">
+                        <b-form-input id="input-1" v-model="form.name" type="text"
+                          placeholder="Official name (as per document)"></b-form-input>
 
                         <b-form-invalid-feedback :state="!$v.form.name.$error">
                           Name is required.
                         </b-form-invalid-feedback>
 
-                        <custom-error
-                          :servererrors="serverErrors"
-                          chkkey="name"
-                        />
+                        <custom-error :servererrors="serverErrors" chkkey="name" />
                       </b-form-group>
 
-                      <b-form-group
-                        id="input-group-2"
-                        label="Email address ::"
-                        label-for="input-2"
-                      >
-                        <b-form-input
-                          id="input-2"
-                          v-model="form.email"
-                          type="email"
-                          placeholder="Enter your email address"
-                        ></b-form-input>
+                      <b-form-group id="input-group-2" label="Email address ::" label-for="input-2">
+                        <b-form-input id="input-2" v-model="form.email" type="email"
+                          placeholder="Enter your email address"></b-form-input>
                         <b-form-invalid-feedback :state="!$v.form.email.$error">
                           Email is required & must be a valid email address.
                         </b-form-invalid-feedback>
 
-                        <custom-error
-                          :servererrors="serverErrors"
-                          chkkey="email"
-                        />
+                        <custom-error :servererrors="serverErrors" chkkey="email" />
                       </b-form-group>
 
-                      <b-form-group
-                        id="input-group-3"
-                        label="Merit position ::"
-                        label-for="input-3"
-                      >
-                        <b-form-input
-                          id="input-3"
-                          v-model="form.merit_position"
-                          type="number"
-                          min="1"
-                          placeholder="Enter your merit position"
-                        ></b-form-input>
-                        <b-form-invalid-feedback
-                          :state="!$v.form.merit_position.$error"
-                        >
+                      <b-form-group id="input-group-3" label="Merit position ::" label-for="input-3">
+                        <b-form-input :disabled="form.grad_level == 'PG'" id="input-3" v-model="form.merit_position" type="number" min="1"
+                          placeholder="Enter your merit position"></b-form-input>
+                        <b-form-invalid-feedback :state="!$v.form.merit_position.$error">
                           Merit position is required & must be a valid number.
                         </b-form-invalid-feedback>
 
-                        <custom-error
-                          :servererrors="serverErrors"
-                          chkkey="merit_position"
-                        />
+                        <custom-error :servererrors="serverErrors" chkkey="merit_position" />
                       </b-form-group>
 
-                      <b-form-group
-                        id="input-group-4"
-                        label="Hall Name ::"
-                        label-for="input-4"
-                      >
-                        <b-form-select
-                          v-model="form.hall_name"
-                          :options="halls"
-                        >
+                      <b-form-group id="input-group-4" label="Hall Name ::" label-for="input-4">
+                        <b-form-select :disabled="form.grad_level == 'PG'" v-model="form.hall_name" :options="halls">
                           <template #first>
-                            <b-form-select-option
-                              value=""
-                              disabled
-                              selected="true"
-                              >-- Please select an option
-                              --</b-form-select-option
-                            >
+                            <b-form-select-option value="" disabled selected="true">-- Please select an option
+                              --</b-form-select-option>
                           </template>
                         </b-form-select>
-                        <b-form-invalid-feedback
-                          :state="!$v.form.hall_name.$error"
-                        >
+                        <b-form-invalid-feedback :state="!$v.form.hall_name.$error">
                           Please select your hall.
                         </b-form-invalid-feedback>
 
-                        <custom-error
-                          :servererrors="serverErrors"
-                          chkkey="hall_name"
-                        />
+                        <custom-error :servererrors="serverErrors" chkkey="hall_name" />
                       </b-form-group>
 
-                      <b-form-group
-                        id="input-group-5"
-                        label="Back side photo of student id ::"
-                        label-for="input-5"
-                      >
-                        <ImageBarcodeReader
-                          @decode="onDecode"
-                          @error="onError"
-                          :key="barcodeKey"
-                          ref="inputFile"
-                          class="form-control"
-                        ></ImageBarcodeReader>
+                      <b-form-group id="input-group-5" label="Back side photo of student id ::" label-for="input-5">
+                        <ImageBarcodeReader @decode="onDecode" @error="onError" :key="barcodeKey" ref="inputFile"
+                          class="form-control"></ImageBarcodeReader>
 
                         <div id="preview">
                           <span class="text-danger d-block">
@@ -159,56 +90,35 @@
                             when the input says no file selected after file
                             selection.
                           </span>
-                          <img
-                            v-if="url"
-                            class="mt-2"
-                            height="200"
-                            :src="url"
-                          />
+                          <img v-if="url" class="mt-2" height="200" :src="url" />
                         </div>
 
-                        <b-form-invalid-feedback
-                          :state="!$v.form.student_id.$error"
-                        >
+                        <b-form-invalid-feedback :state="!$v.form.student_id.$error">
                           Please upload your backside of student id.
                         </b-form-invalid-feedback>
 
-                        <custom-error
-                          :servererrors="serverErrors"
-                          chkkey="student_id"
-                        />
+                        <custom-error :servererrors="serverErrors" chkkey="student_id" />
                       </b-form-group>
 
-                      <b-alert :show="showContactErr > 1" variant="warning"
-                        >Still having problem with registration ? Send a message
-                        <a target="_blank" style="color:#000;" href="https://m.me/thepltutorials"
-                          >here https://m.me/thepltutorials</a
-                        >
+                      <b-alert :show="showContactErr > 1" variant="warning">Still having problem with registration ?
+                        Send a message
+                        <a target="_blank" style="color:#000;" href="https://m.me/thepltutorials">here
+                          https://m.me/thepltutorials</a>
                         with your student id and email address.
                       </b-alert>
 
-                      <b-button
-                        type="submit"
-                        variant="primary"
-                        class="text-white w-100"
-                        :disabled="loading"
-                        >{{ btntxt }}</b-button
-                      >
+                      <b-button type="submit" variant="primary" class="text-white w-100" :disabled="loading">{{ btntxt
+                        }}</b-button>
 
                       <b-form-group class="mt-5">
                         <b-row>
                           <b-col md="6">
-                            <nuxt-link
-                              to="/login"
-                              class="
+                            <nuxt-link to="/login" class="
                                 ml-auto
                                 d-inline-block
                                 text-left text-danger
-                              "
-                              >Already have an account ? Log in</nuxt-link
-                            >
-                            <b-link href="/register"></b-link
-                          ></b-col>
+                              ">Already have an account ? Log in</nuxt-link>
+                            <b-link href="/register"></b-link></b-col>
                         </b-row>
                       </b-form-group>
                     </b-form>
@@ -223,10 +133,10 @@
                         Scan or click the link below to install the
                         Android app.
                       </p>
-                      <qrcode-vue value="https://play.google.com/store/apps/details?id=com.pltutorials.plandroid" size="150" level="H" margin="2" />
-                      <a href="https://play.google.com/store/apps/details?id=com.pltutorials.plandroid" target="_blank"
-                        ><img src="~/assets/img/googleplay.png" height="110"
-                      /></a>
+                      <qrcode-vue value="https://play.google.com/store/apps/details?id=com.pltutorials.plandroid"
+                        size="150" level="H" margin="2" />
+                      <a href="https://play.google.com/store/apps/details?id=com.pltutorials.plandroid"
+                        target="_blank"><img src="~/assets/img/googleplay.png" height="110" /></a>
                     </div>
                   </div>
                 </b-tab>
@@ -234,23 +144,20 @@
                   <p class="p-5 text-center">
                     Please send a message to our Facebook page here at
 
-                    <a
-                      href="https://www.facebook.com/thepltutorials"
-                      target="_blank"
-                      >https://www.facebook.com/thepltutorials</a
-                    >
+                    <a href="https://www.facebook.com/thepltutorials"
+                      target="_blank">https://www.facebook.com/thepltutorials</a>
                     to open your account.
                   </p>
                   <div class="text-center my-3">
-                      <p>
-                        Scan or click the link below to install the
-                        Android app.
-                      </p>
-                      <qrcode-vue value="https://play.google.com/store/apps/details?id=com.pltutorials.plandroid" size="150" level="H" margin="2" />
-                      <a href="https://play.google.com/store/apps/details?id=com.pltutorials.plandroid" target="_blank"
-                        ><img src="~/assets/img/googleplay.png" height="110"
-                      /></a>
-                    </div>
+                    <p>
+                      Scan or click the link below to install the
+                      Android app.
+                    </p>
+                    <qrcode-vue value="https://play.google.com/store/apps/details?id=com.pltutorials.plandroid"
+                      size="150" level="H" margin="2" />
+                    <a href="https://play.google.com/store/apps/details?id=com.pltutorials.plandroid"
+                      target="_blank"><img src="~/assets/img/googleplay.png" height="110" /></a>
+                  </div>
                 </b-tab>
                 <b-tab title="For Non-buetians">
                   <p class="p-5 text-center">
@@ -293,6 +200,7 @@ export default {
         merit_position: "",
         hall_name: "",
         student_id: "",
+        grad_level: "UG",
       },
       btntxt: "Register",
       departments: [],
@@ -342,6 +250,12 @@ export default {
         return this.$toast.error("Fill-up the required fields!!");
       }
       let vm = this;
+
+      if (this.form.grad_level == "PG") {
+        this.form.merit_position = 0;
+        this.form.hall_name = "Unknown Hall";
+      }
+
       this.$axios
         .post("register", this.form)
         .then((res) => {
@@ -435,6 +349,18 @@ export default {
             "Error!! please use a different image or fix the image rotation."
           );
         });
+    },
+  },
+  watch: {
+    "form.grad_level": {
+      handler: function (after, before) {
+        // Changes detected. Do work...
+        console.log(after, before, this.form.l_t);
+
+
+
+      },
+      deep: true,
     },
   },
   validations: {
