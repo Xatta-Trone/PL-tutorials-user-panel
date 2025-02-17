@@ -4,7 +4,7 @@
     <div>
       <b-container class="pt-5">
         <b-row>
-          <b-col >
+          <b-col>
             <div>
               <b-tabs pills content-class="mt-3" align="center">
                 <b-tab title="For Current Students" active>
@@ -56,8 +56,9 @@
                         <custom-error :servererrors="serverErrors" chkkey="email" />
                       </b-form-group>
 
-                      <b-form-group id="input-group-3" label="Merit position ::" label-for="input-3">
-                        <b-form-input :disabled="form.grad_level == 'PG'" id="input-3" v-model="form.merit_position" type="number" min="1"
+                      <b-form-group v-show="form.grad_level == 'UG'" id="input-group-3" label="Merit position ::"
+                        label-for="input-3">
+                        <b-form-input id="input-3" v-model="form.merit_position" type="number" min="1"
                           placeholder="Enter your merit position"></b-form-input>
                         <b-form-invalid-feedback :state="!$v.form.merit_position.$error">
                           Merit position is required & must be a valid number.
@@ -66,8 +67,9 @@
                         <custom-error :servererrors="serverErrors" chkkey="merit_position" />
                       </b-form-group>
 
-                      <b-form-group id="input-group-4" label="Hall Name ::" label-for="input-4">
-                        <b-form-select :disabled="form.grad_level == 'PG'" v-model="form.hall_name" :options="halls">
+                      <b-form-group v-show="form.grad_level == 'UG'" id="input-group-4" label="Hall Name ::"
+                        label-for="input-4">
+                        <b-form-select v-model="form.hall_name" :options="halls">
                           <template #first>
                             <b-form-select-option value="" disabled selected="true">-- Please select an option
                               --</b-form-select-option>
@@ -177,13 +179,13 @@
 </template>
 <script>
 import CustomError from "~/components/vuelidate/CustomError.vue";
-import { required, email, numeric } from "vuelidate/lib/validators";
+import { required, email, numeric, requiredIf } from "vuelidate/lib/validators";
 import { ImageBarcodeReader } from "vue-barcode-reader";
 import QrcodeVue from "qrcode.vue";
 
 export default {
   layout: "content",
-  components: { CustomError, ImageBarcodeReader,QrcodeVue },
+  components: { CustomError, ImageBarcodeReader, QrcodeVue },
   middleware: ["guest"],
   head() {
     return {
@@ -266,7 +268,7 @@ export default {
             this.getmessage(res.data.message);
           }
 
-          if(res.data.hasOwnProperty("message") && res.data.message == 'ACCOUNT_CREATED_CHECK_YOUR_EMAIL_FOR_PASSWORD'){
+          if (res.data.hasOwnProperty("message") && res.data.message == 'ACCOUNT_CREATED_CHECK_YOUR_EMAIL_FOR_PASSWORD') {
             vm.userRegisterd = true;
           }
 
@@ -357,6 +359,14 @@ export default {
         // Changes detected. Do work...
         console.log(after, before, this.form.l_t);
 
+        if (after == 'PG') {
+          this.form.merit_position = 0;
+          this.form.hall_name = "Unknown Hall";
+        } else {
+          this.form.merit_position = "";
+          this.form.hall_name = "";
+        }
+
 
 
       },
@@ -377,7 +387,7 @@ export default {
         numeric,
       },
       hall_name: {
-        required,
+        required: requiredIf((value) => value.grad_level === 'UG'),
       },
       student_id: {
         required,
